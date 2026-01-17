@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "text": "Home",
+      "url": "/",
+      "external": false
+    },
+    {
+      "text": "Search",
+      "url": "/search/",
+      "external": false
+    },
+    {
+      "text": "Get lorenzkahl.de",
+      "url": "https://getlorenzkahl.de.com",
+      "external": true
+    }
+  ]
+}
