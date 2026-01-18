@@ -16,4 +16,4 @@ You can write content in HTML, [Markdown](https://github.com/adam-p/markdown-her
 # Hello World!!!
 <img src="/assets/images/favicon.svg" alt="Logo">
 
-## noch ein Test
+## noch ein Test!
