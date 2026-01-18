@@ -50,6 +50,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
   deploy:
+    name: 📦 Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
 
@@ -62,6 +63,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: 📦Deploy to GitHub Pages
+      - name: Deploy artifact to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
