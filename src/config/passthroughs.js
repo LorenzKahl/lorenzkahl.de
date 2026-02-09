@@ -1,14 +1,18 @@
 /**
  * Add Eleventy passthrough file copies here
  * https://www.11ty.dev/docs/copy/
-*/
+ */
 
 export default {
   /**
    * Copy fonts to the `public` directory
    */
   async fonts(eleventyConfig) {
-    const config = { 'src/assets/fonts': 'assets/fonts' };
+    const config = {
+      "src/assets/fonts": "assets/fonts",
+      "node_modules/@fontsource/**/*.woff2": "assets/fonts/fontsource",
+      "node_modules/@fontsource-variable/**/*.woff2": "assets/fonts/fontsource-variable",
+    };
 
     eleventyConfig.addPassthroughCopy(config);
   },
@@ -23,8 +27,8 @@ export default {
    * https://www.11ty.dev/docs/plugins/image/#html-transform
    */
   images: async function (eleventyConfig) {
-    let config = { 'src/assets/images': 'assets/images' }
+    let config = { "src/assets/images": "assets/images" };
 
     eleventyConfig.addPassthroughCopy(config);
-  }
+  },
 };

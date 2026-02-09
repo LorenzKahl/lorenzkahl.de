@@ -1,24 +1,17 @@
 :root {
-  /**
-    Colors
-  */
+  /* Colors */
   --color-text: #222;
   --color-background: white;
   --color-light: silver;
   --color-primary: #7950f2;
 
-  /**
-    Spacing and units
-  */
+  /* Spacing and units */
   --unit: 1rem;
   --container-width: 60ch;
 
-  /**
-    Fonts
-  */
-  --font-family-sans-serif:
-    system,
-    -apple-system;
+  /* Fonts */
+  --font-family-serif: Merriweather, Times, serif;
+  --font-family-sans-serif: Arial, -apple-system;
 
   @media (prefers-color-scheme: dark) {
     --color-text: #fff;

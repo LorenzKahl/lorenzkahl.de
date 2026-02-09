@@ -6,14 +6,19 @@
       "external": false
     },
     {
-      "text": "Search",
-      "url": "/search/",
+      "text": "Blog",
+      "url": "/blog/",
       "external": false
     },
     {
-      "text": "Get lorenzkahl.de",
-      "url": "https://getlorenzkahl.de.com",
-      "external": true
+      "text": "About",
+      "url": "/about/",
+      "external": false
+    },
+    {
+      "text": "Search",
+      "url": "/search/",
+      "external": false
     }
   ]
 }

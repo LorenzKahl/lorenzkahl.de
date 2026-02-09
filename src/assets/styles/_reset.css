@@ -3,6 +3,17 @@
 * https://piccalil.li/blog/a-modern-css-reset/
 */
 
+html {
+  overflow-y: scroll;
+}
+
+@supports (scrollbar-gutter: stable) {
+  html {
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+}
+
 /* Box sizing rules */
 *,
 *::before,

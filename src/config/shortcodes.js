@@ -1,7 +1,7 @@
 /**
  * Add Eleventy shortcodes here
  * https://www.11ty.dev/docs/shortcodes/
-*/
+ */
 
 export default {
   /**
@@ -10,6 +10,6 @@ export default {
    * https://11ty.rocks/eleventyjs/dates/
    */
   async year(eleventyConfig) {
-    eleventyConfig.addShortcode('year', () => `${new Date().getFullYear()}`);
+    eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
   },
 };

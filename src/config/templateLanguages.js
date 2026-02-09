@@ -1,10 +1,9 @@
 /**
  * Add Eleventy template languages here
  * https://www.11ty.dev/docs/languages/custom/
-*/
+ */
 
 export default {
-
   // /**
   //  * Liquid
   //  * https://shopify.github.io/liquid/
@@ -15,8 +14,6 @@ export default {
   //     root: ["src/views"],
   //     extname: ".liquid",
   //   });
-
   //   eleventyConfig.setLibrary("liquid", engine);
   // },
-
 };

@@ -1,0 +1,71 @@
+/**
+ * Import stylesheet partials
+ */
+@import "_reset.css";
+@import "_branding.css";
+
+/**
+ * ZeroPoint starter styling
+ */
+body {
+  color: var(--color-text);
+  background-color: var(--color-background);
+  font-family: var(--font-family-serif);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+#main {
+  max-width: var(--container-width);
+  margin: calc(var(--unit) * 5) auto;
+}
+
+#navigation {
+  display: flex;
+}
+
+#footer {
+  max-width: var(--container-width);
+  text-align: center;
+}
+
+hr {
+  border-color: var(--color-light);
+}
+
+img {
+  height: auto;
+}
+
+.navigation-item,
+.navigation-label,
+button {
+  padding: calc(var(--unit) / 2);
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+label,
+input,
+textarea {
+  width: 100%;
+  display: block;
+}
+
+button {
+  margin: 0;
+}
+
+label {
+  padding: calc(var(--unit) / 2) 0;
+}

@@ -1,0 +1,59 @@
+.header-container {
+  display: grid;
+  grid-template-areas: "logo nav";
+  grid-template-columns: auto 1fr;
+
+  .logo {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+  }
+
+  nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+.content {
+  --gap: clamp(1rem, 6vw, 3rem);
+  --full: minmax(var(--gap), 1fr);
+  --content: min(60ch, 100% - var(--gap) * 2);
+  --breakout: minmax(0, 2rem);
+  --feature: minmax(0, 5rem);
+
+  display: grid;
+  grid-template-columns:
+    [full-start] var(--full)
+    [feature-start] var(--feature)
+    [breakout-start] var(--breakout)
+    [content-start] var(--content) [content-end]
+    var(--breakout) [breakout-end]
+    var(--feature) [feature-end]
+    var(--full) [full-end];
+}
+.content > * {
+  grid-column: content;
+}
+.breakout {
+  grid-column: breakout;
+}
+.feature {
+  grid-column: feature;
+}
+.full {
+  grid-column: full;
+}
+
+main {
+  margin-block-end: 3rem;
+}
+
+footer {
+  small {
+    display: block;
+    text-align: center;
+  }
+}

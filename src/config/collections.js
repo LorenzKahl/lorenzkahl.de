@@ -1,15 +1,14 @@
 /**
  * Add Eleventy collections here
  * https://www.11ty.dev/docs/collections/
-*/
-
+ */
 export default {
   /**
    * All Pages (includes all languages)
    */
   pages(eleventyConfig) {
-    eleventyConfig.addCollection('pages', (collectionApi) => {
-      return collectionApi.getFilteredByGlob(['src/content/pages/**/*.njk', 'src/content/pages/**/*.md']);
+    eleventyConfig.addCollection("pages", (collectionApi) => {
+      return collectionApi.getFilteredByGlob(["src/content/pages/**/*.njk", "src/content/pages/**/*.md"]);
     });
   },
 

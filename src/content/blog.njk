@@ -1,4 +1,4 @@
-{# ---
+---
 layout: base.njk
 permalink: /blog/{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber + 1 }}{% endif %}/index.html
 pagination:
@@ -9,36 +9,35 @@ pagination:
 eleventyComputed:
   title: Blog {% if pagination.pageNumber > 0 %}(Page {{ pagination.pageNumber + 1 }}) {% endif %}
 ---
+
 <section class="blog">
   {%- for post in posts -%}
-    <article class="blog-post">
-      <header>
-        <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
-        <datetime datetime="{{ post.date }}">{{ post.date }}</datetime>
-        {%- if post.data.tags -%}
-          <ul class="tags">
-            {%- for tag in post.data.tags -%}
-              <li class="tag">{{ tag }}</li>
-            {%- endfor -%}
-          </ul>
-        {%- endif -%}
-      </header>
-      {{- post.templateContent | safe -}}
-    </article>
+  <article class="blog-post">
+    <header>
+      <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+      <datetime datetime="{{ post.date }}">{{ post.date }}</datetime>
+      {%- if post.data.tags -%}
+      <ul class="tags">
+        {%- for tag in post.data.tags -%}
+        <li class="tag">{{ tag }}</li>
+        {%- endfor -%}
+      </ul>
+      {%- endif -%}
+    </header>
+    {{- post.templateContent | safe -}}
+  </article>
   {%- endfor -%}
 
   <nav class="pagination">
-  {%- if pagination.href.previous -%}
+    {%- if pagination.href.previous -%}
     <a href="{{ pagination.href.previous }}">Previous</a>
-  {%- else -%}
+    {%- else -%}
     <span class="previous">Previous</span>
-  {%- endif -%}
-
-  {%- if pagination.href.next -%}
+    {%- endif -%} {%- if pagination.href.next -%}
     <a href="{{ pagination.href.next }}">Next</a>
-  {%- else -%}
+    {%- else -%}
     <span class="next">Next</span>
-  {%- endif -%}
+    {%- endif -%}
   </nav>
-
-</section> #}
+</section>
+}

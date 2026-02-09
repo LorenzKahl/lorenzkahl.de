@@ -18,7 +18,6 @@ export default {
   eleventyComputed: {
     // Generate permalink URLs for blog posts
     permalink: (data) => {
-
       // If the post date is in the future, do not publish
       if (data.date && new Date(data.date) > new Date()) {
         return false;
