@@ -110,6 +110,7 @@ code {
 }
 
 pre {
+  overflow: auto;
   border-radius: 8px !important;
   margin: 1.2em 0 !important;
   padding: 1.2em;
