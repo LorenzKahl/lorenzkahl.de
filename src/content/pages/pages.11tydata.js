@@ -1,3 +1,5 @@
+import slugify from "@sindresorhus/slugify";
+
 /**
  * Eleventy data file for pages - handles dynamic permalink generation
  *
@@ -22,7 +24,7 @@ export default {
 
       // If no permalink is provided, generate permalink from title using slugify filter
       if (data.title) {
-        const slug = data.eleventy.env.filters.slugify(data.title);
+        const slug = slugify(data.title);
         return `/${slug}/`;
       }
 
