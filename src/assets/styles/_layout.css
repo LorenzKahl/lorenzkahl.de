@@ -1,27 +1,8 @@
-.header-container {
-  display: grid;
-  grid-template-areas: "logo nav";
-  grid-template-columns: auto 1fr;
-
-  .logo {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-  }
-
-  nav {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 1rem;
-  }
-}
-
-.content {
+.layout-grid {
   --gap: clamp(1rem, 6vw, 3rem);
   --full: minmax(var(--gap), 1fr);
-  --content: min(60ch, 100% - var(--gap) * 2);
-  --breakout: minmax(0, 2rem);
+  --content: min(80ch, 100% - var(--gap) * 2);
+  --breakout: minmax(0, 5rem);
   --feature: minmax(0, 5rem);
 
   display: grid;
@@ -34,26 +15,41 @@
     var(--feature) [feature-end]
     var(--full) [full-end];
 }
-.content > * {
+
+/* pass down the grid information */
+.layout-grid--forward {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+/* layout: default to content  */
+.layout-grid > :where(*:not(.layout-grid--forward)),
+.layout-grid--forward > :where(*:not(.layout-grid--forward)) {
   grid-column: content;
 }
-.breakout {
+
+[class^="l-"] {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+/* layout: content */
+.l-content {
+  grid-column: content;
+}
+
+/* layout: breakout */
+.l-breakout {
   grid-column: breakout;
 }
-.feature {
+
+/* layout: feature */
+.l-feature {
   grid-column: feature;
 }
-.full {
+
+/* layout: full */
+.l-full {
   grid-column: full;
-}
-
-main {
-  margin-block-end: 3rem;
-}
-
-footer {
-  small {
-    display: block;
-    text-align: center;
-  }
 }

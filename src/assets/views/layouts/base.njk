@@ -46,12 +46,12 @@
 
     {#- Page title, meta tags, and other head elements -#} {%- include "partials/meta.njk" -%}
   </head>
-  <body>
+  <body class="layout-grid">
     {#- Skip to content link -#}
     <a class="visually-hidden" href="#main">Skip to content</a>
 
     {#- Site header with navigation -#}
-    <header class="content">
+    <header class="l-feature">
       <div class="header-container breakout">
         <img src="" alt="" class="logo" />
         {%- include "partials/navigation.njk" -%}
@@ -59,16 +59,20 @@
     </header>
 
     {#- Main content -#}
-    <main id="main" class="content" tabindex="-1" data-pagefind-body>
+    <main id="main" class="layout-grid--forward" tabindex="-1" data-pagefind-body>
       <header id="page-header">
         <h1>{#- Page Title -#} {{ title | safe }}</h1>
       </header>
+      <div class="l-feature" style="background: #7950f2; color: white">
+        <h1 class="l-content">Disco!</h1>
+      </div>
+
       {#- Content from the page or post -#} {{ content | safe }}
     </main>
 
     {#- Site footer with copyright -#}
-    <footer id="footer" class="content">
-      <small class="breakout">{%- year -%} &copy; {{ site.name }}</small>
+    <footer id="footer" class="l-full">
+      <small class="l-breakout">{%- year -%} &copy; {{ site.name }}</small>
     </footer>
 
     {#- Script bundle -#}
