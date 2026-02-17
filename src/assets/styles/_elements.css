@@ -1,0 +1,21 @@
+a {
+  color: var(--color-primary);
+}
+
+img {
+  height: auto;
+}
+
+button {
+}
+
+label,
+input,
+textarea {
+  width: 100%;
+  display: block;
+}
+
+button {
+  margin: 0;
+}

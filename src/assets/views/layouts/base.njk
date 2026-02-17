@@ -48,14 +48,12 @@
   </head>
   <body class="layout-grid">
     {#- Skip to content link -#}
-    <a class="visually-hidden" href="#main">Skip to content</a>
+    <a class="u-visually-hidden" href="#main">Skip to content</a>
 
     {#- Site header with navigation -#}
-    <header class="l-feature">
-      <div class="header-container breakout">
-        <img src="" alt="" class="logo" />
-        {%- include "partials/navigation.njk" -%}
-      </div>
+    <header id="main-header" class="l-breakout">
+      <img src="" alt="" id="logo" />
+      {%- include "partials/navigation.njk" -%}
     </header>
 
     {#- Main content -#}

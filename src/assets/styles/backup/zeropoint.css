@@ -45,7 +45,7 @@ button {
   padding: calc(var(--unit) / 2);
 }
 
-.visually-hidden {
+.u-visually-hidden {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
