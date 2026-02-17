@@ -1,16 +1,23 @@
 .layout-grid {
+  --grid-column-offset: 5rem;
+  --content-target-width: 70ch;
+  --remaining-for-narrow: calc(var(--content-target-width) - 2 * var(--grid-column-offset));
+
   --gap: clamp(1rem, 6vw, 3rem);
   --full: minmax(var(--gap), 1fr);
-  --content: min(80ch, 100% - var(--gap) * 2);
-  --breakout: minmax(0, 5rem);
-  --feature: minmax(0, 5rem);
+  --feature: minmax(0, var(--grid-column-offset));
+  --breakout: minmax(0, var(--grid-column-offset));
+  --content: minmax(0, var(--grid-column-offset));
+  --narrow: min(var(--remaining-for-narrow), 100% - var(--gap) * 2);
 
   display: grid;
   grid-template-columns:
     [full-start] var(--full)
     [feature-start] var(--feature)
     [breakout-start] var(--breakout)
-    [content-start] var(--content) [content-end]
+    [content-start] var(--content)
+    [narrow-start] var(--narrow) [narrow-end]
+    var(--content) [content-end]
     var(--breakout) [breakout-end]
     var(--feature) [feature-end]
     var(--full) [full-end];

@@ -38,6 +38,7 @@ pre:has(code) {
 }
 
 blockquote {
+  grid-column: narrow;
   border-left: 4px solid var(--color-primary);
   font-size: 1.4em;
   font-style: italic;
