@@ -5,6 +5,7 @@
 
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import shikiPlugin from "./custom-plugins/shiki-plugin.js";
+import openBrowser from "./custom-plugins/open-browser.js";
 // import reusableComponents from "eleventy-plugin-reusable-components";
 
 export default {
@@ -50,5 +51,9 @@ export default {
 
   async shiki(eleventyConfig) {
     eleventyConfig.addPlugin(shikiPlugin);
+  },
+
+  async openBrowser(eleventyConfig) {
+    eleventyConfig.addPlugin(openBrowser);
   },
 };
