@@ -1,7 +1,7 @@
 :root {
   /* Colors */
-  --color-text: #222;
-  --color-background: white;
+  --color-text: #333333;
+  --color-background: #fbf8ec;
   --color-light: silver;
   --color-primary: #7950f2;
 
@@ -13,7 +13,7 @@
   --font-family-sans-serif: Arial, -apple-system;
 
   @media (prefers-color-scheme: dark) {
-    --color-text: #fff;
+    --color-text: #fbf8ec;
     --color-background: #222;
   }
 }
