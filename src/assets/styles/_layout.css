@@ -24,8 +24,8 @@
 }
 
 /* layout: default to content  */
-.layout-grid > :where(*:not(.layout-grid--forward)),
-.layout-grid--forward > :where(*:not(.layout-grid--forward)) {
+.layout-grid > *:not(.layout-grid--forward),
+.layout-grid--forward > *:not(.layout-grid--forward) {
   grid-column: content;
 }
 
