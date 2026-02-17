@@ -1,8 +1,8 @@
 /**
  * Import stylesheet partials
  */
+@import "_design-tokens.css";
 @import "_reset.css";
-@import "_branding.css";
 @import "_layout.css";
 @import "_content.css";
 @import "_code-previews.css";
@@ -65,5 +65,5 @@ button {
 }
 
 label {
-  padding: calc(var(--unit) / 2) 0;
+  /*padding: calc(var(--unit) / 2) 0;*/
 }
