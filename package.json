@@ -27,6 +27,7 @@
     "@11ty/eleventy": "^3.1.0",
     "@11ty/eleventy-img": "^6.0.2",
     "@eslint/js": "^9.11.1",
+    "@shikijs/markdown-it": "^3.22.0",
     "@sindresorhus/slugify": "^3.0.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.25.2",
@@ -43,6 +44,7 @@
   "dependencies": {
     "@fontsource-variable/atkinson-hyperlegible-next": "^5.2.6",
     "@fontsource-variable/merriweather": "^5.2.6",
+    "@fontsource/fira-code": "^5.2.7",
     "@fontsource/fira-sans": "^5.2.7",
     "@fontsource/merriweather": "^5.2.11",
     "@zackad/prettier-plugin-twig": "^0.16.3"
