@@ -106,7 +106,7 @@ custom properties and a Utopia-generated fluid type/space scale.
 
 ---
 
-### Task 4: Base + layout CSS wired into the base layout
+### Task 4: Base + layout CSS wired into the base layout ✅ done
 
 **Description:** Add reset/base element styles and page-level layout CSS,
 link all three stylesheets from the base layout, and apply the tokens

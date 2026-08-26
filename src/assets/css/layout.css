@@ -1,0 +1,31 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header,
+main,
+footer {
+  width: min(100% - var(--space-l) * 2, 60rem);
+  margin-inline: auto;
+}
+
+header {
+  padding-block: var(--space-m);
+
+  & nav {
+    display: flex;
+    gap: var(--space-m);
+  }
+}
+
+main {
+  flex: 1;
+  padding-block: var(--space-l);
+}
+
+footer {
+  padding-block: var(--space-m);
+  border-top: 1px solid var(--color-border);
+}
