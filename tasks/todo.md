@@ -258,7 +258,7 @@ block to prove it works.
 
 ---
 
-### Task 9: Full success-criteria pass
+### Task 9: Full success-criteria pass ✅ done
 
 **Description:** Walk every checkbox in the spec's Success Criteria
 section against the running site and fix any gaps found.
