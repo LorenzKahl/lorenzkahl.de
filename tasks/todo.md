@@ -230,7 +230,7 @@ block to prove it works.
 
 ## Phase 4: Feed + final verification
 
-### Task 8: RSS feed
+### Task 8: RSS feed ✅ done
 
 **Description:** Add an RSS feed of all posts using
 `@11ty/eleventy-plugin-rss`.
