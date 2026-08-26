@@ -77,7 +77,7 @@ partials, and the Web Awesome CDN autoloader script tag (pinned version).
 
 ## Phase 2: Design system
 
-### Task 3: Warm palette + Utopia fluid scale in CSS tokens
+### Task 3: Warm palette + Utopia fluid scale in CSS tokens ✅ done
 
 **Description:** Create `tokens.css` with warm-burnout-inspired color
 custom properties and a Utopia-generated fluid type/space scale.

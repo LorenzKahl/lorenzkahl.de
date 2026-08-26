@@ -17,3 +17,6 @@ public
 
 # Local Netlify folder
 .netlify
+
+# Playwright MCP output
+.playwright-mcp/
