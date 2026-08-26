@@ -4,7 +4,7 @@ Plan: [`tasks/plan.md`](plan.md) · Spec: [`docs/spec/blog-relaunch.md`](../docs
 
 ## Phase 1: Foundation
 
-### Task 1: New branch + clean-slate config
+### Task 1: New branch + clean-slate config ✅ done
 
 **Description:** Create the new branch, remove the old design/config/content
 approach, and stand up an empty, working 11ty v3 project skeleton with
