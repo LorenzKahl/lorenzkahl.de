@@ -7,6 +7,12 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy("src/assets");
 
+  eleventyConfig.addFilter("readableDate", (dateObj) =>
+    new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "long", year: "numeric" }).format(
+      dateObj,
+    ),
+  );
+
   eleventyConfig.addCollection("posts", (collectionApi) =>
     collectionApi.getFilteredByGlob("src/posts/*.md").sort((a, b) => b.date - a.date),
   );

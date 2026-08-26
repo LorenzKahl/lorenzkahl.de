@@ -143,7 +143,7 @@ link all three stylesheets from the base layout, and apply the tokens
 
 ## Phase 3: Content
 
-### Task 5: Placeholder posts + posts collection + home page list
+### Task 5: Placeholder posts + posts collection + home page list ✅ done
 
 **Description:** Add placeholder post content, an 11ty collection built
 from the `src/posts/` directory, and a home page that lists them.
