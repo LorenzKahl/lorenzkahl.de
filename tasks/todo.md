@@ -204,7 +204,7 @@ block to prove it works.
 
 ---
 
-### Task 7: About page
+### Task 7: About page ✅ done
 
 **Description:** Add a static About page using the base layout.
 
