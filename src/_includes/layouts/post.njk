@@ -1,0 +1,10 @@
+---
+layout: layouts/base.njk
+---
+<article>
+  <h1>{{ title }}</h1>
+  <p class="post-meta">
+    <time datetime="{{ date.toISOString() }}">{{ date | readableDate }}</time>
+  </p>
+  {{ content | safe }}
+</article>

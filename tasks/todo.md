@@ -173,7 +173,7 @@ from the `src/posts/` directory, and a home page that lists them.
 
 ---
 
-### Task 6: Post layout + syntax highlighting
+### Task 6: Post layout + syntax highlighting ✅ done
 
 **Description:** Add a dedicated post layout and wire up build-time
 syntax highlighting; ensure one placeholder post contains a fenced code
