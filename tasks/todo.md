@@ -43,7 +43,7 @@ rebuilt tooling configs.
 
 ---
 
-### Task 2: Base layout with Web Awesome CDN integration
+### Task 2: Base layout with Web Awesome CDN integration ✅ done
 
 **Description:** Add the base Nunjucks layout with `<head>`, nav/footer
 partials, and the Web Awesome CDN autoloader script tag (pinned version).
