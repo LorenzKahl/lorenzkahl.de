@@ -19,13 +19,12 @@ runs:
     # Install dependencies
     - name: 🔧 Install Dependencies
       shell: bash
-      run: |
-        npm install --include=optional sharp
+      run: npm ci
 
     # Build the site
     - name: 🏗️ Build Site
       shell: bash
-      run: npm run production
+      run: npm run build
 
     # Upload the public directory as an artifact
     - name: 📤 Upload Artifact
