@@ -15,9 +15,6 @@ public
 # macOS related files
 .DS_Store
 
-# Local Netlify folder
-.netlify
-
 # Playwright MCP output
 .playwright-mcp/
 
