@@ -1,303 +1,215 @@
-# Task List: Blog Relaunch (lorenzkahl.de)
+# Task List: Content Typography & Breakout Layout (lorenzkahl.de)
 
-Plan: [`tasks/plan.md`](plan.md) · Spec: [`docs/spec/blog-relaunch.md`](../docs/spec/blog-relaunch.md)
+Plan: [`tasks/plan.md`](plan.md) · Spec: [`docs/spec/content-typography-and-breakouts.md`](../docs/spec/content-typography-and-breakouts.md)
 
-## Phase 1: Foundation
+Written retroactively, after implementation and merge (PR #3, PR #4).
+Round 1 (blog-relaunch) is archived at
+[`tasks/todo-blog-relaunch.md`](todo-blog-relaunch.md).
 
-### Task 1: New branch + clean-slate config ✅ done
+## Phase 1: Layout & typography primitives
 
-**Description:** Create the new branch, remove the old design/config/content
-approach, and stand up an empty, working 11ty v3 project skeleton with
-rebuilt tooling configs.
+### Task 1: Breakout grid on `main` ✅ done
+
+**Description:** Turn `main` into a CSS grid with named lines, unbox
+`main > article` via `display: contents`, and add
+`.breakout-start`/`.breakout-end`/`.breakout`/`.full-bleed` utilities.
 
 **Acceptance criteria:**
-- [ ] New git branch created off `main` (e.g. `blog-relaunch`)
-- [ ] `src/config/`, `src/assets/styles/`, `src/assets/views/`,
-      `src/content/` and their contents are removed
-- [ ] `@fontsource*` packages removed from `package.json`; `@11ty/eleventy`
-      kept; `@11ty/eleventy-plugin-rss` and
-      `@11ty/eleventy-plugin-syntaxhighlight` added
-- [ ] New flat `.eleventy.js` exists with `dir` config (`input: "src"`,
-      `output: "public"`) and both plugins registered
-- [ ] `eslint.config.js` and `.stylelintrc` updated to match the new
-      structure (no SCSS-specific rules)
-- [ ] `netlify.toml`, `CNAME`, `.nvmrc`, `.github/`, `LICENSE`, `README*`
-      are untouched
+- [x] `header`/`footer` keep the original fixed-width centered column
+- [x] Post content elements can be individually placed in the
+      breakout/full-bleed columns, not just `<article>` itself
+- [x] Narrow viewports collapse breakout/full-bleed to full width, no
+      horizontal overflow
 
 **Verification:**
-- [ ] `npm run dev` starts without errors (even serving a bare
-      placeholder `src/index.njk`)
-- [ ] `npm run lint` passes
-- [ ] `git status` confirms only the intended files/dirs were removed
+- [x] `npm run lint` passes
+- [x] Manual check: `grid-column` computed value inspected via devtools
+      for each utility class
 
 **Dependencies:** None
 
-**Files likely touched:**
-- `.eleventy.js`
-- `package.json`
-- `eslint.config.js`
-- `.stylelintrc`
-- (deletions) `src/config/`, `src/assets/`, `src/content/`
-
-**Estimated scope:** Medium (mostly deletion + a few new small files)
-
----
-
-### Task 2: Base layout with Web Awesome CDN integration ✅ done
-
-**Description:** Add the base Nunjucks layout with `<head>`, nav/footer
-partials, and the Web Awesome CDN autoloader script tag (pinned version).
-
-**Acceptance criteria:**
-- [ ] `src/_includes/layouts/base.njk` exists with a valid HTML shell
-- [ ] Web Awesome is loaded via a pinned-version `<script type="module">`
-      CDN tag (checked against Web Awesome's own docs, not guessed)
-- [ ] `src/_includes/partials/header.njk` and `footer.njk` exist and are
-      included in the base layout
-- [ ] At least one Web Awesome component (e.g. `<wa-button>`) is placed
-      in the header or footer to prove the autoloader works
-
-**Verification:**
-- [ ] `npm run dev`, open in a real browser: the Web Awesome component
-      renders styled (not as unstyled fallback content), confirmed via
-      browser dev tools showing no failed script/network requests
-- [ ] `npm run lint` passes
-
-**Dependencies:** Task 1
-
-**Files likely touched:**
-- `src/_includes/layouts/base.njk`
-- `src/_includes/partials/header.njk`
-- `src/_includes/partials/footer.njk`
-- `src/index.njk` (temporary content to render the layout)
-
-**Estimated scope:** Small (2-4 files)
-
----
-
-## Phase 2: Design system
-
-### Task 3: Warm palette + Utopia fluid scale in CSS tokens ✅ done
-
-**Description:** Create `tokens.css` with warm-burnout-inspired color
-custom properties and a Utopia-generated fluid type/space scale.
-
-**Acceptance criteria:**
-- [ ] `src/assets/css/tokens.css` defines color custom properties
-      (background, text, accent, etc.) visually consistent with
-      warm-burnout's palette
-- [ ] Font stack custom properties defined: serif for headings,
-      sans-serif for body (system fonts only)
-- [ ] Fluid type scale (`--step-*`) and space scale (`--space-*`) custom
-      properties generated via utopia.fyi and pasted in as `clamp()`
-      values — not hand-approximated
-
-**Verification:**
-- [ ] `npm run lint` (stylelint) passes on the new file
-- [ ] Manual check: resizing the browser shows `--step-*`/`--space-*`
-      values change smoothly via dev tools computed styles
-
-**Dependencies:** Task 1
-
-**Files likely touched:**
-- `src/assets/css/tokens.css`
+**Files touched:**
+- `src/assets/css/layout.css`
 
 **Estimated scope:** Small (1 file)
 
 ---
 
-### Task 4: Base + layout CSS wired into the base layout ✅ done
+### Task 2: Native content-element typography ✅ done
 
-**Description:** Add reset/base element styles and page-level layout CSS,
-link all three stylesheets from the base layout, and apply the tokens
-(palette, fonts, fluid scale) to real elements.
+**Description:** Style blockquote/cite, figure/figcaption, hr, lists,
+add h5/h6.
 
 **Acceptance criteria:**
-- [ ] `src/assets/css/base.css` sets body background/text color from
-      tokens, heading font-family from `--font-heading`, body
-      font-family from `--font-body`, and body font-size from a
-      `--step-*` token
-- [ ] `src/assets/css/layout.css` defines the page container/grid and
-      uses `--space-*` tokens for gaps/padding (native CSS nesting used
-      where it simplifies selectors)
-- [ ] All three stylesheets (`tokens.css`, `base.css`, `layout.css`)
-      linked in `base.njk`
+- [x] `blockquote > cite` renders as a distinct, dash-prefixed
+      attribution line
+- [x] `figure`/`figcaption` render correctly across content-width,
+      breakout, and full-bleed contexts
+- [x] Vertical rhythm between elements is consistent (no doubled or
+      missing gaps after headings)
 
 **Verification:**
-- [ ] `npm run dev`, visual check: page background/text use the warm
-      palette; heading is visibly serif, body visibly sans-serif
-- [ ] Resizing the browser between ~375px and ~1400px shows smooth
-      (non-stepped) size/spacing changes
-- [ ] `npm run lint` passes
+- [x] `npm run lint` passes
+- [x] Manual check: computed `margin-top`/`margin-bottom` inspected for
+      a heading immediately followed by a paragraph
 
-**Dependencies:** Task 2, Task 3
+**Dependencies:** Task 1
 
-**Files likely touched:**
+**Files touched:**
+- `src/assets/css/base.css`
+
+**Estimated scope:** Small (1 file)
+
+---
+
+### Task 3: Callout component ✅ done
+
+**Description:** Add a hand-rolled `.callout` component (note/tip/
+warning variants) using BEM naming.
+
+**Acceptance criteria:**
+- [x] `.callout`, `.callout__title`, `.callout--note`/`--tip`/`--warning`
+      exist, block → element → modifiers in source order
+- [x] Each variant is visually distinct, colors derived from existing
+      palette tokens
+- [x] `.stylelintrc`'s `selector-class-pattern` allows BEM's `__`/`--`
+
+**Verification:**
+- [x] `npm run lint` passes
+- [x] Manual check: all three variants rendered side by side in-browser
+
+**Dependencies:** Task 2
+
+**Files touched:**
+- `src/assets/css/base.css`
+- `.stylelintrc`
+
+**Estimated scope:** Small (2 files)
+
+---
+
+## Phase 2: Content
+
+### Task 4: Placeholder SVG images ✅ done
+
+**Description:** Hand-author three self-contained SVG placeholder
+images at the three widths the layout supports.
+
+**Acceptance criteria:**
+- [x] `placeholder-content.svg` (1200×675), `placeholder-breakout.svg`
+      (1600×700), `placeholder-full-bleed.svg` (2400×900) exist
+- [x] No external assets/fonts/fetches — pure inline SVG markup
+- [x] Each includes `<title>`/`<desc>` for accessibility
+
+**Verification:**
+- [x] `npm run build` copies them to `public/assets/images/` unchanged
+- [x] Manual check: each renders correctly as an `<img src>` target
+
+**Dependencies:** None
+
+**Files touched:**
+- `src/assets/images/placeholder-content.svg`
+- `src/assets/images/placeholder-breakout.svg`
+- `src/assets/images/placeholder-full-bleed.svg`
+
+**Estimated scope:** Small (3 files)
+
+---
+
+### Task 5: Rewrite `hello-world.md` ✅ done
+
+**Description:** Rewrite as a longer article: h2/h3/h4 with body text, a
+plain blockquote+cite, a content-width figure, a `.breakout-start`
+figure, a `.full-bleed` figure, a `--note` callout, a `--tip` callout.
+
+**Acceptance criteria:**
+- [x] All of the above elements present and rendering correctly
+- [x] Reads as a coherent article, not a disconnected element showcase
+
+**Verification:**
+- [x] `npm run build` succeeds
+- [x] Manual check in-browser at desktop and mobile widths
+
+**Dependencies:** Tasks 1–4
+
+**Files touched:**
+- `src/posts/hello-world.md`
+
+**Estimated scope:** Small (1 file)
+
+---
+
+### Task 6: Rewrite `a-second-post.md` ✅ done
+
+**Description:** Rewrite as a longer article with the complementary
+breakout direction and callout variant, plus a both-direction
+`.breakout` pull-quote and code blocks for syntax-highlighting coverage.
+
+**Acceptance criteria:**
+- [x] All of the above elements present and rendering correctly
+- [x] Breakout direction and callout variant complement (not duplicate)
+      `hello-world.md`
+
+**Verification:**
+- [x] `npm run build` succeeds
+- [x] Manual check in-browser at desktop and mobile widths
+
+**Dependencies:** Tasks 1–4
+
+**Files touched:**
+- `src/posts/a-second-post.md`
+
+**Estimated scope:** Small (1 file)
+
+---
+
+## Phase 3: Review & fixes
+
+### Task 7: Review pass and fixes ✅ done
+
+**Description:** Five-axis code review of the diff before merge;
+address findings.
+
+**Acceptance criteria:**
+- [x] Heading-adjacent zero-margin override made order-independent
+      (cascade-tie bug found in review — see spec's Decisions &
+      Revisions Log)
+- [x] BEM naming corrected (block/element/modifier, modifiers grouped
+      last)
+- [x] `base.css` reorganized into banner-commented sections
+- [x] Breakout utility classes renamed to logical direction naming
+      (`.breakout-start`/`.breakout-end`)
+
+**Verification:**
+- [x] `npm run lint` and `npm run build` pass after each fix
+- [x] Manual check: computed margin values before/after the
+      heading-margin fix, confirmed via browser devtools
+
+**Dependencies:** Tasks 1–6
+
+**Files touched:**
 - `src/assets/css/base.css`
 - `src/assets/css/layout.css`
-- `src/_includes/layouts/base.njk`
-
-**Estimated scope:** Small (2-3 files)
-
----
-
-## Phase 3: Content
-
-### Task 5: Placeholder posts + posts collection + home page list ✅ done
-
-**Description:** Add placeholder post content, an 11ty collection built
-from the `src/posts/` directory, and a home page that lists them.
-
-**Acceptance criteria:**
-- [ ] `src/posts/hello-world.md` and one more placeholder post exist,
-      each with `title`, `date`, `description` front matter
-- [ ] `.eleventy.js` (or a data file) defines a `posts` collection sourced
-      from `src/posts/*.md`, sorted newest-first
-- [ ] `src/index.njk` lists all posts (title + date, linked to
-      `/posts/{slug}/`)
-
-**Verification:**
-- [ ] `npm run dev`: home page shows both placeholder posts, links
-      resolve to working post pages (even if unstyled at this point)
-- [ ] `npm run build` succeeds
-
-**Dependencies:** Task 4
-
-**Files likely touched:**
 - `src/posts/hello-world.md`
-- `src/posts/<second-post>.md`
-- `src/index.njk`
-- `.eleventy.js`
+- `src/posts/a-second-post.md`
 
-**Estimated scope:** Small (3-4 files)
+**Estimated scope:** Medium (4 files, no new structure)
 
 ---
 
-### Task 6: Post layout + syntax highlighting ✅ done
+## Checkpoint: Primitives (after Task 3)
+- [x] `npm run lint` passes
+- [x] `npm run build` succeeds
+- [x] Manual check: a scratch element with each utility class renders
+      at the expected width
 
-**Description:** Add a dedicated post layout and wire up build-time
-syntax highlighting; ensure one placeholder post contains a fenced code
-block to prove it works.
+## Checkpoint: Content (after Task 6)
+- [x] Both posts render every element from the spec's Success Criteria
+- [x] No horizontal overflow at 390px viewport width
 
-**Acceptance criteria:**
-- [ ] `src/_includes/layouts/post.njk` extends `base.njk`, renders title
-      and formatted date above the content
-- [ ] Both placeholder posts use the post layout via front matter
-- [ ] One placeholder post contains a fenced code block (e.g. a short JS
-      or CSS snippet)
-- [ ] `@11ty/eleventy-plugin-syntaxhighlight` is registered in
-      `.eleventy.js`
-
-**Verification:**
-- [ ] `npm run dev`: the code-sample post shows syntax-highlighted code
-      (colored tokens, not plain monochrome text)
-- [ ] `npm run build` succeeds
-
-**Dependencies:** Task 5
-
-**Files likely touched:**
-- `src/_includes/layouts/post.njk`
-- `src/posts/<code-sample-post>.md`
-- `.eleventy.js`
-
-**Estimated scope:** Small (2-3 files)
-
----
-
-### Task 7: About page ✅ done
-
-**Description:** Add a static About page using the base layout.
-
-**Acceptance criteria:**
-- [ ] `src/about.md` (or `.njk`) exists with placeholder bio content
-- [ ] Renders at `/about/` using the base layout
-- [ ] Linked from the header/footer nav
-
-**Verification:**
-- [ ] `npm run dev`: `/about/` renders correctly, styled consistently
-      with the rest of the site
-- [ ] `npm run build` succeeds
-
-**Dependencies:** Task 4
-
-**Files likely touched:**
-- `src/about.md`
-- `src/_includes/partials/header.njk` (nav link)
-
-**Estimated scope:** XS (1-2 files)
-
----
-
-## Phase 4: Feed + final verification
-
-### Task 8: RSS feed ✅ done
-
-**Description:** Add an RSS feed of all posts using
-`@11ty/eleventy-plugin-rss`.
-
-**Acceptance criteria:**
-- [ ] `@11ty/eleventy-plugin-rss` registered in `.eleventy.js`
-- [ ] `src/feed.njk` (or `.xml`) template generates a feed listing all
-      posts with title, link, date, and description
-- [ ] `src/_data/site.js` (or similar) supplies site title/description/URL
-      used by the feed
-
-**Verification:**
-- [ ] `npm run build`: output includes a feed file (e.g. `public/feed.xml`)
-- [ ] Feed content validates as well-formed RSS/XML (validator or manual
-      inspection against the RSS 2.0 spec)
-
-**Dependencies:** Task 5
-
-**Files likely touched:**
-- `src/feed.njk`
-- `src/_data/site.js`
-- `.eleventy.js`
-
-**Estimated scope:** Small (2-3 files)
-
----
-
-### Task 9: Full success-criteria pass ✅ done
-
-**Description:** Walk every checkbox in the spec's Success Criteria
-section against the running site and fix any gaps found.
-
-**Acceptance criteria:**
-- [ ] Every item in `docs/spec/blog-relaunch.md`'s Success Criteria list
-      is verified true
-- [ ] No React/framework dependency, no dark-mode toggle, no
-      tags/categories UI, no comments/analytics/newsletter present
-      (confirmed by inspection, not just by omission)
-
-**Verification:**
-- [ ] `npm run build` and `npm run lint` both pass clean
-- [ ] Manual full walkthrough in a real browser: home → post → about →
-      feed
-
-**Dependencies:** Task 6, Task 7, Task 8
-
-**Files likely touched:** Varies — whatever gaps Task 9 surfaces
-
-**Estimated scope:** Small (fixes only, no new structure expected)
-
----
-
-## Checkpoint: Foundation (after Task 2)
-- [ ] `npm run dev` serves a minimal page with no build errors
-- [ ] A Web Awesome component renders correctly (not unstyled fallback)
-- [ ] `npm run lint` passes
-
-## Checkpoint: Design system (after Task 4)
-- [ ] Page visibly uses the warm palette, serif headings, sans body
-- [ ] Type/spacing scale fluidly between ~375px and ~1400px viewport
-
-## Checkpoint: Content (after Task 7)
-- [ ] Home lists both posts; post pages render via the post layout
-- [ ] Code-sample post shows highlighted syntax
-- [ ] About page renders
-
-## Checkpoint: Complete (after Task 9)
-- [ ] Every Success Criteria checkbox in the spec is checked
-- [ ] `npm run build` and `npm run lint` pass clean
-- [ ] Ready for human review
+## Checkpoint: Complete (after Task 7)
+- [x] Every Success Criteria checkbox in the spec is checked
+- [x] `npm run build` and `npm run lint` pass clean
+- [x] PR #3 merged; PR #4 (unrelated CI fix found during PR
+      verification) merged separately
+- [x] Ready for human review
