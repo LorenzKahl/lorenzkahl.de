@@ -69,16 +69,12 @@ einfügen lassen — inklusive Bildunterschrift.
   </figcaption>
 </figure>
 
-<div class="callout callout--warning">
-
-<p class="callout__title">Achtung</p>
-
+{% callout "warning" "Achtung" %}
 Syntax-Highlighting funktioniert nur für Sprachen, die Prism kennt und die
 im Codeblock korrekt als Info-String angegeben sind (z. B. ` ```js ` statt
 ` ```javascript `, falls die Kurzform fehlschlägt). Bei Unsicherheit lohnt
 ein Blick in die gerenderte Ausgabe.
-
-</div>
+{% endcallout %}
 
 ### Ein Breakout in die andere Richtung
 

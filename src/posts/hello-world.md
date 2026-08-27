@@ -79,15 +79,11 @@ Kurz zusammengefasst, worauf dieser Blog aufbaut:
   </figcaption>
 </figure>
 
-<div class="callout callout--note">
-
-<p class="callout__title">Hinweis</p>
-
+{% callout "note" "Hinweis" %}
 Diese Seite befindet sich noch im Aufbau. RSS-Feed und About-Seite stehen
 bereits, weitere Inhalte folgen nach und nach — Layout und Typografie
 sollten aber schon jetzt für lange, reich formatierte Artikel tragen.
-
-</div>
+{% endcallout %}
 
 ## Gestaltungsideen für künftige Artikel
 
@@ -111,15 +107,11 @@ nach rechts, in beide Richtungen oder randlos über die volle Breite.
   </figcaption>
 </figure>
 
-<div class="callout callout--tip">
-
-<p class="callout__title">Tipp</p>
-
+{% callout "tip" "Tipp" %}
 Breakout-Elemente sind bewusst sparsam einzusetzen — als Auflockerung an
 ein bis zwei Stellen im Artikel, nicht als Standard für jedes Bild. Sonst
 verliert der ruhige Lesefluss der Textspalte seine Wirkung.
-
-</div>
+{% endcallout %}
 
 #### Kleine Randnotiz
 
