@@ -7,7 +7,7 @@ layout: layouts/post.njk
 
 Willkommen auf der neu aufgebauten lorenzkahl.de. Dieser Blog läuft jetzt
 auf [Eleventy](https://www.11ty.dev/) mit [Web Awesome](https://webawesome.com)
-und einem warmen, fluiden Design-System. Bevor hier regelmäßig neue Inhalte
+und einem warmen, fluiden Design-System. Bevor hier unregelmäßig neue Inhalte
 erscheinen, dient dieser Post als kleiner Rundgang durch das, was sich
 technisch und gestalterisch geändert hat.
 
