@@ -1,0 +1,13 @@
+---
+title: Home
+layout: layouts/base.njk
+---
+<h1>lorenzkahl.de</h1>
+<ul class="post-list">
+  {% for post in collections.posts %}
+  <li>
+    <a href="{{ post.url }}">{{ post.data.title }}</a>
+    <time datetime="{{ post.date.toISOString() }}">{{ post.date | readableDate }}</time>
+  </li>
+  {% endfor %}
+</ul>

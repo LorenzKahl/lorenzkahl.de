@@ -3,16 +3,11 @@
   "version": "2026.1",
   "description": "Meine persönliche Spielwiese um Stuff™ auszuprobieren",
   "type": "module",
-  "main": "index.html",
   "scripts": {
-    "🪐": "cross-env ELEVENTY_ENV=development eleventy --serve",
-    "🚧": "cross-env ELEVENTY_ENV=staging eleventy",
-    "🚀": "cross-env ELEVENTY_ENV=production eleventy",
-    "dev": "npm run 🪐",
-    "staging": "npm run 🚧",
-    "production": "npm run 🚀",
-    "start": "npm run dev",
-    "build": "npm run production"
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "lint": "eslint . && stylelint \"src/**/*.css\" --allow-empty-input",
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -25,26 +20,13 @@
   ],
   "devDependencies": {
     "@11ty/eleventy": "^3.1.0",
-    "@11ty/eleventy-img": "^6.0.2",
+    "@11ty/eleventy-plugin-rss": "^2.0.4",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.1",
     "@eslint/js": "^9.11.1",
-    "@sindresorhus/slugify": "^3.0.0",
-    "cross-env": "^7.0.3",
-    "esbuild": "^0.25.2",
     "eslint": "^9.11.1",
     "globals": "^15.9.0",
-    "js-beautify": "^1.15.0",
-    "markdown-it": "14.1.0",
-    "pagefind": "^1.4.0",
     "prettier": "^3.8.1",
     "stylelint": "^16.24.0",
-    "stylelint-config-standard-scss": "^15.0.1",
-    "stylelint-scss": "^6.12.1"
-  },
-  "dependencies": {
-    "@fontsource-variable/atkinson-hyperlegible-next": "^5.2.6",
-    "@fontsource-variable/merriweather": "^5.2.6",
-    "@fontsource/fira-sans": "^5.2.7",
-    "@fontsource/merriweather": "^5.2.11",
-    "@zackad/prettier-plugin-twig": "^0.16.3"
+    "stylelint-config-standard": "^37.0.0"
   }
 }

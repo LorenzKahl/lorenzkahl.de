@@ -17,3 +17,9 @@ public
 
 # Local Netlify folder
 .netlify
+
+# Playwright MCP output
+.playwright-mcp/
+
+# Local Claude Code settings
+.claude/
