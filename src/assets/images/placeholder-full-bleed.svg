@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Platzhalterbild, Full-Bleed</title>
+  <desc id="desc">Warmes Panorama-Platzhalterbild, das randlos über die volle Viewport-Breite reicht.</desc>
+  <defs>
+    <linearGradient id="bg-full" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8e4632"/>
+      <stop offset="55%" stop-color="#924800"/>
+      <stop offset="100%" stop-color="#74501c"/>
+    </linearGradient>
+    <pattern id="stripes-full" width="48" height="48" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="48" stroke="#f5ede0" stroke-opacity="0.06" stroke-width="20"/>
+    </pattern>
+  </defs>
+  <rect width="2400" height="900" fill="url(#bg-full)"/>
+  <rect width="2400" height="900" fill="url(#stripes-full)"/>
+  <g fill="#f5ede0" font-family="Georgia, 'Times New Roman', serif" text-anchor="middle">
+    <text x="1200" y="430" font-size="52">Platzhalterbild</text>
+    <text x="1200" y="486" font-size="22" letter-spacing="0.08em" fill="#f0dcc3">2400 × 900 · FULL-BLEED</text>
+  </g>
+</svg>

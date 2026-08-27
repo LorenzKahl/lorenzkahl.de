@@ -1,3 +1,7 @@
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+
 *,
 *::before,
 *::after {
@@ -13,14 +17,25 @@ body {
   line-height: 1.6;
 }
 
+/* ==========================================================================
+   Headings & inline elements
+   ========================================================================== */
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
+  margin-block: var(--space-l) var(--space-s);
   font-family: var(--font-heading);
   line-height: 1.2;
+
+  /* Higher specificity than the vertical-rhythm rule below (two type
+     selectors vs. one) so it wins regardless of source order. */
+  & + :is(p, ul, ol, blockquote, figure, .callout, pre) {
+    margin-block-start: 0;
+  }
 }
 
 h1 {
@@ -39,6 +54,17 @@ h4 {
   font-size: var(--step-1);
 }
 
+h5 {
+  font-size: var(--step-0);
+}
+
+h6 {
+  font-size: var(--step-n1);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
 a {
   color: var(--color-accent);
 
@@ -48,9 +74,136 @@ a {
 }
 
 img {
+  display: block;
   max-width: 100%;
   height: auto;
 }
+
+/* ==========================================================================
+   Native content elements
+   Typography for elements Markdown/HTML produce natively: paragraphs,
+   lists, blockquote/cite, figure/figcaption, hr.
+   ========================================================================== */
+
+p,
+ul,
+ol,
+blockquote,
+figure,
+pre {
+  margin-block: var(--space-m) 0;
+}
+
+blockquote {
+  margin-inline: 0;
+  padding-inline-start: var(--space-m);
+  border-inline-start: 0.25rem solid var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: var(--step-1);
+  font-style: italic;
+  color: var(--color-muted);
+
+  & p {
+    margin-block-start: 0;
+  }
+
+  & cite {
+    display: block;
+    margin-block-start: var(--space-xs);
+    font-family: var(--font-body);
+    font-size: var(--step-n1);
+    font-style: normal;
+    color: var(--color-text);
+
+    &::before {
+      content: "— ";
+    }
+  }
+}
+
+figure {
+  margin-inline: 0;
+
+  & img,
+  & svg {
+    width: 100%;
+    border: 1px solid var(--color-border);
+  }
+}
+
+figcaption {
+  margin-block-start: var(--space-xs);
+  font-size: var(--step-n1);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.full-bleed figcaption {
+  padding-inline: var(--space-l);
+}
+
+hr {
+  margin-block: var(--space-l);
+  border: none;
+  border-top: 1px solid var(--color-border);
+}
+
+ul,
+ol {
+  padding-inline-start: var(--space-m);
+
+  & li + li {
+    margin-block-start: var(--space-2xs);
+  }
+}
+
+/* ==========================================================================
+   Component: Callout
+   Hand-rolled — not a native HTML element. BEM: block, then element,
+   then modifiers grouped at the end.
+   ========================================================================== */
+
+.callout {
+  --callout-color: var(--color-accent);
+
+  margin-block: var(--space-m) 0;
+  padding: var(--space-s) var(--space-m);
+  border-inline-start: 0.25rem solid var(--callout-color);
+  border-radius: 0 var(--space-2xs) var(--space-2xs) 0;
+  background-color: color-mix(in srgb, var(--callout-color) 10%, var(--color-bg));
+
+  & > :first-child {
+    margin-block-start: 0;
+  }
+
+  & > :last-child {
+    margin-block-end: 0;
+  }
+}
+
+.callout__title {
+  margin-block-end: var(--space-2xs);
+  font-family: var(--font-heading);
+  font-size: var(--step-0);
+  font-weight: 700;
+  color: var(--callout-color);
+}
+
+.callout--note {
+  --callout-color: var(--color-accent);
+}
+
+.callout--tip {
+  --callout-color: var(--syntax-string);
+}
+
+.callout--warning {
+  --callout-color: var(--color-accent-secondary);
+}
+
+/* ==========================================================================
+   Code & syntax highlighting
+   ========================================================================== */
 
 pre {
   padding: var(--space-s);
