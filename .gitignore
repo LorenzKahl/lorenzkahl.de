@@ -20,3 +20,6 @@ public
 
 # Playwright MCP output
 .playwright-mcp/
+
+# Local Claude Code settings
+.claude/
