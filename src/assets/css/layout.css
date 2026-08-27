@@ -5,7 +5,6 @@ body {
 }
 
 header,
-main,
 footer {
   width: min(100% - var(--space-l) * 2, 60rem);
   margin-inline: auto;
@@ -20,9 +19,54 @@ header {
   }
 }
 
+/*
+ * Breakout grid: every direct child defaults to the readable `content`
+ * column. `.breakout-start`/`.breakout-end`/`.breakout`/`.full-bleed`
+ * let individual elements (figures, callouts, blockquotes, …) spill
+ * into the margins or the full viewport width. `main > article` is
+ * unboxed via `display: contents` so a post's content elements become
+ * direct grid items too, instead of being trapped inside the article box.
+ */
 main {
   flex: 1;
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(var(--space-l), 1fr)
+    [breakout-start] minmax(0, var(--space-2xl))
+    [content-start] min(60rem, 100% - var(--space-l) * 2)
+    [content-end] minmax(0, var(--space-2xl))
+    [breakout-end] minmax(var(--space-l), 1fr)
+    [full-end];
   padding-block: var(--space-l);
+
+  & > * {
+    grid-column: content;
+  }
+
+  & > article {
+    display: contents;
+  }
+
+  & > article > * {
+    grid-column: content;
+  }
+}
+
+.breakout-start {
+  grid-column: breakout-start / content-end;
+}
+
+.breakout-end {
+  grid-column: content-start / breakout-end;
+}
+
+.breakout {
+  grid-column: breakout;
+}
+
+.full-bleed {
+  grid-column: full;
+  width: 100%;
 }
 
 footer {
