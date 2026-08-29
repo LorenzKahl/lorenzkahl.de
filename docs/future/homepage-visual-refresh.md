@@ -1,8 +1,9 @@
 # Future: Homepage Visual Refresh
 
-Status: backlog — not scheduled, not scoped in detail. Written as a
-placeholder so the intent isn't lost between rounds, not as a spec to
-implement from directly.
+Status: resolved — see
+[`docs/spec/homepage-visual-refresh.md`](../spec/homepage-visual-refresh.md).
+Kept here for history; new work should read the spec, not this
+document.
 
 ## Why this exists
 
@@ -26,7 +27,14 @@ Lorenz's personality better than the current plain post-list page.
   generating images. A homepage refresh likely extends one of these
   approaches rather than introducing a new asset pipeline.
 
-## Not deciding here
+## How it was resolved
 
-Any of the above — this is a backlog pointer, not a plan. Run
-`/idea-refine` against this document when the round actually starts.
+- The `/idea-refine` pass this document called for took the form of
+  three visual directions drafted as artboards in a Claude Design
+  canvas artifact, rather than a written `/idea-refine` doc — see
+  [`docs/spec/homepage-visual-refresh.md`](../spec/homepage-visual-refresh.md)'s
+  "Design reference".
+- The chosen direction stayed within the flagged constraints: no new
+  npm dependency, no image pipeline, existing `tokens.css` values
+  reused throughout (one previously-unused type-scale step, `--step-5`,
+  is the only new usage).
