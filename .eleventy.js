@@ -24,8 +24,17 @@ export default function (eleventyConfig) {
   );
 
   let markdownLibrary;
+  let codeBlockCount = 0;
   eleventyConfig.amendLibrary("md", (mdLib) => {
     markdownLibrary = mdLib;
+
+    const defaultFence = mdLib.renderer.rules.fence;
+    mdLib.renderer.rules.fence = (tokens, idx, options, env, self) => {
+      const rendered = defaultFence(tokens, idx, options, env, self);
+      const id = `code-block-${++codeBlockCount}`;
+      const withId = rendered.replace("<pre", `<pre id="${id}"`);
+      return `<div class="code-block">${withId}<wa-copy-button from="${id}" copy-label="Code kopieren" success-label="Kopiert!" error-label="Fehler beim Kopieren"></wa-copy-button></div>\n`;
+    };
   });
 
   eleventyConfig.addPairedShortcode("callout", (content, variant, title) => {

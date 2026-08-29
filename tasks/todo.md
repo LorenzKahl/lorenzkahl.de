@@ -11,7 +11,7 @@ Round 1 (blog-relaunch) is archived at
 
 ## Phase 1: Copy button end-to-end
 
-### Task 1: Fence-renderer override in `.eleventy.js`
+### Task 1: Fence-renderer override in `.eleventy.js` ✅ done
 
 **Description:** Inside the existing `amendLibrary("md", …)` callback,
 capture the current `mdLib.renderer.rules.fence`, replace it with a
@@ -23,19 +23,19 @@ kopieren" success-label="Kopiert!" error-label="Fehler beim
 Kopieren"></wa-copy-button></div>`.
 
 **Acceptance criteria:**
-- [ ] Every fenced code block in the built HTML is wrapped in
+- [x] Every fenced code block in the built HTML is wrapped in
       `<div class="code-block">` and followed by a `<wa-copy-button
       from="...">` referencing its `<pre>`'s `id`
-- [ ] IDs are unique across a given page
-- [ ] Inline code (`` `code` ``) is unaffected — no wrapper, no id, no
+- [x] IDs are unique across a given page
+- [x] Inline code (`` `code` ``) is unaffected — no wrapper, no id, no
       button
-- [ ] Existing Prism syntax-highlighting markup inside `<code>` is
+- [x] Existing Prism syntax-highlighting markup inside `<code>` is
       unchanged (this only wraps the existing output, doesn't
       regenerate it)
 
 **Verification:**
-- [ ] `npm run build` succeeds
-- [ ] Manual check: inspect built HTML (`public/posts/*/index.html`)
+- [x] `npm run build` succeeds
+- [x] Manual check: inspect built HTML (`public/posts/*/index.html`)
       for the expected wrapper/id/button markup around each fenced
       block
 

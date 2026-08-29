@@ -54,7 +54,7 @@ manual check, rather than landing the config change first and styling
 
 ### Phase 1: Copy button end-to-end
 
-- [ ] Task 1: Fence-renderer override in `.eleventy.js`
+- [x] Task 1: Fence-renderer override in `.eleventy.js`
 - [ ] Task 2: `.code-block` wrapper + button positioning in `base.css`
 
 ### Checkpoint: Visual/build
