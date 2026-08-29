@@ -1,57 +1,68 @@
-# Task List: Content Typography & Breakout Layout (lorenzkahl.de)
+# Task List: Callout Icons & Authoring Shortcode (lorenzkahl.de)
 
-Plan: [`tasks/plan.md`](plan.md) · Spec: [`docs/spec/content-typography-and-breakouts.md`](../docs/spec/content-typography-and-breakouts.md)
+Plan: [`tasks/plan.md`](plan.md) · Spec: [`docs/spec/callout-icons-and-shortcode.md`](../docs/spec/callout-icons-and-shortcode.md)
 
-Written retroactively, after implementation and merge (PR #3, PR #4).
+Written retroactively, after implementation and merge (commit
+`fad8120`). Round 2 (content-typography-and-breakouts) is archived at
+[`tasks/todo-content-typography-and-breakouts.md`](todo-content-typography-and-breakouts.md).
 Round 1 (blog-relaunch) is archived at
 [`tasks/todo-blog-relaunch.md`](todo-blog-relaunch.md).
 
-## Phase 1: Layout & typography primitives
+## Phase 1: Shortcode & rendering
 
-### Task 1: Breakout grid on `main` ✅ done
+### Task 1: Callout shortcode in `.eleventy.js` ✅ done
 
-**Description:** Turn `main` into a CSS grid with named lines, unbox
-`main > article` via `display: contents`, and add
-`.breakout-start`/`.breakout-end`/`.breakout`/`.full-bleed` utilities.
+**Description:** Add the `CALLOUT_ICONS` variant→icon map, capture
+11ty's configured markdown-it instance via `amendLibrary("md", …)`,
+and register `addPairedShortcode("callout", …)` emitting the wrapper
+div, icon, title, and Markdown-rendered body. Throw on an unrecognized
+variant.
 
 **Acceptance criteria:**
-- [x] `header`/`footer` keep the original fixed-width centered column
-- [x] Post content elements can be individually placed in the
-      breakout/full-bleed columns, not just `<article>` itself
-- [x] Narrow viewports collapse breakout/full-bleed to full width, no
-      horizontal overflow
+- [x] `{% callout "variant" "Title" %}body{% endcallout %}` emits
+      `.callout.callout--{variant}` with a `<wa-icon>`,
+      `.callout__title`, and `.callout__body`
+- [x] Markdown inside the body (bold, code, links) renders as HTML, not
+      literal text
+- [x] An unrecognized variant throws, naming the valid variants
 
 **Verification:**
-- [x] `npm run lint` passes
-- [x] Manual check: `grid-column` computed value inspected via devtools
-      for each utility class
+- [x] `npm run build` succeeds
+- [x] Manual check: a scratch shortcode call with `**bold**` inside
+      renders `<strong>`, not literal asterisks
+- [x] Manual check: an intentionally misspelled variant fails the
+      build with the expected error message
 
 **Dependencies:** None
 
 **Files touched:**
-- `src/assets/css/layout.css`
+- `.eleventy.js`
 
 **Estimated scope:** Small (1 file)
 
 ---
 
-### Task 2: Native content-element typography ✅ done
+## Phase 2: Visual layout
 
-**Description:** Style blockquote/cite, figure/figcaption, hr, lists,
-add h5/h6.
+### Task 2: `.callout` grid layout + icon styling in `base.css` ✅ done
+
+**Description:** Turn `.callout` into a 2-column grid (icon column +
+title/body column), add `.callout__body` spanning both columns in row
+2, move the leading/trailing margin-reset rules from `.callout`'s
+direct children to `.callout__body`'s, and size/color `wa-icon` via
+`--callout-color`.
 
 **Acceptance criteria:**
-- [x] `blockquote > cite` renders as a distinct, dash-prefixed
-      attribution line
-- [x] `figure`/`figcaption` render correctly across content-width,
-      breakout, and full-bleed contexts
-- [x] Vertical rhythm between elements is consistent (no doubled or
-      missing gaps after headings)
+- [x] Icon and title share row 1, vertically centered against each
+      other; body spans the full width in row 2
+- [x] Icon color follows `--callout-color` per variant automatically
+- [x] No doubled/missing margin at the top or bottom of a callout's
+      body content
 
 **Verification:**
 - [x] `npm run lint` passes
-- [x] Manual check: computed `margin-top`/`margin-bottom` inspected for
-      a heading immediately followed by a paragraph
+- [x] Manual check: all three variants rendered side by side, computed
+      icon color inspected via devtools per variant
 
 **Dependencies:** Task 1
 
@@ -62,154 +73,48 @@ add h5/h6.
 
 ---
 
-### Task 3: Callout component ✅ done
+## Phase 3: Content migration
 
-**Description:** Add a hand-rolled `.callout` component (note/tip/
-warning variants) using BEM naming.
+### Task 3: Convert both example posts' callouts to shortcode form ✅ done
+
+**Description:** Replace the three existing raw-HTML callouts (one
+`--note`, one `--tip` in `hello-world.md`; one `--warning` in
+`a-second-post.md`) with the one-line shortcode form.
 
 **Acceptance criteria:**
-- [x] `.callout`, `.callout__title`, `.callout--note`/`--tip`/`--warning`
-      exist, block → element → modifiers in source order
-- [x] Each variant is visually distinct, colors derived from existing
-      palette tokens
-- [x] `.stylelintrc`'s `selector-class-pattern` allows BEM's `__`/`--`
+- [x] No raw `<div class="callout">` HTML remains in either post
+- [x] Rendered output is visually equivalent to (plus the new icon)
+      the prior raw-HTML version
 
 **Verification:**
-- [x] `npm run lint` passes
-- [x] Manual check: all three variants rendered side by side in-browser
+- [x] `npm run build` succeeds
+- [x] Manual check in-browser: both posts' callouts render correctly
+      with icons
 
-**Dependencies:** Task 2
+**Dependencies:** Tasks 1–2
 
 **Files touched:**
-- `src/assets/css/base.css`
-- `.stylelintrc`
+- `src/posts/hello-world.md`
+- `src/posts/a-second-post.md`
 
 **Estimated scope:** Small (2 files)
 
 ---
 
-## Phase 2: Content
+## Checkpoint: Shortcode (after Task 1)
+- [x] `npm run build` succeeds with both posts still on raw-HTML
+      callouts (shortcode exists but unused)
+- [x] A scratch shortcode call renders the expected wrapper/icon/title
+      markup with Markdown in the body converted to HTML
 
-### Task 4: Placeholder SVG images ✅ done
+## Checkpoint: Layout (after Task 2)
+- [x] All three variants render a distinct, correctly colored icon,
+      vertically centered against the title, in a scratch page
 
-**Description:** Hand-author three self-contained SVG placeholder
-images at the three widths the layout supports.
-
-**Acceptance criteria:**
-- [x] `placeholder-content.svg` (1200×675), `placeholder-breakout.svg`
-      (1600×700), `placeholder-full-bleed.svg` (2400×900) exist
-- [x] No external assets/fonts/fetches — pure inline SVG markup
-- [x] Each includes `<title>`/`<desc>` for accessibility
-
-**Verification:**
-- [x] `npm run build` copies them to `public/assets/images/` unchanged
-- [x] Manual check: each renders correctly as an `<img src>` target
-
-**Dependencies:** None
-
-**Files touched:**
-- `src/assets/images/placeholder-content.svg`
-- `src/assets/images/placeholder-breakout.svg`
-- `src/assets/images/placeholder-full-bleed.svg`
-
-**Estimated scope:** Small (3 files)
-
----
-
-### Task 5: Rewrite `hello-world.md` ✅ done
-
-**Description:** Rewrite as a longer article: h2/h3/h4 with body text, a
-plain blockquote+cite, a content-width figure, a `.breakout-start`
-figure, a `.full-bleed` figure, a `--note` callout, a `--tip` callout.
-
-**Acceptance criteria:**
-- [x] All of the above elements present and rendering correctly
-- [x] Reads as a coherent article, not a disconnected element showcase
-
-**Verification:**
-- [x] `npm run build` succeeds
-- [x] Manual check in-browser at desktop and mobile widths
-
-**Dependencies:** Tasks 1–4
-
-**Files touched:**
-- `src/posts/hello-world.md`
-
-**Estimated scope:** Small (1 file)
-
----
-
-### Task 6: Rewrite `a-second-post.md` ✅ done
-
-**Description:** Rewrite as a longer article with the complementary
-breakout direction and callout variant, plus a both-direction
-`.breakout` pull-quote and code blocks for syntax-highlighting coverage.
-
-**Acceptance criteria:**
-- [x] All of the above elements present and rendering correctly
-- [x] Breakout direction and callout variant complement (not duplicate)
-      `hello-world.md`
-
-**Verification:**
-- [x] `npm run build` succeeds
-- [x] Manual check in-browser at desktop and mobile widths
-
-**Dependencies:** Tasks 1–4
-
-**Files touched:**
-- `src/posts/a-second-post.md`
-
-**Estimated scope:** Small (1 file)
-
----
-
-## Phase 3: Review & fixes
-
-### Task 7: Review pass and fixes ✅ done
-
-**Description:** Five-axis code review of the diff before merge;
-address findings.
-
-**Acceptance criteria:**
-- [x] Heading-adjacent zero-margin override made order-independent
-      (cascade-tie bug found in review — see spec's Decisions &
-      Revisions Log)
-- [x] BEM naming corrected (block/element/modifier, modifiers grouped
-      last)
-- [x] `base.css` reorganized into banner-commented sections
-- [x] Breakout utility classes renamed to logical direction naming
-      (`.breakout-start`/`.breakout-end`)
-
-**Verification:**
-- [x] `npm run lint` and `npm run build` pass after each fix
-- [x] Manual check: computed margin values before/after the
-      heading-margin fix, confirmed via browser devtools
-
-**Dependencies:** Tasks 1–6
-
-**Files touched:**
-- `src/assets/css/base.css`
-- `src/assets/css/layout.css`
-- `src/posts/hello-world.md`
-- `src/posts/a-second-post.md`
-
-**Estimated scope:** Medium (4 files, no new structure)
-
----
-
-## Checkpoint: Primitives (after Task 3)
-- [x] `npm run lint` passes
-- [x] `npm run build` succeeds
-- [x] Manual check: a scratch element with each utility class renders
-      at the expected width
-
-## Checkpoint: Content (after Task 6)
-- [x] Both posts render every element from the spec's Success Criteria
-- [x] No horizontal overflow at 390px viewport width
-
-## Checkpoint: Complete (after Task 7)
+## Checkpoint: Complete (after Task 3)
 - [x] Every Success Criteria checkbox in the spec is checked
 - [x] `npm run build` and `npm run lint` pass clean
-- [x] PR #3 merged; PR #4 (unrelated CI fix found during PR
-      verification) merged separately
+- [x] Deliberately triggering an unrecognized variant fails the build
+      with a message naming the valid variants; removing the trigger
+      restores a clean build
 - [x] Ready for human review
