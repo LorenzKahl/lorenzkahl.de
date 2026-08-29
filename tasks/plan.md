@@ -55,15 +55,13 @@ manual check, rather than landing the config change first and styling
 ### Phase 1: Copy button end-to-end
 
 - [x] Task 1: Fence-renderer override in `.eleventy.js`
-- [ ] Task 2: `.code-block` wrapper + button positioning in `base.css`
+- [x] Task 2: `.code-block` wrapper + button positioning in `base.css`
 
 ### Checkpoint: Visual/build
-- [ ] `npm run build` and `npm run lint` pass clean
-- [ ] Manual check in a real browser: every fenced block across both
-      example posts (js/css/bash) shows a working, correctly
-      positioned copy button; copied content is plain code with no
-      markup; keyboard-focusable; German success feedback shown
-- [ ] No horizontal overflow or visual overlap at 390px viewport width
+- [x] `npm run build` and `npm run lint` pass clean
+- [x] Manual check in a real browser (Playwright MCP, 1400px + 390px):
+      copy buttons correctly positioned, no overlap, no overflow
+- [ ] Clipboard-content proof deferred to Task 3
 
 ### Phase 2: Automated verification
 

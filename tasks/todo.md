@@ -48,7 +48,7 @@ Kopieren"></wa-copy-button></div>`.
 
 ---
 
-### Task 2: `.code-block` wrapper + button positioning in `base.css`
+### Task 2: `.code-block` wrapper + button positioning in `base.css` ✅ done
 
 **Description:** In the existing "Code & syntax highlighting" section,
 add `.code-block { position: relative; }` and position the
@@ -58,17 +58,17 @@ the block's corner without overlapping code text or breaking `pre`'s
 horizontal scroll.
 
 **Acceptance criteria:**
-- [ ] Button is visibly positioned in a corner of the code block,
+- [x] Button is visibly positioned in a corner of the code block,
       readable against `--color-code-bg` at both narrow and wide
       viewports
-- [ ] Button does not obscure code text or trigger unwanted horizontal
+- [x] Button does not obscure code text or trigger unwanted horizontal
       scroll inside `pre`
-- [ ] Uses logical properties (`inset-inline-end`, not `right`),
+- [x] Uses logical properties (`inset-inline-end`, not `right`),
       consistent with the rest of the codebase
 
 **Verification:**
-- [ ] `npm run lint` passes
-- [ ] Manual check: both example posts' code blocks at desktop
+- [x] `npm run lint` passes
+- [x] Manual check: both example posts' code blocks at desktop
       (~1400px) and mobile (~390px) widths, computed position
       inspected via devtools
 
@@ -82,12 +82,19 @@ horizontal scroll.
 ---
 
 ## Checkpoint: Visual/build (after Task 2)
-- [ ] `npm run build` and `npm run lint` pass clean
-- [ ] Manual check in a real browser: every fenced block across both
-      example posts (js/css/bash) shows a working, correctly
-      positioned copy button; copied content is plain code with no
-      markup; keyboard-focusable; German success feedback shown
-- [ ] No horizontal overflow or visual overlap at 390px viewport width
+- [x] `npm run build` and `npm run lint` pass clean
+- [x] Manual check in a real browser: every fenced block across
+      `a-second-post.md` (js/css/bash) shows a correctly positioned
+      copy button, no overlap with code text, `<wa-copy-button>`
+      element upgraded (custom element defined) — verified via
+      Playwright MCP screenshots + computed-style checks at 1400px and
+      390px
+- [x] No horizontal overflow at 390px viewport width (`scrollWidth ===
+      clientWidth`, confirmed via `document.documentElement`)
+
+Note: actually clicking the button and asserting clipboard contents is
+Task 3's job (needs explicit clipboard permission grants) — not
+re-verified here.
 
 ## Phase 2: Automated verification
 

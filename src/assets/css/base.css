@@ -219,6 +219,10 @@ ol {
    Code & syntax highlighting
    ========================================================================== */
 
+.code-block {
+  position: relative;
+}
+
 pre {
   padding: var(--space-s);
   overflow-x: auto;
@@ -228,6 +232,13 @@ pre {
     padding: 0;
     background: none;
   }
+}
+
+.code-block wa-copy-button {
+  position: absolute;
+  inset-block-start: var(--space-2xs);
+  inset-inline-end: var(--space-2xs);
+  color: var(--color-text);
 }
 
 code {
