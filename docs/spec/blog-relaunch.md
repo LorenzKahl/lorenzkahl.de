@@ -236,6 +236,17 @@ _what_ it does.
    [`docs/future/testing-infrastructure.md`](../future/testing-infrastructure.md),
    so this round stays a small, reviewable vertical slice rather than
    an infrastructure project riding on a feature's coattails.
+2. **2026-08-29 — General test infrastructure round resolves the
+   "when does a feature need an E2E spec" question.** Entry #1 left
+   that as an implicit, case-by-case call. Decision: the explicit rule
+   now lives in
+   [`docs/spec/testing-infrastructure.md`](testing-infrastructure.md)'s
+   Boundaries — add a Playwright spec only for genuine client-side
+   runtime behavior a screenshot/DevTools check can't prove; layout,
+   positioning, and static markup stay manual/visual. That round also
+   wires `npm run test:e2e` into CI (`.github/workflows/ci.yml`), so
+   the copy-button spec (and any future one written under this rule)
+   runs automatically, not just locally.
 
 ## Success Criteria
 
