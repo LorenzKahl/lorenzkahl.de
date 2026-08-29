@@ -1,10 +1,11 @@
-# Implementation Plan: Callout Icons & Authoring Shortcode (lorenzkahl.de)
+# Implementation Plan: Copy Button on Code Blocks (lorenzkahl.de)
 
-Traces to: [`docs/spec/callout-icons-and-shortcode.md`](../docs/spec/callout-icons-and-shortcode.md)
+Traces to: [`docs/spec/copy-button-code-blocks.md`](../docs/spec/copy-button-code-blocks.md)
 
-Written retroactively, after implementation and merge (commit
-`fad8120`) — see that spec for why. Round 2
-(content-typography-and-breakouts) is archived at
+Round 3 (callout-icons-and-shortcode) is archived at
+[`tasks/plan-callout-icons-and-shortcode.md`](plan-callout-icons-and-shortcode.md) /
+[`tasks/todo-callout-icons-and-shortcode.md`](todo-callout-icons-and-shortcode.md).
+Round 2 (content-typography-and-breakouts) is archived at
 [`tasks/plan-content-typography-and-breakouts.md`](plan-content-typography-and-breakouts.md) /
 [`tasks/todo-content-typography-and-breakouts.md`](todo-content-typography-and-breakouts.md).
 Round 1 (blog-relaunch) is archived at
@@ -13,89 +14,95 @@ Round 1 (blog-relaunch) is archived at
 
 ## Overview
 
-Give each callout variant a legible icon and replace the raw-HTML
-authoring form with a one-line Markdown shortcode. Scoped via
-`/idea-refine` first (`docs/ideas/callout-icons-and-shortcode.md`),
-which flagged four assumptions to validate against 11ty's actual
-source before committing to an approach — those were resolved during a
-plan-mode research session, then implemented as a single vertical
-slice (config change → CSS change → both posts converted), since the
-shortcode, its icon, and its layout only prove out together.
+Add a copy-to-clipboard button to every fenced code block, using Web
+Awesome's native `<wa-copy-button>` component. Work proceeds as one
+vertical slice: the build-time markup change (config) and its styling
+are inseparable — neither is independently verifiable without the
+other — so they're built together and proven with a single end-to-end
+manual check, rather than landing the config change first and styling
+"later."
 
 ## Architecture Decisions
 
-- **Icon mapping lives once, in `.eleventy.js`**, not at each call
-  site — a post author supplies only variant + title.
-- **Reuse 11ty's own configured markdown-it instance** (via
-  `amendLibrary("md", …)`) inside the shortcode, instead of a second,
-  independently configured `markdown-it` import — keeps one source of
-  truth for Markdown rendering (including already-registered plugins
-  like syntax highlighting).
-- **No new npm dependency.** Both the icon (Web Awesome's bundled Font
-  Awesome Free, already loaded via CDN) and the Markdown rendering
-  (11ty's transitive `markdown-it`) reuse what the project already
-  loads — ruled out a `markdown-it-container` plugin for this reason,
-  per the blog-relaunch spec's "ask first" boundary on new
-  dependencies.
-- **Unknown variant throws at build time**, not a silent fallback —
-  cheaper to catch a typo at `npm run build` than in production HTML.
+- **Override `md.renderer.rules.fence`** inside the existing
+  `amendLibrary("md", …)` block in `.eleventy.js` (already used to
+  capture the library for the callout shortcode) — call the current
+  default fence renderer to get the plugin's highlighted
+  `<pre><code>...</code></pre>`, then wrap it: assign a unique `id` to
+  `<pre>`, wrap the whole thing in `<div class="code-block">`, and
+  append a `<wa-copy-button from="<id>">`.
+- **No changes to `@11ty/eleventy-plugin-syntaxhighlight`'s own
+  options** (`preAttributes`/`codeAttributes`) — confirmed against its
+  source that they can't add a sibling element, so this round doesn't
+  touch them at all (see spec's Design Decisions).
+- **A monotonic per-build counter** generates each block's id
+  (`code-block-1`, `code-block-2`, …) — simplest way to guarantee
+  uniqueness without hashing content or tracking per-page state.
+- **German feedback labels** on `<wa-copy-button>`
+  (`copy-label`/`success-label`/`error-label`), matching the rest of
+  the site's language.
+- **Playwright, scoped to one E2E spec, is this project's first
+  automated test.** Approved as a deliberate, narrow exception to the
+  blog-relaunch spec's "no automated test framework" call — see
+  [`docs/spec/blog-relaunch.md`](../docs/spec/blog-relaunch.md)'s
+  Decisions & Revisions Log #1. General Playwright/CI rollout is
+  deferred to a separate future round, tracked in
+  [`docs/future/testing-infrastructure.md`](../docs/future/testing-infrastructure.md)
+  — this plan does not build toward it.
 
 ## Task List
 
-### Phase 1: Shortcode & rendering
+### Phase 1: Copy button end-to-end
 
-- [x] Task 1: Callout shortcode in `.eleventy.js`
+- [ ] Task 1: Fence-renderer override in `.eleventy.js`
+- [ ] Task 2: `.code-block` wrapper + button positioning in `base.css`
 
-### Checkpoint: Shortcode
-- [x] `npm run build` succeeds with both posts still on raw-HTML
-      callouts (shortcode exists but unused) — confirms the shortcode
-      registration itself doesn't break the build
-- [x] A scratch shortcode call renders the expected wrapper/icon/title
-      markup with Markdown in the body converted to HTML
+### Checkpoint: Visual/build
+- [ ] `npm run build` and `npm run lint` pass clean
+- [ ] Manual check in a real browser: every fenced block across both
+      example posts (js/css/bash) shows a working, correctly
+      positioned copy button; copied content is plain code with no
+      markup; keyboard-focusable; German success feedback shown
+- [ ] No horizontal overflow or visual overlap at 390px viewport width
 
-### Phase 2: Visual layout
+### Phase 2: Automated verification
 
-- [x] Task 2: `.callout` grid layout + icon styling in `base.css`
-
-### Checkpoint: Layout
-- [x] All three variants render a distinct, correctly colored icon,
-      vertically centered against the title, in a scratch page
-
-### Phase 3: Content migration
-
-- [x] Task 3: Convert both example posts' callouts to shortcode form
+- [ ] Task 3: Playwright E2E test for the copy button
 
 ### Checkpoint: Complete
-- [x] Every Success Criteria checkbox in the spec is checked
-- [x] `npm run build` and `npm run lint` pass clean
-- [x] Deliberately triggering an unrecognized variant fails the build
-      with a message naming the valid variants; removing the trigger
-      restores a clean build
+- [ ] `npm run test:e2e` passes
+- [ ] Every Success Criteria checkbox in the spec is checked
+- [ ] Ready for human review
 
 ## Task Detail
 
-### Task 1: Callout shortcode in `.eleventy.js`
+### Task 1: Fence-renderer override in `.eleventy.js`
 
-**Description:** Add the `CALLOUT_ICONS` variant→icon map, capture
-11ty's configured markdown-it instance via `amendLibrary("md", …)`,
-and register `addPairedShortcode("callout", …)` emitting the wrapper
-div, icon, title, and Markdown-rendered body. Throw on an unrecognized
-variant.
+**Description:** Inside the existing `amendLibrary("md", …)` callback,
+capture the current `mdLib.renderer.rules.fence`, replace it with a
+function that calls the original to get the highlighted
+`<pre><code>` HTML, injects a unique `id` (from a per-build counter)
+into the `<pre>` tag, and returns it wrapped in
+`<div class="code-block">…<wa-copy-button from="<id>" copy-label="Code
+kopieren" success-label="Kopiert!" error-label="Fehler beim
+Kopieren"></wa-copy-button></div>`.
 
 **Acceptance criteria:**
-- [x] `{% callout "variant" "Title" %}body{% endcallout %}` emits
-      `.callout.callout--{variant}` with a `<wa-icon>`,
-      `.callout__title`, and `.callout__body`
-- [x] Markdown inside the body (bold, code, links) renders as HTML, not
-      literal text
-- [x] An unrecognized variant throws, naming the valid variants
+- [ ] Every fenced code block in the built HTML is wrapped in
+      `<div class="code-block">` and followed by a `<wa-copy-button
+      from="...">` referencing its `<pre>`'s `id`
+- [ ] IDs are unique across a given page
+- [ ] Inline code (`` `code` ``) is unaffected — no wrapper, no id, no
+      button
+- [ ] Existing Prism syntax-highlighting markup inside `<code>` is
+      unchanged (this only wraps the existing output, doesn't
+      regenerate it)
 
 **Verification:**
-- [x] `npm run build` succeeds
-- [x] Manual check: a scratch shortcode call with `**bold**` inside
-      renders `<strong>`, not literal asterisks
-- [x] Manual check: an intentionally misspelled variant fails the
-      build with the expected error message
+- [ ] `npm run build` succeeds
+- [ ] Manual check: inspect built HTML (`public/posts/*/index.html`)
+      for the expected wrapper/id/button markup around each fenced
+      block
 
 **Dependencies:** None
 
@@ -106,68 +113,83 @@ variant.
 
 ---
 
-### Task 2: `.callout` grid layout + icon styling in `base.css`
+### Task 2: `.code-block` wrapper + button positioning in `base.css`
 
-**Description:** Turn `.callout` into a 2-column grid (icon column +
-title/body column), add `.callout__body` spanning both columns in row
-2, move the leading/trailing margin-reset rules from `.callout`'s
-direct children to `.callout__body`'s, and size/color `wa-icon` via
-`--callout-color`.
+**Description:** In the existing "Code & syntax highlighting" section,
+add `.code-block { position: relative; }` and position the
+`wa-copy-button` (e.g. `position: absolute; inset-block-start:
+var(--space-2xs); inset-inline-end: var(--space-2xs);`) so it sits in
+the block's corner without overlapping code text or breaking `pre`'s
+horizontal scroll.
 
 **Acceptance criteria:**
-- [x] Icon and title share row 1, vertically centered against each
-      other; body spans the full width in row 2
-- [x] Icon color follows `--callout-color` per variant automatically
-- [x] No doubled/missing margin at the top or bottom of a callout's
-      body content
+- [ ] Button is visibly positioned in a corner of the code block,
+      readable against `--color-code-bg` at both narrow and wide
+      viewports
+- [ ] Button does not obscure code text or trigger unwanted horizontal
+      scroll inside `pre`
+- [ ] Uses logical properties (`inset-inline-end`, not `right`),
+      consistent with the rest of the codebase
 
 **Verification:**
-- [x] `npm run lint` passes
-- [x] Manual check: all three variants rendered side by side, computed
-      icon color inspected via devtools per variant
+- [ ] `npm run lint` passes
+- [ ] Manual check: both example posts' code blocks at desktop
+      (~1400px) and mobile (~390px) widths, computed position
+      inspected via devtools
 
-**Dependencies:** Task 1 (styling targets the markup the shortcode
-emits)
+**Dependencies:** Task 1 (styles target the markup Task 1 emits)
 
 **Files touched:**
 - `src/assets/css/base.css`
 
 **Estimated scope:** Small (1 file)
 
----
+### Task 3: Playwright E2E test for the copy button
 
-### Task 3: Convert both example posts' callouts to shortcode form
-
-**Description:** Replace the three existing raw-HTML callouts (one
-`--note`, one `--tip` in `hello-world.md`; one `--warning` in
-`a-second-post.md`) with the one-line shortcode form.
+**Description:** Add `@playwright/test` as a devDependency, a minimal
+`playwright.config.js` (one browser project, base URL against a served
+build), and `tests/e2e/copy-button.spec.js`: navigate to a built post
+page containing a fenced code block, click its copy button, and assert
+the clipboard (via Playwright's clipboard permissions/read API)
+contains the block's plain-text code — no Prism markup. Add a
+`test:e2e` npm script. Scope stops here: no CI wiring, no other specs
+— see [`docs/future/testing-infrastructure.md`](../docs/future/testing-infrastructure.md)
+for that.
 
 **Acceptance criteria:**
-- [x] No raw `<div class="callout">` HTML remains in either post
-- [x] Rendered output is visually equivalent to (plus the new icon)
-      the prior raw-HTML version
+- [ ] `npm run test:e2e` runs the new spec against a built/served site
+- [ ] The spec fails if the copy button doesn't populate the clipboard
+      (verified by deliberately breaking the feature once, confirming
+      a red run, then restoring it)
+- [ ] The spec passes against the finished Task 1 + Task 2 output
+- [ ] `package.json`/`package-lock.json` reflect the new devDependency
+      only — no other dependency changes
 
 **Verification:**
-- [x] `npm run build` succeeds
-- [x] Manual check in-browser: both posts' callouts render correctly
-      with icons
+- [ ] `npm run test:e2e` passes
+- [ ] `npm run lint` and `npm run build` still pass (new files don't
+      break existing tooling)
 
-**Dependencies:** Tasks 1–2
+**Dependencies:** Tasks 1–2 (tests the markup and behavior they
+produce)
 
 **Files touched:**
-- `src/posts/hello-world.md`
-- `src/posts/a-second-post.md`
+- `package.json` (new devDependency + script)
+- `playwright.config.js` (new)
+- `tests/e2e/copy-button.spec.js` (new)
 
-**Estimated scope:** Small (2 files)
+**Estimated scope:** Small (3 files, one new devDependency)
 
 ## Risks and Mitigations
 
 | Risk | Impact | Mitigation |
 |---|---|---|
-| Assuming Liquid can't run paired shortcodes, prompting an unnecessary `markdownTemplateEngine` switch | Med | Confirmed against 11ty's own source (not just docs) during the idea-refine research pass before implementation started |
-| Paired-shortcode body not passed through Markdown rendering, breaking `**bold**`/links inside callouts | Med (would have silently broken existing content) | Resolved by capturing 11ty's own `md` library via `amendLibrary` and explicitly rendering the body through it |
-| Moving the icon into `.callout`'s grid disrupts the existing `:first-child`/`:last-child` margin resets | Low (realized, caught in implementation not after) | Resets retargeted to a new `.callout__body` wrapper instead of `.callout`'s direct children |
-| Icon name doesn't exist in the bundled Font Awesome Free set | Low | Verified against Web Awesome's icon browser before writing the map, per the idea doc's assumption list |
+| `preAttributes`/`codeAttributes` seemed like the "official" extension point but can't add a sibling element | Med (would have blocked the approach entirely) | Confirmed against `eleventy-plugin-syntaxhighlight`'s actual source before planning, not assumed from its README |
+| Copying `<pre>`'s `textContent` accidentally includes stray whitespace/newlines Prism's line-wrapping introduces | Low | Verify copied output by pasting it during Task 1/2 manual checks, not just visually inspecting the button |
+| `<wa-copy-button>` absolutely positioned over `pre`'s own `overflow-x: auto` scroll area causes it to scroll out of view on long lines | Low | Positioned relative to the outer `.code-block` wrapper (not inside the scrolling `pre`), so it stays fixed in the corner regardless of horizontal scroll |
+| Using a new Web Awesome component reads as introducing "new client-side JavaScript" and should have been asked about first | Low (assessed, not blocking) | The blog-relaunch spec's boundary explicitly carves out JS "a Web Awesome component needs natively" — `<wa-copy-button>` is exactly that, loaded via the same autoloader already in place, no new script tag or npm dependency |
+| Headless Chromium blocks clipboard read/write by default (permissions) | Med | Grant `clipboard-read`/`clipboard-write` permissions on the Playwright browser context explicitly in the test, rather than assuming default access |
+| Playwright test needs a served build (`npm run build` + a static server, or `eleventy --serve`), not just source files | Low | `playwright.config.js`'s `webServer` option starts the site itself before running specs, matching Playwright's own recommended pattern — no separate manual server step |
 
 ## Open Questions
 

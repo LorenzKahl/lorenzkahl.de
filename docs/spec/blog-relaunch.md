@@ -35,7 +35,7 @@ and the warm palette, readable body text, and no console/build errors.
 - **Fluid layout:** A [Utopia](https://utopia.fyi)-style fluid type and
   space scale — `clamp()`-based custom properties generated from a
   min/max viewport and min/max size pair, no JS or build step involved
-  (Utopia's site is only used to *generate* the CSS values once; nothing
+  (Utopia's site is only used to _generate_ the CSS values once; nothing
   is fetched at runtime). Used for heading/body font sizes and for
   spacing (margins, gaps, section padding) instead of fixed breakpoints.
 - **Syntax highlighting:** `@11ty/eleventy-plugin-syntaxhighlight`
@@ -94,6 +94,9 @@ src/
                              the fluid space scale for gaps/padding
   _data/
     site.js                → site title, description, URL, author
+tests/
+  e2e/                     → Playwright specs for client-side runtime
+                             behavior (see Decisions & Revisions Log #1)
 public/                    → build output (gitignored)
 ```
 
@@ -149,8 +152,8 @@ properties, no preprocessor):
   --font-body: -apple-system, "Segoe UI", Roboto, sans-serif;
 
   /* Utopia-generated fluid scale (values from utopia.fyi, min 320px / max 1240px viewport) */
-  --step-0: clamp(1rem, 0.92rem + 0.39vw, 1.19rem);       /* body text */
-  --step-2: clamp(1.56rem, 1.34rem + 1.12vw, 2.11rem);    /* h2 */
+  --step-0: clamp(1rem, 0.92rem + 0.39vw, 1.19rem); /* body text */
+  --step-2: clamp(1.56rem, 1.34rem + 1.12vw, 2.11rem); /* h2 */
   --space-m: clamp(1.5rem, 1.35rem + 0.78vw, 1.88rem);
   --space-l: clamp(2.25rem, 2.02rem + 1.17vw, 2.81rem);
 }
@@ -184,8 +187,17 @@ unit test. Verification is:
   equivalent) is valid RSS, Web Awesome components render (not just
   unstyled fallback content), and body text is legible (serif headings /
   sans body, warm palette applied).
-- No automated test framework (Jest/Vitest/etc.) is introduced — would
-  be disproportionate to a static content site with no business logic.
+- **Revised (see Decisions & Revisions Log #1):** no _unit_-test
+  framework (Jest/Vitest/etc.) is introduced — still disproportionate,
+  there is no business logic to unit test. Playwright is introduced,
+  narrowly, for end-to-end verification of client-side runtime
+  behavior that a static screenshot or DevTools inspection can't prove
+  (e.g. a clipboard write actually succeeding) — first used for the
+  copy-button feature, see
+  [`docs/spec/copy-button-code-blocks.md`](copy-button-code-blocks.md).
+  General Playwright/CI infrastructure beyond that scoped use is
+  tracked as a future round, not built speculatively now — see
+  [`docs/future/testing-infrastructure.md`](../future/testing-infrastructure.md).
 
 ## Boundaries
 
@@ -197,10 +209,33 @@ unit test. Verification is:
   beyond what a Web Awesome component needs natively. Changing the Node
   version pin. Touching `netlify.toml` / `CNAME` (deployment is out of
   scope for this round).
-- **Never do:** Add React/Vue/Svelte or any UI framework. Add a dark-mode
-  toggle. Add tags/categories, comments, analytics, or a newsletter
+- **Never do:** Add React/Vue/Svelte or any UI framework. ~~Add a dark-mode
+  toggle~~. Add tags/categories, comments, analytics, or a newsletter
   signup. Reintroduce the old design-token/cascade-layer CSS files.
   Commit secrets or API keys (none are expected in this project).
+
+## Decisions & Revisions Log
+
+Kept because it explains _why_ the code looks the way it does, not just
+_what_ it does.
+
+1. **2026-08-29 — Playwright introduced for client-side runtime
+   verification, narrowly scoped.** The original Testing Strategy
+   ruled out any automated test framework, reasonable while every
+   feature was build-time-only (Markdown → static HTML, no runtime
+   logic). The copy-button-on-code-blocks feature is the first with
+   genuine client-side runtime behavior (a `<wa-copy-button>` writing
+   to the clipboard), which a screenshot or DevTools computed-style
+   check can't prove actually works. Decision: add Playwright as a
+   dev dependency and write one E2E spec covering that feature, rather
+   than continuing to rely on manual browser verification for
+   interactive behavior going forward. Deliberately _not_ scoped up
+   into a general test-infrastructure rollout (CI wiring, coverage of
+   every existing feature) in the same pass — that's tracked as a
+   separate future round in
+   [`docs/future/testing-infrastructure.md`](../future/testing-infrastructure.md),
+   so this round stays a small, reviewable vertical slice rather than
+   an infrastructure project riding on a feature's coattails.
 
 ## Success Criteria
 
