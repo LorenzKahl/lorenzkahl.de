@@ -65,12 +65,12 @@ manual check, rather than landing the config change first and styling
 
 ### Phase 2: Automated verification
 
-- [ ] Task 3: Playwright E2E test for the copy button
+- [x] Task 3: Playwright E2E test for the copy button
 
 ### Checkpoint: Complete
-- [ ] `npm run test:e2e` passes
-- [ ] Every Success Criteria checkbox in the spec is checked
-- [ ] Ready for human review
+- [x] `npm run test:e2e` passes
+- [x] Every Success Criteria checkbox in the spec is checked
+- [x] Ready for human review
 
 ## Task Detail
 

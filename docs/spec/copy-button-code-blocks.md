@@ -148,18 +148,18 @@ Decisions). Verification is:
 
 ## Success Criteria
 
-- [ ] Every fenced code block across the site renders a copy button
+- [x] Every fenced code block across the site renders a copy button
       that copies the block's plain-text code content.
-- [ ] Copied text contains no syntax-highlighting markup or HTML
+- [x] Copied text contains no syntax-highlighting markup or HTML
       entities — exactly what was in the fenced block.
-- [ ] Button is keyboard-focusable and shows a German success/error
+- [x] Button is keyboard-focusable and shows a German success/error
       label after activation.
-- [ ] Inline code spans are unaffected — no copy button, no id, no
+- [x] Inline code spans are unaffected — no copy button, no id, no
       wrapper.
-- [ ] No horizontal overflow or visual overlap with code content at
+- [x] No horizontal overflow or visual overlap with code content at
       390px viewport width.
-- [ ] `npm run lint` and `npm run build` pass clean.
-- [ ] `npm run test:e2e` passes, covering: clicking the copy button
+- [x] `npm run lint` and `npm run build` pass clean.
+- [x] `npm run test:e2e` passes, covering: clicking the copy button
       results in the fenced block's plain-text code on the clipboard.
 
 ## Open Questions

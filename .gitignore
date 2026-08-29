@@ -18,5 +18,9 @@ public
 # Playwright MCP output
 .playwright-mcp/
 
+# Playwright test run artifacts
+test-results/
+playwright-report/
+
 # Local Claude Code settings
 .claude/

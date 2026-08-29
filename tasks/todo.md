@@ -98,7 +98,7 @@ re-verified here.
 
 ## Phase 2: Automated verification
 
-### Task 3: Playwright E2E test for the copy button
+### Task 3: Playwright E2E test for the copy button ✅ done
 
 **Description:** Add `@playwright/test` as a devDependency, a minimal
 `playwright.config.js` (one browser project, base URL against a served
@@ -112,17 +112,17 @@ script. Scope stops here: no CI wiring, no other specs — see
 for that.
 
 **Acceptance criteria:**
-- [ ] `npm run test:e2e` runs the new spec against a built/served site
-- [ ] The spec fails if the copy button doesn't populate the clipboard
+- [x] `npm run test:e2e` runs the new spec against a built/served site
+- [x] The spec fails if the copy button doesn't populate the clipboard
       (verified by deliberately breaking the feature once, confirming
       a red run, then restoring it)
-- [ ] The spec passes against the finished Task 1 + Task 2 output
-- [ ] `package.json`/`package-lock.json` reflect the new devDependency
+- [x] The spec passes against the finished Task 1 + Task 2 output
+- [x] `package.json`/`package-lock.json` reflect the new devDependency
       only — no other dependency changes
 
 **Verification:**
-- [ ] `npm run test:e2e` passes
-- [ ] `npm run lint` and `npm run build` still pass (new files don't
+- [x] `npm run test:e2e` passes
+- [x] `npm run lint` and `npm run build` still pass (new files don't
       break existing tooling)
 
 **Dependencies:** Tasks 1–2
@@ -137,6 +137,6 @@ for that.
 ---
 
 ## Checkpoint: Complete (after Task 3)
-- [ ] `npm run test:e2e` passes
-- [ ] Every Success Criteria checkbox in the spec is checked
-- [ ] Ready for human review
+- [x] `npm run test:e2e` passes
+- [x] Every Success Criteria checkbox in the spec is checked
+- [x] Ready for human review
