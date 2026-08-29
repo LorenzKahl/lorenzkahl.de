@@ -33,7 +33,7 @@ h6 {
 
   /* Higher specificity than the vertical-rhythm rule below (two type
      selectors vs. one) so it wins regardless of source order. */
-  & + :is(p, ul, ol, blockquote, figure, .callout, pre) {
+  & + :is(p, ul, ol, blockquote, figure, .callout, .code-block) {
     margin-block-start: 0;
   }
 }
@@ -89,8 +89,7 @@ p,
 ul,
 ol,
 blockquote,
-figure,
-pre {
+figure {
   margin-block: var(--space-m) 0;
 }
 
@@ -221,9 +220,11 @@ ol {
 
 .code-block {
   position: relative;
+  margin-block: var(--space-m) 0;
 }
 
 pre {
+  margin-block: 0;
   padding: var(--space-s);
   overflow-x: auto;
   background-color: var(--color-code-bg);
@@ -239,6 +240,8 @@ pre {
   inset-block-start: var(--space-2xs);
   inset-inline-end: var(--space-2xs);
   color: var(--color-text);
+  background-color: var(--color-code-bg);
+  border-radius: var(--space-3xs);
 }
 
 code {
