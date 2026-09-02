@@ -15,7 +15,7 @@ Round 1 (blog-relaunch) is archived at
 
 ## Phase 1: Data layer
 
-### Task 1: Readeck API client (`src/lib/readeck.js`)
+### Task 1: Readeck API client (`src/lib/readeck.js`) ✅ done
 
 **Description:** New module exporting `listBookmarksByLabel(label)`
 and `listAnnotations(bookmarkId)`. Both read `READECK_HOST` and
@@ -29,19 +29,22 @@ additionally filters the combined result on
 throw an `Error` including the status code and request URL.
 
 **Acceptance criteria:**
-- [ ] `listBookmarksByLabel("feature-on-website")` returns exactly the
+- [x] `listBookmarksByLabel("feature-on-website")` returns exactly the
       bookmarks tagged with that label from the real instance, deduped
       and complete across pages
-- [ ] `listAnnotations(id)` returns the raw annotations array for a
+- [x] `listAnnotations(id)` returns the raw annotations array for a
       given bookmark id
-- [ ] A non-2xx or timed-out request throws an `Error` whose message
+- [x] A non-2xx or timed-out request throws an `Error` whose message
       contains the HTTP status and the request URL
-- [ ] No secrets are logged, even on error
+- [x] No secrets are logged, even on error
 
 **Verification:**
-- [ ] `npm run lint` passes
-- [ ] Manual check: a throwaway script or temporary log call against
-      the real instance confirms correct filtering/pagination
+- [x] `npm run lint` passes
+- [x] Manual check: a throwaway script against the real instance
+      confirmed `listAnnotations` matches known-good data exactly, an
+      empty-result case for the (not-yet-used) `feature-on-website`
+      label returns `[]` without error, and a bad bookmark id throws
+      `Readeck API request failed: 404 Not Found (...)`
 
 **Dependencies:** None
 
