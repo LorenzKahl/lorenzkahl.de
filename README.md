@@ -25,6 +25,10 @@ npm run lint     # ESLint + Stylelint
 npm run format   # Prettier
 ```
 
+Für echte Inhalte auf `/reads` (statt einer leeren Seite) `.env.example`
+nach `.env` kopieren und einen Readeck-API-Token eintragen (in der
+eigenen Readeck-Instanz unter den Account-Einstellungen erzeugt).
+
 ## Lizenz
 
 [MIT](LICENSE)

@@ -273,19 +273,22 @@ stretched-link `__title-link`, `__authors`, `__meta`), `.reads-detail`
 
 ## Phase 3: Env & CI wiring
 
-### Task 8: Local env handling
+### Task 8: Local env handling ✅ done
 
 **Description:** Add `.env.example`. Update `package.json`'s
 `dev`/`build` scripts to use `node --env-file-if-exists=.env`. Add a
 "Local setup" note to `README.md`.
 
 **Acceptance criteria:**
-- [ ] `npm run dev`/`npm run build` work with no `.env` present
-- [ ] They pick up real values from a local `.env` file when present
-- [ ] `README.md` documents the setup step
+- [x] `npm run dev`/`npm run build` work with no `.env` present
+- [x] They pick up real values from a local `.env` file when present
+- [x] `README.md` documents the setup step
 
 **Verification:**
-- [ ] Manually toggle `.env` present/absent, confirm both behaviors
+- [x] Manually toggled `.env` present/absent: with it, both real
+      bookmarks build as detail pages; without it, build still
+      succeeds with the documented console warning and an empty
+      `/reads/`
 
 **Dependencies:** Task 3
 

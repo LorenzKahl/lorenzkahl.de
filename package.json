@@ -4,8 +4,8 @@
   "description": "Meine persönliche Spielwiese um Stuff™ auszuprobieren",
   "type": "module",
   "scripts": {
-    "dev": "eleventy --serve",
-    "build": "eleventy",
+    "dev": "node --env-file-if-exists=.env ./node_modules/.bin/eleventy --serve",
+    "build": "node --env-file-if-exists=.env ./node_modules/.bin/eleventy",
     "lint": "eslint . && stylelint \"src/**/*.css\" --allow-empty-input",
     "format": "prettier --write .",
     "test:e2e": "playwright test"

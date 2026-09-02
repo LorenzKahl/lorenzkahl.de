@@ -86,7 +86,7 @@ for full reasoning. Key points repeated here for quick reference:
 
 ### Phase 3: Env & CI wiring
 
-- [ ] Task 8: Local env handling (`package.json` scripts,
+- [x] Task 8: Local env handling (`package.json` scripts,
       `.env.example`, `README.md`)
 - [ ] Task 9: GitHub Actions wiring (`.github/actions/build/action.yml`,
       `.github/workflows/ci.yml`)
