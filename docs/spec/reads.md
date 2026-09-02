@@ -269,14 +269,14 @@ nötig. `deploy`- und `lint`-Job in `ci.yml` sind unverändert;
 
 ## Success Criteria
 
-- [ ] `/reads` zeigt genau die Bookmarks, deren `labels` das Label
+- [x] `/reads` zeigt genau die Bookmarks, deren `labels` das Label
       `feature-on-website` enthalten — nicht mehr, nicht weniger.
-- [ ] Jede Card zeigt Vorschaubild (oder Platzhalter), Titel,
+- [x] Jede Card zeigt Vorschaubild (oder Platzhalter), Titel,
       Original-Autor(en), sonstige Tags (ohne `feature-on-website`),
       sowie die beiden korrekten Zähler (Highlights gesamt /
       Anmerkungen mit Notiz).
-- [ ] Sortierung: neueste zuerst nach `created`.
-- [ ] Jede Detailseite (`/reads/{id}/`) zeigt alle Annotations des
+- [x] Sortierung: neueste zuerst nach `created`.
+- [x] Jede Detailseite (`/reads/{id}/`) zeigt alle Annotations des
       Bookmarks als Zitat; Annotations mit nicht-leerem `note` zeigen
       zusätzlich die Notiz; Annotations mit leerem `note` zeigen nur
       das Zitat.
@@ -287,18 +287,20 @@ nötig. `deploy`- und `lint`-Job in `ci.yml` sind unverändert;
       Zitate — verifiziert gegen echte Zielseiten. Bekannte Ausnahme:
       Highlights, die in Readeck mehrere Block-Elemente überspannen,
       s. Design Decisions' "Bekannte Grenze".
-- [ ] Fehlen `READECK_HOST`/`READECK_API_TOKEN`, bauen
+- [x] Fehlen `READECK_HOST`/`READECK_API_TOKEN`, bauen
       `npm run build`/`npm run dev` trotzdem erfolgreich (leere
       `/reads`-Seite, Warnung in der Konsole).
-- [ ] Sind die Env-Vars gesetzt und schlägt der Readeck-API-Call fehl,
+- [x] Sind die Env-Vars gesetzt und schlägt der Readeck-API-Call fehl,
       bricht der Build mit einer diagnostizierbaren Fehlermeldung ab.
-- [ ] `npm run lint`, `npm run build` und `npm run test:e2e` laufen
+- [x] `npm run lint`, `npm run build` und `npm run test:e2e` laufen
       fehlerfrei.
-- [ ] Kein horizontaler Overflow / keine visuelle Überlappung bei
+- [x] Kein horizontaler Overflow / keine visuelle Überlappung bei
       390px Viewport-Breite (Card-Grid und Detailseite).
 - [ ] CI (`lint`, `build`, `e2e`) ist grün, nachdem die beiden
       Repo-Secrets (`READECK_HOST`, `READECK_API_TOKEN`) angelegt
       wurden; `deploy` liefert eine Live-Seite mit echten Daten.
+      **Pending:** Diese Runde wurde noch nicht gepusht; die
+      Repo-Secrets sind noch nicht bestätigt angelegt.
 
 ## Open Questions
 

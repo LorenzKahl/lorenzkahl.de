@@ -1,0 +1,50 @@
+[
+  {
+    "id": "fixture-annotated",
+    "url": "https://example.com/annotated-article",
+    "title": "An Annotated Article",
+    "authors": ["Fixture Author"],
+    "tags": ["testing"],
+    "created": "2026-01-02T00:00:00Z",
+    "image": {
+      "src": "https://example.com/annotated-article/cover.jpg",
+      "width": 800,
+      "height": 450
+    },
+    "annotations": [
+      {
+        "id": "annotation-with-note",
+        "text": "This is a highlighted passage with a personal note attached.",
+        "note": "This is my note about the passage.",
+        "textFragmentUrl": "https://example.com/annotated-article#:~:text=This%20is%20a%20highlighted%20passage%20with%20a%20personal%20note%20attached."
+      },
+      {
+        "id": "annotation-without-note",
+        "text": "This is a plain highlight with no note.",
+        "note": null,
+        "textFragmentUrl": "https://example.com/annotated-article#:~:text=This%20is%20a%20plain%20highlight%20with%20no%20note."
+      }
+    ],
+    "highlightsCount": 2,
+    "annotatedCount": 1
+  },
+  {
+    "id": "fixture-no-image",
+    "url": "https://example.com/no-image-article",
+    "title": "An Article Without a Cover Image",
+    "authors": ["Another Author"],
+    "tags": [],
+    "created": "2026-01-01T00:00:00Z",
+    "image": null,
+    "annotations": [
+      {
+        "id": "annotation-solo",
+        "text": "The only highlight on this bookmark.",
+        "note": null,
+        "textFragmentUrl": "https://example.com/no-image-article#:~:text=The%20only%20highlight%20on%20this%20bookmark."
+      }
+    ],
+    "highlightsCount": 1,
+    "annotatedCount": 0
+  }
+]

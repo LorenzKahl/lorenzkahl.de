@@ -100,15 +100,16 @@ for full reasoning. Key points repeated here for quick reference:
 
 ### Phase 4: Automated tests
 
-- [ ] Task 10: Fixture data + Playwright wiring (`tests/fixtures/reads.json`,
+- [x] Task 10: Fixture data + Playwright wiring (`tests/fixtures/reads.json`,
       `playwright.config.js`)
-- [ ] Task 11: E2E spec (`tests/e2e/reads.spec.js`)
+- [x] Task 11: E2E spec (`tests/e2e/reads.spec.js`)
 
 ### Checkpoint: Complete
-- [ ] `npm run test:e2e` passes
-- [ ] Every Success Criteria checkbox in
-      [`docs/spec/reads.md`](../docs/spec/reads.md) is checked
-- [ ] Ready for human review
+- [x] `npm run test:e2e` passes
+- [x] Every Success Criteria checkbox in
+      [`docs/spec/reads.md`](../docs/spec/reads.md) is checked, except
+      the CI-secrets/live-deploy one (pending push)
+- [x] Ready for human review
 
 ## Task Detail
 

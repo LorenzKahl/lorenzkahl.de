@@ -337,7 +337,7 @@ stretched-link `__title-link`, `__authors`, `__meta`), `.reads-detail`
 
 ## Phase 4: Automated tests
 
-### Task 10: Fixture data + Playwright wiring
+### Task 10: Fixture data + Playwright wiring ✅ done
 
 **Description:** Add `tests/fixtures/reads.json` (2–3 fake bookmarks
 in `reads.js`'s normalized shape, covering an image-less bookmark and
@@ -345,14 +345,16 @@ both an annotated and unannotated highlight). Wire
 `playwright.config.js`'s `webServer.env.READS_FIXTURE_PATH`.
 
 **Acceptance criteria:**
-- [ ] Fixture matches `reads.js`'s normalized output shape exactly
-- [ ] Fixture covers annotated + unannotated highlight, and a
+- [x] Fixture matches `reads.js`'s normalized output shape exactly
+- [x] Fixture covers annotated + unannotated highlight, and a
       no-image bookmark
-- [ ] `playwright.config.js`'s `webServer` sets `READS_FIXTURE_PATH`
+- [x] `playwright.config.js`'s `webServer` sets `READS_FIXTURE_PATH`
+      (resolved to an absolute path via `import.meta.url`)
 
 **Verification:**
-- [ ] `npm run dev` with `READS_FIXTURE_PATH` set manually shows the
-      fixture content at `/reads/`
+- [x] Manually started the dev server with `READS_FIXTURE_PATH` set —
+      both fixture bookmarks rendered as cards with correct counts,
+      no-image bookmark fell back to the placeholder without error
 
 **Dependencies:** Task 3, Tasks 4–5
 
@@ -364,7 +366,7 @@ both an annotated and unannotated highlight). Wire
 
 ---
 
-### Task 11: E2E spec (`tests/e2e/reads.spec.js`)
+### Task 11: E2E spec (`tests/e2e/reads.spec.js`) ✅ done
 
 **Description:** Playwright spec asserting, against the fixture: card
 count matches fixture length; clicking a card navigates to
@@ -372,14 +374,18 @@ count matches fixture length; clicking a card navigates to
 highlight; a source link's href contains `#:~:text=`.
 
 **Acceptance criteria:**
-- [ ] `npm run test:e2e` includes and passes this spec
-- [ ] The spec fails if any of the four assertions is broken (verified
-      by deliberately breaking one, confirming red, then restoring)
-- [ ] No live Readeck API call happens during the test run
+- [x] `npm run test:e2e` includes and passes this spec
+- [x] The spec fails if any of the four assertions is broken (verified
+      by deliberately corrupting the expected note text, confirming a
+      red run, then restoring it)
+- [x] No live Readeck API call happens during the test run (fixture
+      only — the dev server never had `READECK_HOST`/`READECK_API_TOKEN`
+      set during the test run)
 
 **Verification:**
-- [ ] `npm run test:e2e` passes
-- [ ] `npm run lint` and `npm run build` still pass
+- [x] `npm run test:e2e` passes (all 4 new tests + the existing
+      copy-button spec)
+- [x] `npm run lint` and `npm run build` still pass
 
 **Dependencies:** Task 10
 
@@ -391,7 +397,8 @@ highlight; a source link's href contains `#:~:text=`.
 ---
 
 ## Checkpoint: Complete (after Task 11)
-- [ ] `npm run test:e2e` passes
-- [ ] Every Success Criteria checkbox in
-      [`docs/spec/reads.md`](../docs/spec/reads.md) is checked
-- [ ] Ready for human review
+- [x] `npm run test:e2e` passes
+- [x] Every Success Criteria checkbox in
+      [`docs/spec/reads.md`](../docs/spec/reads.md) is checked, except
+      the CI-secrets one (pending: not yet pushed/confirmed)
+- [x] Ready for human review
