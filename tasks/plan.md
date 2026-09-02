@@ -57,7 +57,7 @@ for full reasoning. Key points repeated here for quick reference:
 ### Phase 1: Data layer
 
 - [x] Task 1: Readeck API client (`src/lib/readeck.js`)
-- [ ] Task 2: Text-fragment helper (`src/lib/text-fragment.js`)
+- [x] Task 2: Text-fragment helper (`src/lib/text-fragment.js`)
 - [ ] Task 3: Eleventy global data (`src/_data/reads.js`)
 
 ### Checkpoint: Data layer

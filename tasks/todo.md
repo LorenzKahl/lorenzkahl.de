@@ -55,7 +55,7 @@ throw an `Error` including the status code and request URL.
 
 ---
 
-### Task 2: Text-fragment helper (`src/lib/text-fragment.js`)
+### Task 2: Text-fragment helper (`src/lib/text-fragment.js`) ✅ done
 
 **Description:** Pure function `buildTextFragmentUrl(pageUrl, rawText)`:
 normalize whitespace; quotes ≤ 20 words → `#:~:text=<quote>`; quotes
@@ -64,17 +64,18 @@ normalize whitespace; quotes ≤ 20 words → `#:~:text=<quote>`; quotes
 `pageUrl`'s existing hash (if any) rather than overwriting it.
 
 **Acceptance criteria:**
-- [ ] Short quotes produce a single-value `text=` fragment
-- [ ] Long quotes (> 20 words) produce a `text=start,end` range using
+- [x] Short quotes produce a single-value `text=` fragment
+- [x] Long quotes (> 20 words) produce a `text=start,end` range using
       exactly the first/last 10 words
-- [ ] A quote containing `-` or `,` round-trips correctly
-- [ ] A `pageUrl` that already has a hash keeps it, with `:~:text=`
+- [x] A quote containing `-` or `,` round-trips correctly
+- [x] A `pageUrl` that already has a hash keeps it, with `:~:text=`
       appended rather than replacing it
 
 **Verification:**
-- [ ] `npm run lint` passes
-- [ ] A few manual assertions confirm both branches and the escaping
-      edge case produce the expected string
+- [x] `npm run lint` passes
+- [x] Manual assertions confirmed both branches and the hyphen/comma
+      escaping case produce the expected string (verified the `URL`
+      setter doesn't double-encode our pre-escaped `%2D`/`%2C`)
 
 **Dependencies:** None
 
