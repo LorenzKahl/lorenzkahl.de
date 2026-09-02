@@ -20,15 +20,15 @@
     "last 2 versions"
   ],
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.6",
-    "@11ty/eleventy-plugin-rss": "^2.0.4",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.1",
-    "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.62.1",
-    "eslint": "^10.9.1",
-    "globals": "^15.9.0",
-    "prettier": "^3.9.6",
-    "stylelint": "^17.14.1",
-    "stylelint-config-standard": "^40.0.0"
+    "@11ty/eleventy": "3.1.6",
+    "@11ty/eleventy-plugin-rss": "2.0.4",
+    "@11ty/eleventy-plugin-syntaxhighlight": "5.0.1",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.62.1",
+    "eslint": "10.9.1",
+    "globals": "15.9.0",
+    "prettier": "3.9.6",
+    "stylelint": "17.14.1",
+    "stylelint-config-standard": "40.0.0"
   }
 }
