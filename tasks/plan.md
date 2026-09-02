@@ -58,11 +58,11 @@ for full reasoning. Key points repeated here for quick reference:
 
 - [x] Task 1: Readeck API client (`src/lib/readeck.js`)
 - [x] Task 2: Text-fragment helper (`src/lib/text-fragment.js`)
-- [ ] Task 3: Eleventy global data (`src/_data/reads.js`)
+- [x] Task 3: Eleventy global data (`src/_data/reads.js`)
 
 ### Checkpoint: Data layer
-- [ ] `npm run lint` passes on the three new files
-- [ ] A throwaway local check (e.g. a one-off `node -e` against the
+- [x] `npm run lint` passes on the three new files
+- [x] A throwaway local check (e.g. a one-off `node -e` against the
       real instance, or temporarily logging `reads` data during
       `npm run build`) confirms `reads.js` returns the expected
       normalized shape for at least one real tagged bookmark

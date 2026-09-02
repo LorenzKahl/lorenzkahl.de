@@ -86,7 +86,7 @@ normalize whitespace; quotes ≤ 20 words → `#:~:text=<quote>`; quotes
 
 ---
 
-### Task 3: Eleventy global data (`src/_data/reads.js`)
+### Task 3: Eleventy global data (`src/_data/reads.js`) ✅ done
 
 **Description:** Async default-exported function. Reads
 `READECK_HOST`/`READECK_API_TOKEN`; if either is missing, warns and
@@ -96,21 +96,25 @@ the spec's data shape, sorted by `createdDate` descending. Supports
 `READS_FIXTURE_PATH` to read fixture JSON instead of calling the API.
 
 **Acceptance criteria:**
-- [ ] Missing env vars → `[]` returned, one `console.warn`, no thrown
+- [x] Missing env vars → `[]` returned, one `console.warn`, no thrown
       error
-- [ ] Env vars set, API reachable → returns normalized, sorted array
+- [x] Env vars set, API reachable → returns normalized, sorted array
       matching the real tagged bookmarks
-- [ ] Env vars set, API call fails → the error propagates (build
+- [x] Env vars set, API call fails → the error propagates (build
       fails)
-- [ ] `READS_FIXTURE_PATH` set → data comes from that file, API is
+- [x] `READS_FIXTURE_PATH` set → data comes from that file, API is
       never called
-- [ ] `highlightsCount`/`annotatedCount` match manual counts for at
+- [x] `highlightsCount`/`annotatedCount` match manual counts for at
       least one bookmark
 
 **Verification:**
-- [ ] `npm run lint` passes
-- [ ] `npm run build` with real `.env` values succeeds and shows
-      correctly shaped data
+- [x] `npm run lint` passes
+- [x] Manual runs against the real instance confirmed: missing env
+      vars → `[]` + warning; real data → 2 already-tagged bookmarks
+      returned, newest first, with correct highlight/annotation
+      counts (2/1 and 23/0); an invalid token → the API's 401
+      propagates as a thrown error; a fixture file → its data comes
+      back with `createdDate` as a real `Date`, sorted correctly
 
 **Dependencies:** Tasks 1–2
 
@@ -121,9 +125,9 @@ the spec's data shape, sorted by `createdDate` descending. Supports
 
 ---
 
-## Checkpoint: Data layer (after Task 3)
-- [ ] `npm run lint` passes on the three new files
-- [ ] `reads` data confirmed to have the expected normalized shape
+## Checkpoint: Data layer (after Task 3) ✅ done
+- [x] `npm run lint` passes on the three new files
+- [x] `reads` data confirmed to have the expected normalized shape
       against at least one real tagged bookmark
 
 ## Phase 2: Templates, nav, CSS
