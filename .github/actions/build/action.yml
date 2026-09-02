@@ -5,6 +5,12 @@ inputs:
   github_token:
     description: "The GitHub token to use"
     required: true
+  readeck_host:
+    description: "Readeck instance base URL"
+    required: true
+  readeck_api_token:
+    description: "Readeck API bearer token"
+    required: true
 
 runs:
   using: "composite"
@@ -24,6 +30,9 @@ runs:
     # Build the site
     - name: 🏗️ Build Site
       shell: bash
+      env:
+        READECK_HOST: ${{ inputs.readeck_host }}
+        READECK_API_TOKEN: ${{ inputs.readeck_api_token }}
       run: npm run build
 
     # Upload the public directory as an artifact

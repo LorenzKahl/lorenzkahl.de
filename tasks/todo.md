@@ -301,7 +301,7 @@ stretched-link `__title-link`, `__authors`, `__meta`), `.reads-detail`
 
 ---
 
-### Task 9: GitHub Actions wiring
+### Task 9: GitHub Actions wiring ✅ done
 
 **Description:** Add `readeck_host`/`readeck_api_token` inputs to
 `.github/actions/build/action.yml`, forwarded as env vars. Update
@@ -309,15 +309,16 @@ stretched-link `__title-link`, `__authors`, `__meta`), `.reads-detail`
 `workflow_dispatch:` to the workflow trigger.
 
 **Acceptance criteria:**
-- [ ] `action.yml` declares and forwards both inputs
-- [ ] `ci.yml`'s `build` job passes both secrets
-- [ ] Manual "Run workflow" trigger available
-- [ ] `e2e`/`lint`/`deploy` jobs unchanged
+- [x] `action.yml` declares and forwards both inputs
+- [x] `ci.yml`'s `build` job passes both secrets
+- [x] Manual "Run workflow" trigger available
+- [x] `e2e`/`lint`/`deploy` jobs unchanged
 
 **Verification:**
-- [ ] YAML parses cleanly
-- [ ] After repo secrets are added (manual, out-of-band), a pushed
-      commit's `build` job succeeds
+- [x] YAML parses cleanly (`yaml.safe_load` on both files)
+- [ ] After repo secrets are added (manual, out-of-band) and this
+      lands on `main`, confirm the `build` job succeeds in the
+      Actions UI
 
 **Dependencies:** Task 3
 

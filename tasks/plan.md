@@ -88,14 +88,15 @@ for full reasoning. Key points repeated here for quick reference:
 
 - [x] Task 8: Local env handling (`package.json` scripts,
       `.env.example`, `README.md`)
-- [ ] Task 9: GitHub Actions wiring (`.github/actions/build/action.yml`,
+- [x] Task 9: GitHub Actions wiring (`.github/actions/build/action.yml`,
       `.github/workflows/ci.yml`)
 
 ### Checkpoint: CI green
 - [ ] Repo secrets `READECK_HOST`/`READECK_API_TOKEN` added manually
-      (prerequisite, not a code task)
+      (prerequisite, not a code task) — not yet confirmed
 - [ ] `lint`, `build`, `e2e` jobs pass on a PR; `deploy` succeeds on
-      merge to `main` with real `/reads` content live
+      merge to `main` with real `/reads` content live (pending: this
+      work hasn't been pushed yet)
 
 ### Phase 4: Automated tests
 

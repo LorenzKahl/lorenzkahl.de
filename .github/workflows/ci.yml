@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   lint:
@@ -49,6 +50,8 @@ jobs:
         uses: ./.github/actions/build
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          readeck_host: ${{ secrets.READECK_HOST }}
+          readeck_api_token: ${{ secrets.READECK_API_TOKEN }}
 
   e2e:
     name: 🎭 E2E Tests
