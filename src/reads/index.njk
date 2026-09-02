@@ -1,0 +1,40 @@
+---
+title: Reads
+description: Artikel mit meinen Highlights und Anmerkungen aus Readeck.
+permalink: /reads/
+layout: layouts/base.njk
+---
+<h1>Reads</h1>
+
+<ul class="reads-grid">
+  {% for read in reads %}
+  <li>
+    <wa-card class="reads-card" with-media with-header>
+      <img
+        slot="media"
+        src="{{ read.image.src or '/assets/images/placeholder-content.svg' }}"
+        width="{{ read.image.width or 1200 }}"
+        height="{{ read.image.height or 675 }}"
+        alt=""
+      >
+      <h2 slot="header">
+        <a class="reads-card__title-link" href="/reads/{{ read.id }}/">{{ read.title }}</a>
+      </h2>
+      {% if read.authors.length %}
+      <p class="reads-card__authors">{{ read.authors | join(", ") }}</p>
+      {% endif %}
+      {% if read.tags.length %}
+      <div class="reads-card__meta">
+        {% for tag in read.tags %}
+        <wa-tag variant="neutral" size="s">{{ tag }}</wa-tag>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <div class="reads-card__meta">
+        <wa-badge variant="neutral" appearance="outlined">{{ read.highlightsCount }} Highlights</wa-badge>
+        <wa-badge variant="neutral" appearance="outlined">{{ read.annotatedCount }} Anmerkungen</wa-badge>
+      </div>
+    </wa-card>
+  </li>
+  {% endfor %}
+</ul>

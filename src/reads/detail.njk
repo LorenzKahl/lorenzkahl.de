@@ -1,0 +1,41 @@
+---
+pagination:
+  data: reads
+  size: 1
+  alias: read
+permalink: "/reads/{{ read.id }}/"
+eleventyComputed:
+  title: "{{ read.title | safe }}"
+layout: layouts/base.njk
+---
+<article class="reads-detail">
+  <h1>{{ read.title }}</h1>
+  <p class="reads-detail__meta">
+    {% if read.authors.length %}{{ read.authors | join(", ") }} ·{% endif %}
+    <time datetime="{{ read.created }}">{{ read.createdDate | readableDate }}</time>
+  </p>
+  {% if read.tags.length %}
+  <div class="reads-detail__meta">
+    {% for tag in read.tags %}
+    <wa-tag variant="neutral" size="s">{{ tag }}</wa-tag>
+    {% endfor %}
+  </div>
+  {% endif %}
+  <p><a href="{{ read.url }}" target="_blank" rel="noopener">Original-Artikel öffnen</a></p>
+
+  <ol class="reads-detail__annotations">
+    {% for annotation in read.annotations %}
+    <li class="reads-detail__annotation">
+      <blockquote class="reads-detail__quote">
+        <p>{{ annotation.text }}</p>
+      </blockquote>
+      {% if annotation.note %}
+      <p class="reads-detail__note">{{ annotation.note }}</p>
+      {% endif %}
+      <a class="reads-detail__source-link" href="{{ annotation.textFragmentUrl }}" target="_blank" rel="noopener">
+        Zur Stelle im Original
+      </a>
+    </li>
+    {% endfor %}
+  </ol>
+</article>

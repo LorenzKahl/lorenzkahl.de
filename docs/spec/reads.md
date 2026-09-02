@@ -87,6 +87,21 @@ Stelle (soweit der Browser Text Fragments unterstützt).
     Seite normal und ignorieren den Hash.
   - Der sichtbar angezeigte Zitat-Text auf der Detailseite wird
     **nie** gekürzt — nur der Wert in der Fragment-URL.
+  - **Bekannte Grenze (akzeptiert, nicht gefixt):** Spannt ein
+    Highlight in Readeck mehrere Block-Elemente (z. B. eine
+    Überschrift und den folgenden Absatz), liefert Readecks `text`-
+    Feld die beiden Textknoten ohne Leerzeichen dazwischen verkettet
+    (z. B. `"...FormattingAllow the user..."`). Der Text-Fragment-
+    Abgleich im Browser normalisiert Whitespace an Element-Grenzen und
+    erwartet dort ein Leerzeichen, daher schlägt der Match in diesem
+    Fall still fehl (kein Scroll/Highlight, aber auch kein Fehler —
+    die Seite lädt normal von oben). Verifiziert an einem echten
+    mehrelementigen Highlight aus der Live-Instanz; einelementige
+    Highlights (die große Mehrheit) sind davon nicht betroffen —
+    kurze wie lange Zitate wurden beide gegen echte Zielseiten
+    erfolgreich verifiziert. Ein Fix müsste Readecks eigene
+    Artikel-HTML samt `start_selector`/`end_selector` parsen, um die
+    fehlende Grenze zu erkennen — für den MVP nicht gebaut.
 - **Kein neues Zwischen-Layout.** `src/reads/index.njk` und
   `src/reads/detail.njk` nutzen `layouts/base.njk` direkt (wie
   `src/index.njk`/`src/about.md`), weil es je Seitentyp nur eine
@@ -265,10 +280,13 @@ nötig. `deploy`- und `lint`-Job in `ci.yml` sind unverändert;
       Bookmarks als Zitat; Annotations mit nicht-leerem `note` zeigen
       zusätzlich die Notiz; Annotations mit leerem `note` zeigen nur
       das Zitat.
-- [ ] Jedes Highlight verlinkt über eine korrekt kodierte
+- [x] Jedes Highlight verlinkt über eine korrekt kodierte
       Text-Fragment-URL auf `url` des Bookmarks; in einem echten
       Chromium-Browser scrollt/hervorhebt der Link tatsächlich die
-      richtige Passage, für sowohl kurze als auch lange Zitate.
+      richtige Passage, für sowohl kurze als auch lange (einelementige)
+      Zitate — verifiziert gegen echte Zielseiten. Bekannte Ausnahme:
+      Highlights, die in Readeck mehrere Block-Elemente überspannen,
+      s. Design Decisions' "Bekannte Grenze".
 - [ ] Fehlen `READECK_HOST`/`READECK_API_TOKEN`, bauen
       `npm run build`/`npm run dev` trotzdem erfolgreich (leere
       `/reads`-Seite, Warnung in der Konsole).

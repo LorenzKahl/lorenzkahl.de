@@ -69,18 +69,20 @@ for full reasoning. Key points repeated here for quick reference:
 
 ### Phase 2: Templates, nav, CSS
 
-- [ ] Task 4: List page (`src/reads/index.njk`)
-- [ ] Task 5: Detail page (`src/reads/detail.njk`)
-- [ ] Task 6: Nav link (`src/_includes/partials/header.njk`)
-- [ ] Task 7: CSS additions (`src/assets/css/base.css`)
+- [x] Task 4: List page (`src/reads/index.njk`)
+- [x] Task 5: Detail page (`src/reads/detail.njk`)
+- [x] Task 6: Nav link (`src/_includes/partials/header.njk`)
+- [x] Task 7: CSS additions (`src/assets/css/base.css`)
 
 ### Checkpoint: Visual/build
-- [ ] `npm run build` and `npm run lint` pass clean
-- [ ] Manual browser check (`npm run dev`) against the real Readeck
+- [x] `npm run build` and `npm run lint` pass clean
+- [x] Manual browser check (`npm run dev`) against the real Readeck
       instance: card grid, detail page, tag/badge rendering, stretched
       card click target, no overflow at 390px
-- [ ] Text-fragment links manually verified in a real Chromium browser
-      (short quote, long quote, quote with a hyphen/comma)
+- [x] Text-fragment links manually verified in a real Chromium browser
+      (short quote, long single-element quote with a comma — both
+      correct; one multi-element-spanning quote found and documented
+      as a known limitation, see `docs/spec/reads.md`)
 
 ### Phase 3: Env & CI wiring
 

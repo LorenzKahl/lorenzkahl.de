@@ -132,7 +132,7 @@ the spec's data shape, sorted by `createdDate` descending. Supports
 
 ## Phase 2: Templates, nav, CSS
 
-### Task 4: List page (`src/reads/index.njk`)
+### Task 4: List page (`src/reads/index.njk`) ✅ done
 
 **Description:** Flat template, `permalink: /reads/`,
 `layout: layouts/base.njk`. One `<wa-card class="reads-card">` per
@@ -142,16 +142,20 @@ default slot = authors, `<wa-tag>` per non-feature tag, `<wa-badge>`
 per count.
 
 **Acceptance criteria:**
-- [ ] Renders one card per entry in `reads`, no more, no fewer
-- [ ] Card title links to `/reads/{{ read.id }}/`
-- [ ] Missing image falls back to `placeholder-content.svg`
-- [ ] `feature-on-website` never appears among rendered tags
-- [ ] Both counts render and match the underlying data
+- [x] Renders one card per entry in `reads`, no more, no fewer
+- [x] Card title links to `/reads/{{ read.id }}/`
+- [x] Missing image falls back to `placeholder-content.svg`
+- [x] `feature-on-website` never appears among rendered tags
+- [x] Both counts render and match the underlying data
 
 **Verification:**
-- [ ] `npm run build` succeeds; `public/reads/index.html` has the
-      expected number of cards
-- [ ] Manual browser check (paired with Task 7)
+- [x] `npm run build` succeeds; `public/reads/index.html` has the
+      expected number of cards (both of the author's real tagged
+      bookmarks)
+- [x] Manual browser check (paired with Task 7) — see checkpoint below.
+      Switched `wa-badge`/`wa-tag` to `appearance="outlined"`/
+      `size="s"` after visual review (default filled badges clashed
+      with the warm palette; `size="small"` was also deprecated)
 
 **Dependencies:** Task 3
 
@@ -162,22 +166,34 @@ per count.
 
 ---
 
-### Task 5: Detail page (`src/reads/detail.njk`)
+### Task 5: Detail page (`src/reads/detail.njk`) ✅ done
 
 **Description:** Paginated template over `reads`,
 `permalink: "/reads/{{ read.id }}/"`. Renders each annotation's quote,
 its note when present, and a source link to `textFragmentUrl`.
 
 **Acceptance criteria:**
-- [ ] One detail page per entry in `reads`
-- [ ] Every annotation renders its full, untruncated quote
-- [ ] A note renders only when present
-- [ ] Source link's `href` is the annotation's `textFragmentUrl`
+- [x] One detail page per entry in `reads`
+- [x] Every annotation renders its full, untruncated quote
+- [x] A note renders only when present
+- [x] Source link's `href` is the annotation's `textFragmentUrl`
 
 **Verification:**
-- [ ] `npm run build` succeeds; one detail page per tagged bookmark
-- [ ] Manual browser check including clicking a source link in
-      Chromium to confirm the text-fragment jump/highlight works
+- [x] `npm run build` succeeds; one detail page per tagged bookmark
+- [x] Manual browser check: clicked source links against the real
+      target sites. Short quote and a single-element long quote
+      (comma-separated range) both scrolled to and highlighted the
+      correct passage. Found and documented one known limitation (see
+      `docs/spec/reads.md`): a highlight spanning multiple block
+      elements in Readeck's source (heading + following paragraph)
+      concatenates without a space in the `text` field, which the
+      browser's text-fragment matcher doesn't normalize, so that one
+      case fails to match (degrades to a plain, unhighlighted link —
+      no error). Also fixed a real bug found during this check: the
+      page `<title>` was double-HTML-escaped (`&amp;quot;`) because
+      `eleventyComputed.title` pre-escaped `read.title` before
+      `base.njk`'s `{{ title }}` escaped it again — fixed with
+      `{{ read.title | safe }}` in `eleventyComputed`
 
 **Dependencies:** Task 3
 
@@ -188,16 +204,17 @@ its note when present, and a source link to `textFragmentUrl`.
 
 ---
 
-### Task 6: Nav link (`src/_includes/partials/header.njk`)
+### Task 6: Nav link (`src/_includes/partials/header.njk`) ✅ done
 
 **Description:** Add `<a href="/reads/">Reads</a>` alongside the
 existing links.
 
 **Acceptance criteria:**
-- [ ] Nav link to `/reads/` appears on every page
+- [x] Nav link to `/reads/` appears on every page
 
 **Verification:**
-- [ ] `npm run build` succeeds; spot-check built HTML
+- [x] `npm run build` succeeds; confirmed via browser snapshot on
+      both `/reads/` and detail pages
 
 **Dependencies:** None
 
@@ -208,7 +225,7 @@ existing links.
 
 ---
 
-### Task 7: CSS additions (`src/assets/css/base.css`)
+### Task 7: CSS additions (`src/assets/css/base.css`) ✅ done
 
 **Description:** New sections: `.reads-grid`, `.reads-card` (+
 stretched-link `__title-link`, `__authors`, `__meta`), `.reads-detail`
@@ -216,17 +233,24 @@ stretched-link `__title-link`, `__authors`, `__meta`), `.reads-detail`
 `__source-link`). Existing design tokens only.
 
 **Acceptance criteria:**
-- [ ] Card grid reflows responsively, no fixed breakpoints
-- [ ] Entire card is clickable (stretched-link), title text is the
+- [x] Card grid reflows responsively, no fixed breakpoints
+- [x] Entire card is clickable (stretched-link), title text is the
       accessible link name
-- [ ] Detail-page annotation list has a visible divider between
+- [x] Detail-page annotation list has a visible divider between
       entries
-- [ ] No class name violates `.stylelintrc`'s `selector-class-pattern`
+- [x] No class name violates `.stylelintrc`'s `selector-class-pattern`
 
 **Verification:**
-- [ ] `npm run lint` (Stylelint) passes
-- [ ] Manual browser check at ~1400px and ~390px: no overflow, no
-      overlap, card clickable via mouse and keyboard
+- [x] `npm run lint` (Stylelint) passes
+- [x] Manual browser check at 1400px and 390px (Playwright MCP,
+      Chrome for Testing): no horizontal overflow at either width
+      (`scrollWidth === clientWidth` confirmed via
+      `document.documentElement`), single-column grid at 390px,
+      two-column at 1400px. Clicking anywhere on a card (e.g. the
+      author text) is correctly intercepted by the stretched title
+      link. Keyboard: Tab reaches the card title link in document
+      order (after the nav links) and Enter navigates to its detail
+      page
 
 **Dependencies:** Tasks 4–5
 
@@ -237,13 +261,15 @@ stretched-link `__title-link`, `__authors`, `__meta`), `.reads-detail`
 
 ---
 
-## Checkpoint: Visual/build (after Task 7)
-- [ ] `npm run build` and `npm run lint` pass clean
-- [ ] Manual browser check against the real Readeck instance: card
+## Checkpoint: Visual/build (after Task 7) ✅ done
+- [x] `npm run build` and `npm run lint` pass clean
+- [x] Manual browser check against the real Readeck instance: card
       grid, detail page, tag/badge rendering, stretched card click
-      target, no overflow at 390px
-- [ ] Text-fragment links manually verified in Chromium (short quote,
-      long quote, quote with a hyphen/comma)
+      target, no overflow at 390px or 1400px
+- [x] Text-fragment links manually verified in Chromium against real
+      target sites: short quote ✅, long single-element quote (comma
+      escaping) ✅, long multi-element-spanning quote ❌ (known,
+      documented limitation — see Task 5 and `docs/spec/reads.md`)
 
 ## Phase 3: Env & CI wiring
 
