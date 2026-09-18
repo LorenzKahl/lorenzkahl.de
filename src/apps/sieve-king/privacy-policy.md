@@ -44,4 +44,5 @@ Zahlungs- oder Personendaten.
 
 ## Kontakt
 
-Fragen zu dieser Datenschutzerklärung: [sieveking@lorenzkahl.de](mailto:sieveking@lorenzkahl.de)
+Fragen zu dieser Datenschutzerklärung beantworte ich gerne über das
+Kontaktformular auf der [Support-Seite](/apps/sieve-king/).
