@@ -12,6 +12,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPlugin(syntaxHighlight);
 
   eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy("src/apps/**/*.png");
 
   eleventyConfig.addFilter("readableDate", (dateObj) =>
     new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "long", year: "numeric" }).format(
