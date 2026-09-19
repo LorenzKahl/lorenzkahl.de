@@ -76,10 +76,10 @@ separat.
       event.preventDefault();
       const subject = subjectField.value.trim();
       const message = messageField.value.trim();
-      const params = new URLSearchParams();
-      if (subject) params.set("subject", subject);
-      if (message) params.set("body", message);
-      const query = params.toString();
+      const parts = [];
+      if (subject) parts.push(`subject=${encodeURIComponent(subject)}`);
+      if (message) parts.push(`body=${encodeURIComponent(message)}`);
+      const query = parts.join("&");
       window.location.href = `mailto:${user}@${domain}${query ? `?${query}` : ""}`;
     });
   })();
