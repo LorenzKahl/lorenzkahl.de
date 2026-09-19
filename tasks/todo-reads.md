@@ -331,8 +331,8 @@ stretched-link `__title-link`, `__authors`, `__meta`), `.reads-detail`
 ---
 
 ## Checkpoint: CI green (after Task 9)
-- [ ] Repo secrets `READECK_HOST`/`READECK_API_TOKEN` added manually
-- [ ] `lint`, `build`, `e2e` jobs pass on a PR; `deploy` succeeds on
+- [x] Repo secrets `READECK_HOST`/`READECK_API_TOKEN` added manually
+- [x] `lint`, `build`, `e2e` jobs pass on a PR; `deploy` succeeds on
       merge to `main` with real `/reads` content live
 
 ## Phase 4: Automated tests
