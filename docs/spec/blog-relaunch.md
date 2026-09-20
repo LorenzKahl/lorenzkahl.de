@@ -248,7 +248,7 @@ _what_ it does.
    the copy-button spec (and any future one written under this rule)
    runs automatically, not just locally.
 3. **2026-09-20 — Reverted the /reads-card redesign's drop of Web
-   Awesome components; restyled via CSS Shadow Parts instead.** The
+   Awesome components; restyled via direct host CSS instead.** The
    `388d83f` "Redesign the /reads cards" commit replaced
    `<wa-card>`/`<wa-tag>`/`<wa-badge>` with plain `<div>`/`<span>`
    markup to escape a "generic SaaS card" look (chip-style tags,
@@ -258,18 +258,22 @@ _what_ it does.
    deviation from this spec's "Web Awesome as the design system, kept
    loaded via CDN only" constraint (see Boundaries above). Decision:
    restore `<wa-card>`/`<wa-tag>`/`<wa-badge>` in
-   `src/reads/index.njk` and reproduce the same visual with
-   `::part(base)` overrides (CSS Shadow Parts) in
-   `src/assets/css/base.css`, instead of replacing the components —
-   the same flat, borderless, textual look is achievable by
-   overriding a component's exposed internals rather than abandoning
-   the component. Only the `base` part is used, since no other part
-   names for these components could be verified against the pinned
-   `webawesome@3.12.0` CDN build in this environment; the actual
-   visual result needs confirming in a network-unrestricted
-   environment (GitHub Codespaces, or after merge on the live site),
-   not from screenshots taken where the Web Awesome CDN is
-   unreachable.
+   `src/reads/index.njk`, reproducing the same visual without dropping
+   the components. First attempt at this used `::part(base)` overrides
+   and shipped with a caveat that the part names couldn't be verified
+   from the dev sandbox (no CDN access there) — once live, the actual
+   site showed fully default Web Awesome styling (filled blue badges,
+   bordered tag chips), i.e. the overrides did nothing. Cloning
+   `github.com/shoelace-style/webawesome` at the pinned `v3.12.0` tag
+   (GitHub's own repo, reachable where the CDN wasn't) showed why:
+   `wa-card` and `wa-tag` don't expose a `base` part at all (`wa-tag`'s
+   own doc comment reads "base - Deprecated. Style the host element
+   instead"), and `wa-badge`'s `base` part exists but carries no
+   styling — every one of these components sets its actual chrome
+   (background, padding, border, radius) on `:host` in its shadow
+   stylesheet, which is the actually-supported override surface. Fixed
+   by targeting `.reads-card`/`.reads-card__tag`/`.reads-card__badge`
+   directly with plain CSS instead of `::part()`.
 
 ## Success Criteria
 
