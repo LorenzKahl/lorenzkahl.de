@@ -247,6 +247,29 @@ _what_ it does.
    wires `npm run test:e2e` into CI (`.github/workflows/ci.yml`), so
    the copy-button spec (and any future one written under this rule)
    runs automatically, not just locally.
+3. **2026-09-20 — Reverted the /reads-card redesign's drop of Web
+   Awesome components; restyled via CSS Shadow Parts instead.** The
+   `388d83f` "Redesign the /reads cards" commit replaced
+   `<wa-card>`/`<wa-tag>`/`<wa-badge>` with plain `<div>`/`<span>`
+   markup to escape a "generic SaaS card" look (chip-style tags,
+   outlined badges) that clashed with the "Warm Editorial" direction
+   from a design-canvas session — without flagging that dropping Web
+   Awesome components entirely was itself a boundary-relevant
+   deviation from this spec's "Web Awesome as the design system, kept
+   loaded via CDN only" constraint (see Boundaries above). Decision:
+   restore `<wa-card>`/`<wa-tag>`/`<wa-badge>` in
+   `src/reads/index.njk` and reproduce the same visual with
+   `::part(base)` overrides (CSS Shadow Parts) in
+   `src/assets/css/base.css`, instead of replacing the components —
+   the same flat, borderless, textual look is achievable by
+   overriding a component's exposed internals rather than abandoning
+   the component. Only the `base` part is used, since no other part
+   names for these components could be verified against the pinned
+   `webawesome@3.12.0` CDN build in this environment; the actual
+   visual result needs confirming in a network-unrestricted
+   environment (GitHub Codespaces, or after merge on the live site),
+   not from screenshots taken where the Web Awesome CDN is
+   unreachable.
 
 ## Success Criteria
 

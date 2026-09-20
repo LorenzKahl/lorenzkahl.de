@@ -436,20 +436,31 @@ code {
 }
 
 .reads-card {
+  /* Containing block for the stretched title link — set on the host
+     itself, not ::part(base); see .reads-card__title-link below. */
   position: relative;
   height: 100%;
-  overflow: hidden;
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--space-2xs);
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--color-text) 6%, transparent),
-    0 6px 16px color-mix(in srgb, var(--color-text) 7%, transparent);
 
   /* Lighter than --color-muted: at this size the default muted brown
      still clears WCAG AA (~7.3:1 on --color-bg) with room to spare —
      lightening to ~5:1 reads calmer without risking the minimum. */
   --reads-muted: #6c6458;
+
+  /* "base" is the only Shadow Part this codebase can verify for
+     webawesome@3.12.0 — a near-universal root/wrapper part across
+     Shoelace-family components; the CDN's own docs are unreachable
+     from this environment to confirm any other part name. Card chrome
+     lives here since ::part(base) is what actually paints the box. */
+  &::part(base) {
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--space-2xs);
+    box-shadow:
+      0 1px 2px color-mix(in srgb, var(--color-text) 6%, transparent),
+      0 6px 16px color-mix(in srgb, var(--color-text) 7%, transparent);
+  }
 }
 
 .reads-card__cover {
@@ -459,17 +470,32 @@ code {
   object-fit: cover;
 }
 
-.reads-card__body {
-  padding: var(--space-m);
+.reads-card__tags {
+  margin-block-end: var(--space-2xs);
 }
 
-.reads-card__tags {
-  margin-bottom: var(--space-2xs);
-  font-size: var(--step-n2);
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--color-accent);
+.reads-card__tag {
+  &::part(base) {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    font-family: var(--font-body);
+    font-size: var(--step-n2);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  &:not(:last-child)::after {
+    content: " · ";
+    font-size: var(--step-n2);
+    font-weight: 600;
+    color: var(--color-accent);
+  }
 }
 
 .reads-card__title {
@@ -501,8 +527,27 @@ code {
   margin-block-start: var(--space-s);
   padding-block-start: var(--space-xs);
   border-block-start: 1px solid var(--color-border);
-  font-size: var(--step-n2);
-  color: var(--reads-muted);
+}
+
+.reads-card__badge {
+  &::part(base) {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    font-family: var(--font-body);
+    font-size: var(--step-n2);
+    font-weight: 400;
+    color: var(--reads-muted);
+  }
+
+  &:not(:last-child)::after {
+    content: " · ";
+    font-size: var(--step-n2);
+    color: var(--reads-muted);
+  }
 }
 
 .reads-detail__meta {
