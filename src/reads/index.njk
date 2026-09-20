@@ -9,32 +9,29 @@ layout: layouts/base.njk
 <ul class="reads-grid">
   {% for read in reads %}
   <li>
-    <wa-card class="reads-card" with-media with-header>
+    <div class="reads-card">
       <img
-        slot="media"
+        class="reads-card__cover"
         src="{{ read.image.src or '/assets/images/placeholder-content.svg' }}"
         width="{{ read.image.width or 1200 }}"
         height="{{ read.image.height or 675 }}"
         alt=""
       >
-      <h2 slot="header">
-        <a class="reads-card__title-link" href="/reads/{{ read.id }}/">{{ read.title }}</a>
-      </h2>
-      {% if read.authors.length %}
-      <p class="reads-card__authors">{{ read.authors | join(", ") }}</p>
-      {% endif %}
-      {% if read.tags.length %}
-      <div class="reads-card__meta">
-        {% for tag in read.tags %}
-        <wa-tag variant="neutral" size="s">{{ tag }}</wa-tag>
-        {% endfor %}
+      <div class="reads-card__body">
+        {% if read.tags.length %}
+        <div class="reads-card__tags">{{ read.tags | join(" · ") }}</div>
+        {% endif %}
+        <h2 class="reads-card__title">
+          <a class="reads-card__title-link" href="/reads/{{ read.id }}/">{{ read.title }}</a>
+        </h2>
+        {% if read.authors.length %}
+        <p class="reads-card__authors">{{ read.authors | join(", ") }}</p>
+        {% endif %}
+        <div class="reads-card__meta">
+          <span>{{ read.highlightsCount }} Highlights</span>{% if read.annotatedCount %} <span>&middot; {{ read.annotatedCount }} Anmerkungen</span>{% endif %}
+        </div>
       </div>
-      {% endif %}
-      <div class="reads-card__meta">
-        <wa-badge variant="neutral" appearance="outlined">{{ read.highlightsCount }} Highlights</wa-badge>
-        <wa-badge variant="neutral" appearance="outlined">{{ read.annotatedCount }} Anmerkungen</wa-badge>
-      </div>
-    </wa-card>
+    </div>
   </li>
   {% endfor %}
 </ul>
