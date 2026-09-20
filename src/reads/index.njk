@@ -32,7 +32,7 @@ layout: layouts/base.njk
       <p class="reads-card__authors">{{ read.authors | join(", ") }}</p>
       {% endif %}
       <div class="reads-card__meta">
-        <wa-badge class="reads-card__badge">{{ read.highlightsCount }} Highlights</wa-badge>{% if read.annotatedCount %}<wa-badge class="reads-card__badge">{{ read.annotatedCount }} Anmerkungen</wa-badge>{% endif %}
+        <wa-badge class="reads-card__badge">{{ read.highlightsCount }} Highlights</wa-badge><wa-badge class="reads-card__badge">{{ read.annotatedCount }} Anmerkungen</wa-badge>
       </div>
     </wa-card>
   </li>
