@@ -444,7 +444,6 @@ code {
      the host itself is the actual supported override mechanism, so
      that's what's used throughout this component, not ::part(). */
   position: relative;
-  height: 100%;
   overflow: hidden;
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
@@ -463,18 +462,6 @@ code {
   /* wa-card's own header region has a border-block-end by default —
      an unwanted seam between the tags/title area and the body below. */
   border-block-end: none;
-}
-
-.reads-card::part(body) {
-  /* wa-card's :host is a flex column but its media/header/body/footer
-     children have no flex-grow, so a card stretched taller than its
-     content (equal-height row) leaves dead space below body instead of
-     using it. flex: 1 lets body consume it; the grid rows below pin
-     .reads-card__meta to the bottom without collapsing its gap when
-     there's no leftover space (see .reads-card__meta). */
-  flex: 1;
-  display: grid;
-  grid-template-rows: 1fr auto;
 }
 
 .reads-card__cover {
@@ -535,7 +522,6 @@ code {
 }
 
 .reads-card__meta {
-  grid-row: 2;
   margin-block-start: var(--space-s);
   padding-block-start: var(--space-xs);
   border-block-start: 1px solid var(--color-border);
