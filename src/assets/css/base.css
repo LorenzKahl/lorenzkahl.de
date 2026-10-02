@@ -433,6 +433,12 @@ code {
   gap: var(--space-m);
   padding-inline-start: 0;
   list-style: none;
+
+  /* Grid gap handles spacing; the global `ul li + li` margin would
+     push every card after the first down. */
+  & > li + li {
+    margin-block-start: 0;
+  }
 }
 
 .reads-card {

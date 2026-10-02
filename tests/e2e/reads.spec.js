@@ -9,6 +9,25 @@ test.describe("reads page", () => {
     await expect(cards).toHaveCount(fixture.length);
   });
 
+  test("renders every card as a wa-card", async ({ page }) => {
+    await page.goto("/reads/");
+
+    await expect(page.locator("wa-card.reads-card")).toHaveCount(fixture.length);
+  });
+
+  test("cards in the same grid row start at the same top edge", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/reads/");
+    await page.locator("wa-card.reads-card").first().waitFor();
+
+    const tops = await page
+      .locator(".reads-card")
+      .evaluateAll((cards) => cards.map((card) => card.getBoundingClientRect().top));
+
+    expect(tops).toHaveLength(fixture.length);
+    expect(new Set(tops).size).toBe(1);
+  });
+
   test("clicking a card navigates to its detail page", async ({ page }) => {
     await page.goto("/reads/");
 
