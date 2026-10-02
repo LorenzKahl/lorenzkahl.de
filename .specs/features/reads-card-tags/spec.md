@@ -51,16 +51,16 @@ Auf den Cards von `/reads` stehen die Tags als Textzeile über der Headline. Sie
 
 **Acceptance Criteria**:
 
-1. WHILE eine Bookmark Tags hat, the Reads-Seite SHALL deren erste höchstens zwei als `<wa-tag>`-Elemente innerhalb des Media-Bereichs der Card rendern, in Datenreihenfolge.
-2. WHILE eine Bookmark mehr als zwei Tags hat, the Reads-Seite SHALL einen weiteren Chip mit dem Text `+N` anzeigen, wobei N die Anzahl der nicht gezeigten Tags ist.
-3. The Reads-Seite SHALL die Tag-Chips in einer Zeile nebeneinander anordnen, mit der linken Kante des ersten Chips bündig zur linken Kante der Headline (Abweichung höchstens 1 px) und mit 12 px bis 20 px (`--space-xs`) Abstand zur unteren Kante des Bildes.
-4. The Reads-Seite SHALL zwischen Chip-Text und Chip-Hintergrund ein Kontrastverhältnis von mindestens 4.5:1 einhalten.
-5. The Reads-Seite SHALL keinen Tag-Text im Header-Bereich der Card rendern.
-6. IF eine Bookmark keine Tags hat THEN the Reads-Seite SHALL im Media-Bereich kein `<wa-tag>` rendern.
-7. IF ein Tag-Name breiter als 9 rem ist THEN the Reads-Seite SHALL ihn mit Ellipsis kürzen, ohne dass kurze Chips derselben Card gekürzt werden und ohne horizontalen Überlauf der Seite bei 390 px Viewport-Breite.
-8. WHERE ein `+N`-Chip angezeigt wird, the Reads-Seite SHALL ihm `aria-label="und N weitere Tags"` geben.
-9. The Reads-Seite SHALL Cover-Bildhöhe und Seitenverhältnis des Bildes unverändert lassen.
-10. The Reads-Seite SHALL jede Card weiterhin als `<wa-card>` rendern und das Verhalten aus der Spec `reads-equal-height` (gleiche Höhe und gleicher oberer Rand pro Zeile, Autor am Trenner) beibehalten.
+1. WHILE eine Bookmark Tags hat, die Reads-Seite SHALL deren erste höchstens zwei als `<wa-tag>`-Elemente innerhalb des Media-Bereichs der Card rendern, in Datenreihenfolge.
+2. WHILE eine Bookmark mehr als zwei Tags hat, die Reads-Seite SHALL einen weiteren Chip mit dem Text `+N` anzeigen, wobei N die Anzahl der nicht gezeigten Tags ist.
+3. Die Reads-Seite SHALL die Tag-Chips in einer Zeile nebeneinander anordnen, mit der linken Kante des ersten Chips bündig zur linken Kante der Headline (Abweichung höchstens 1 px) und mit 12 px bis 20 px (`--space-xs`) Abstand zur unteren Kante des Bildes.
+4. Die Reads-Seite SHALL zwischen Chip-Text und Chip-Hintergrund ein Kontrastverhältnis von mindestens 4.5:1 einhalten.
+5. Die Reads-Seite SHALL keinen Tag-Text im Header-Bereich der Card rendern.
+6. IF eine Bookmark keine Tags hat THEN die Reads-Seite SHALL im Media-Bereich kein `<wa-tag>` rendern.
+7. IF ein Tag-Name breiter als 9 rem ist THEN die Reads-Seite SHALL ihn mit Ellipsis kürzen, ohne dass kurze Chips derselben Card gekürzt werden und ohne horizontalen Überlauf der Seite bei 390 px Viewport-Breite.
+8. WHERE ein `+N`-Chip angezeigt wird, die Reads-Seite SHALL ihm `aria-label="und N weitere Tags"` geben.
+9. Die Reads-Seite SHALL Cover-Bildhöhe und Seitenverhältnis des Bildes unverändert lassen.
+10. Die Reads-Seite SHALL jede Card weiterhin als `<wa-card>` rendern und das Verhalten aus der Spec `reads-equal-height` (gleiche Höhe und gleicher oberer Rand pro Zeile, Autor am Trenner) beibehalten.
 
 **Independent Test**: `/reads` mit Fixture öffnen, die Chips per Locator im Media-Bereich der Card suchen und prüfen: Anzahl, Text, Position relativ zum Bild, kein `wa-tag` im Header.
 
@@ -68,9 +68,9 @@ Auf den Cards von `/reads` stehen die Tags als Textzeile über der Headline. Sie
 
 ## Edge Cases
 
-- WHEN eine Bookmark genau zwei Tags hat THEN the Reads-Seite SHALL beide anzeigen und keinen `+N`-Chip.
-- WHEN eine Bookmark genau drei Tags hat THEN the Reads-Seite SHALL zwei Tags und einen `+1`-Chip anzeigen.
-- WHEN die Card ohne Tags nur Headline im Header hat THEN the Reads-Seite SHALL die Headline mit demselben Abstand zum Bild beginnen wie bei Cards mit Tags.
+- WHEN eine Bookmark genau zwei Tags hat THEN die Reads-Seite SHALL beide anzeigen und keinen `+N`-Chip.
+- WHEN eine Bookmark genau drei Tags hat THEN die Reads-Seite SHALL zwei Tags und einen `+1`-Chip anzeigen.
+- WHEN die Card ohne Tags nur Headline im Header hat THEN die Reads-Seite SHALL die Headline mit demselben Abstand zum Bild beginnen wie bei Cards mit Tags.
 
 ---
 

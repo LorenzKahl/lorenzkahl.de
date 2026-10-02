@@ -67,14 +67,16 @@ Write every acceptance criterion in **EARS** (Easy Approach to Requirements Synt
 
 | Pattern | Keyword | Template | Use for |
 | ------- | ------- | -------- | ------- |
-| Ubiquitous | (none) | The [system] SHALL [response] | Always-on invariants and constraints |
-| Event-driven | WHEN | WHEN [trigger] THEN the [system] SHALL [response] | A response to a discrete trigger |
-| State-driven | WHILE | WHILE [state] the [system] SHALL [response] | Behavior that holds during a state |
-| Optional-feature | WHERE | WHERE [feature is present] the [system] SHALL [response] | Behavior gated behind an optional capability or flag |
-| Unwanted-behavior | IF / THEN | IF [undesired condition] THEN the [system] SHALL [response] | Errors, failures, invalid input, timeouts |
-| Complex | combination | WHILE [state], WHEN [trigger] the [system] SHALL [response] | Richer behavior combining the above |
+| Ubiquitous | (none) | Das [System] SHALL [Reaktion] | Always-on invariants and constraints |
+| Event-driven | WHEN | WHEN [Auslöser] THEN das [System] SHALL [Reaktion] | A response to a discrete trigger |
+| State-driven | WHILE | WHILE [Zustand] das [System] SHALL [Reaktion] | Behavior that holds during a state |
+| Optional-feature | WHERE | WHERE [Funktion vorhanden] das [System] SHALL [Reaktion] | Behavior gated behind an optional capability or flag |
+| Unwanted-behavior | IF / THEN | IF [unerwünschter Zustand] THEN das [System] SHALL [Reaktion] | Errors, failures, invalid input, timeouts |
+| Complex | combination | WHILE [Zustand], WHEN [Auslöser] das [System] SHALL [Reaktion] | Richer behavior combining the above |
 
 **Why patterns beat one shape:** failure states, state transitions, and optional behavior become first-class criteria instead of footnotes squeezed into WHEN/THEN. The patterns map onto the implicit-requirement dimensions above: state-transition integrity to State-driven; failure and external-dependency failure to Unwanted-behavior; feature flags to Optional-feature.
+
+**Language: German.** Write every acceptance criterion and all spec prose in German. Only the EARS keywords stay English and capitalized (`WHEN`, `THEN`, `WHILE`, `WHERE`, `IF`, `SHALL`), because `validate_spec.py` matches them. Use a German article and subject before `SHALL` ("Die Reads-Seite SHALL einen Chip anzeigen"), never "the" or "system". Code identifiers, file paths, CSS selectors and quoted UI strings stay as they are. The section headings and field labels the validators parse (for example `Problem Statement`, `Done when`, `Depends on`) also stay English.
 
 **Rules:** one requirement per criterion (never bundle two behaviors); use concrete values (a specific status code, a specific message, a bound) rather than "quickly" or "gracefully"; every criterion contains a SHALL and is measurable. `python3 <skill-dir>/scripts/validate_spec.py` flags any criterion without a SHALL and any that matches no recognized pattern.
 
@@ -143,10 +145,10 @@ Every ambiguity is resolved or recorded here - nothing is left silently unclear.
 
 **Acceptance Criteria** (each line is one EARS pattern):
 
-1. WHEN [user action/event] THEN system SHALL [expected behavior]  <!-- event-driven -->
-2. IF [invalid input / failure] THEN system SHALL [graceful handling]  <!-- unwanted-behavior -->
-3. WHILE [state holds] system SHALL [behavior during that state]  <!-- state-driven -->
-4. The system SHALL [always-on invariant]  <!-- ubiquitous -->
+1. WHEN [Nutzeraktion oder Ereignis] THEN das System SHALL [erwartetes Verhalten]  <!-- event-driven -->
+2. IF [ungültige Eingabe oder Fehler] THEN das System SHALL [konkretes Verhalten]  <!-- unwanted-behavior -->
+3. WHILE [Zustand gilt] das System SHALL [Verhalten in diesem Zustand]  <!-- state-driven -->
+4. Das System SHALL [dauerhafte Invariante]  <!-- ubiquitous -->
 
 **Independent Test**: [How to verify this story works alone - e.g., "Can demo by doing X and seeing Y"]
 
@@ -160,8 +162,8 @@ Every ambiguity is resolved or recorded here - nothing is left silently unclear.
 
 **Acceptance Criteria**:
 
-1. WHEN [event] THEN system SHALL [behavior]
-2. WHEN [event] THEN system SHALL [behavior]
+1. WHEN [Ereignis] THEN das System SHALL [Verhalten]
+2. WHEN [Ereignis] THEN das System SHALL [Verhalten]
 
 **Independent Test**: [How to verify]
 
@@ -175,7 +177,7 @@ Every ambiguity is resolved or recorded here - nothing is left silently unclear.
 
 **Acceptance Criteria**:
 
-1. WHEN [event] THEN system SHALL [behavior]
+1. WHEN [Ereignis] THEN das System SHALL [Verhalten]
 
 ---
 
@@ -183,9 +185,9 @@ Every ambiguity is resolved or recorded here - nothing is left silently unclear.
 
 Edge cases are usually unwanted-behavior (IF/THEN) or boundary (WHEN) criteria:
 
-- IF [error scenario] THEN system SHALL [graceful handling]
-- IF [unexpected input] THEN system SHALL [validation response]
-- WHEN [boundary condition] THEN system SHALL [behavior]
+- IF [Fehlerfall] THEN das System SHALL [konkretes Verhalten]
+- IF [unerwartete Eingabe] THEN das System SHALL [Validierungsreaktion]
+- WHEN [Grenzfall] THEN das System SHALL [Verhalten]
 
 ---
 

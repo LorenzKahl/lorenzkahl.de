@@ -45,16 +45,16 @@ Auf `/reads` haben Cards in derselben Grid-Zeile unterschiedliche Höhen, weil T
 
 **Acceptance Criteria**:
 
-1. WHEN `/reads` gerendert wird THEN the Reads-Seite SHALL jede `.reads-card` einer Grid-Zeile auf die gerenderte Höhe der höchsten `.reads-card` dieser Zeile bringen (Abweichung 0 px).
-2. WHEN sich die Spaltenanzahl durch die Viewport-Breite ändert THEN the Reads-Seite SHALL die Cards pro neuer Zeile erneut auf die höchste Card dieser Zeile angleichen.
-3. The Reads-Seite SHALL die Höhe jeder Zeile allein aus der höchsten Card dieser Zeile bestimmen, ohne Einfluss anderer Zeilen.
-4. WHILE eine Card höher als ihr Inhalt ist, the Reads-Seite SHALL die Badge-Zeile (`.reads-card__meta`) am unteren Rand der Card positionieren.
-5. WHILE eine Card die höchste ihrer Zeile ist, the Reads-Seite SHALL deren Inhalt ohne Abschneiden und ohne Überlauf darstellen.
-6. The Reads-Seite SHALL die Cover-Bildhöhe und das Seitenverhältnis des Bildes unverändert lassen.
-7. The Reads-Seite SHALL alle Cards einer Grid-Zeile mit identischem oberen Rand beginnen lassen (gleicher `getBoundingClientRect().top`), also ohne Versatz durch Listen-Abstände zwischen Geschwister-`<li>`.
-8. WHILE eine Card Autoren hat, the Reads-Seite SHALL den Autorentext am unteren Ende des Inhaltsbereichs direkt über dem Trenner der Badge-Zeile ausrichten, sodass der Abstand Autor-Unterkante zu Trenner in allen Cards einer Zeile gleich ist.
-9. WHILE eine Card nicht gestreckt wird (einspaltiges Layout bei 390 px Viewport-Breite), the Reads-Seite SHALL zwischen Headline-Unterkante und Autoren-Oberkante höchstens 16 px Abstand lassen.
-10. The Reads-Seite SHALL jede Card weiterhin als `<wa-card>` (Web Awesome) rendern, ohne sie durch eine handgebaute Card-Komponente zu ersetzen.
+1. WHEN `/reads` gerendert wird THEN die Reads-Seite SHALL jede `.reads-card` einer Grid-Zeile auf die gerenderte Höhe der höchsten `.reads-card` dieser Zeile bringen (Abweichung 0 px).
+2. WHEN sich die Spaltenanzahl durch die Viewport-Breite ändert THEN die Reads-Seite SHALL die Cards pro neuer Zeile erneut auf die höchste Card dieser Zeile angleichen.
+3. Die Reads-Seite SHALL die Höhe jeder Zeile allein aus der höchsten Card dieser Zeile bestimmen, ohne Einfluss anderer Zeilen.
+4. WHILE eine Card höher als ihr Inhalt ist, die Reads-Seite SHALL die Badge-Zeile (`.reads-card__meta`) am unteren Rand der Card positionieren.
+5. WHILE eine Card die höchste ihrer Zeile ist, die Reads-Seite SHALL deren Inhalt ohne Abschneiden und ohne Überlauf darstellen.
+6. Die Reads-Seite SHALL die Cover-Bildhöhe und das Seitenverhältnis des Bildes unverändert lassen.
+7. Die Reads-Seite SHALL alle Cards einer Grid-Zeile mit identischem oberen Rand beginnen lassen (gleicher `getBoundingClientRect().top`), also ohne Versatz durch Listen-Abstände zwischen Geschwister-`<li>`.
+8. WHILE eine Card Autoren hat, die Reads-Seite SHALL den Autorentext am unteren Ende des Inhaltsbereichs direkt über dem Trenner der Badge-Zeile ausrichten, sodass der Abstand Autor-Unterkante zu Trenner in allen Cards einer Zeile gleich ist.
+9. WHILE eine Card nicht gestreckt wird (einspaltiges Layout bei 390 px Viewport-Breite), die Reads-Seite SHALL zwischen Headline-Unterkante und Autoren-Oberkante höchstens 16 px Abstand lassen.
+10. Die Reads-Seite SHALL jede Card weiterhin als `<wa-card>` (Web Awesome) rendern, ohne sie durch eine handgebaute Card-Komponente zu ersetzen.
 
 **Independent Test**: `/reads` mit Fixture (`READS_FIXTURE_PATH`) bei Desktop-Breite öffnen und per `getBoundingClientRect().height` prüfen, dass alle Cards mit gleichem `top` gleiche Höhe haben.
 
@@ -62,9 +62,9 @@ Auf `/reads` haben Cards in derselben Grid-Zeile unterschiedliche Höhen, weil T
 
 ## Edge Cases
 
-- WHEN eine Zeile nur eine Card enthält THEN the Reads-Seite SHALL deren natürliche Inhaltshöhe verwenden.
-- WHEN eine Card keine Tags oder keine Autoren hat THEN the Reads-Seite SHALL sie trotzdem auf die Höhe der höchsten Card ihrer Zeile bringen.
-- IF kein Cover-Bild vorhanden ist THEN the Reads-Seite SHALL den Platzhalter anzeigen und die Höhe nach derselben Regel bestimmen.
+- WHEN eine Zeile nur eine Card enthält THEN die Reads-Seite SHALL deren natürliche Inhaltshöhe verwenden.
+- WHEN eine Card keine Tags oder keine Autoren hat THEN die Reads-Seite SHALL sie trotzdem auf die Höhe der höchsten Card ihrer Zeile bringen.
+- IF kein Cover-Bild vorhanden ist THEN die Reads-Seite SHALL den Platzhalter anzeigen und die Höhe nach derselben Regel bestimmen.
 
 ---
 

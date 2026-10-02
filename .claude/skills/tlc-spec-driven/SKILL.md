@@ -177,6 +177,8 @@ Step 5: Flag as uncertain → "I'm not certain about X - here's my reasoning, bu
 
 **Match effort to the work.** Lightweight steps (feature-level checks, validation, mechanical tasks) do not need top-tier reasoning; heavy steps (complex design, ambiguous features) do. If the harness lets you pick a model per sub-agent, apply the tier rubric in [sub-agents.md](references/sub-agents.md); otherwise proceed and simply invest more care on the heavy steps. Mention this once per session at most, and only if it helps; skip it for an experienced user.
 
+**Write specs, tasks, and validation reports in German.** All prose and every acceptance criterion is German; only the EARS keywords (`WHEN`, `THEN`, `WHILE`, `WHERE`, `IF`, `SHALL`) and the headings and field labels the validator scripts parse stay English. Details: Language rule in [specify.md](references/specify.md). Commit messages stay English (Conventional Commits).
+
 **Write generated artifacts in a plain, decided voice.** Specs, ADRs, validation reports, commit messages, and chat summaries follow the writing rules in [coding-principles.md](references/coding-principles.md): lead with the verdict, state decisions definitively, cut filler and mechanical hedging.
 
 ## Code Analysis

@@ -137,7 +137,7 @@ def classify_ears(text):
             "WHERE": "optional-feature",
         }[kws[0]]
         return (True, pattern)
-    if re.match(r"^\s*the\b", low):
+    if re.match(r"^\s*(the|der|die|das)\b", low):
         return (True, "ubiquitous")
     return (True, "warn: SHALL present but no EARS lead keyword")
 
@@ -170,7 +170,7 @@ def check(spec_path):
                 if not ok:
                     errors.append(f"L{i}: acceptance criterion has no SHALL (not testable): {item[:70]}")
                 elif note.startswith("warn"):
-                    warnings.append(f"L{i}: AC has SHALL but no EARS keyword (WHEN/WHILE/WHERE/IF or ubiquitous 'The … shall'): {item[:60]}")
+                    warnings.append(f"L{i}: AC has SHALL but no EARS keyword (WHEN/WHILE/WHERE/IF or ubiquitous 'The/Der/Die/Das … shall'): {item[:60]}")
             elif stripped == "" or re.match(r"^#{1,3}\s", ln) or stripped.startswith("**"):
                 in_ac = False
 
