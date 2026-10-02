@@ -469,6 +469,10 @@ code {
   /* wa-card's own header region has a border-block-end by default —
      an unwanted seam between the tags/title area and the body below. */
   border-block-end: none;
+
+  /* Header and body each carry their own block padding, which stacked
+     into a ~65px gap between headline and author line. */
+  padding-block-end: 0;
 }
 
 .reads-card::part(body) {
@@ -480,6 +484,7 @@ code {
   flex: 1;
   display: grid;
   grid-template-rows: 1fr auto;
+  padding-block-start: 0;
 }
 
 .reads-card__cover {
@@ -515,7 +520,7 @@ code {
 }
 
 .reads-card__title {
-  margin-block-start: 0;
+  margin-block: 0;
   font-size: var(--step-1);
 }
 
@@ -534,6 +539,7 @@ code {
 }
 
 .reads-card__authors {
+  align-self: end; /* rest on the meta separator in every card of a row */
   margin-block: var(--space-2xs) 0;
   font-size: var(--step-n2);
   color: var(--reads-muted);

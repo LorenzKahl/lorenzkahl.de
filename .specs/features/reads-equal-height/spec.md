@@ -17,7 +17,7 @@ Auf `/reads` haben Cards in derselben Grid-Zeile unterschiedliche Höhen, weil T
 | Änderung von Spaltenanzahl, Gap oder Card-Inhalt | Nur die Höhe ist betroffen |
 | Gleiche Höhe über Zeilen hinweg | Gewünscht ist Angleichung pro Zeile |
 | Detailseite `/reads/<id>/` | Nicht betroffen |
-| Ersatz von `<wa-card>` durch eigenes Markup | Ausdrücklich ausgeschlossen (EQH-08) |
+| Ersatz von `<wa-card>` durch eigenes Markup | Ausdrücklich ausgeschlossen (EQH-10) |
 
 ---
 
@@ -52,7 +52,9 @@ Auf `/reads` haben Cards in derselben Grid-Zeile unterschiedliche Höhen, weil T
 5. WHILE eine Card die höchste ihrer Zeile ist, the Reads-Seite SHALL deren Inhalt ohne Abschneiden und ohne Überlauf darstellen.
 6. The Reads-Seite SHALL die Cover-Bildhöhe und das Seitenverhältnis des Bildes unverändert lassen.
 7. The Reads-Seite SHALL alle Cards einer Grid-Zeile mit identischem oberen Rand beginnen lassen (gleicher `getBoundingClientRect().top`), also ohne Versatz durch Listen-Abstände zwischen Geschwister-`<li>`.
-8. The Reads-Seite SHALL jede Card weiterhin als `<wa-card>` (Web Awesome) rendern, ohne sie durch eine handgebaute Card-Komponente zu ersetzen.
+8. WHILE eine Card Autoren hat, the Reads-Seite SHALL den Autorentext am unteren Ende des Inhaltsbereichs direkt über dem Trenner der Badge-Zeile ausrichten, sodass der Abstand Autor-Unterkante zu Trenner in allen Cards einer Zeile gleich ist.
+9. WHILE eine Card nicht gestreckt wird (einspaltiges Layout bei 390 px Viewport-Breite), the Reads-Seite SHALL zwischen Headline-Unterkante und Autoren-Oberkante höchstens 16 px Abstand lassen.
+10. The Reads-Seite SHALL jede Card weiterhin als `<wa-card>` (Web Awesome) rendern, ohne sie durch eine handgebaute Card-Komponente zu ersetzen.
 
 **Independent Test**: `/reads` mit Fixture (`READS_FIXTURE_PATH`) bei Desktop-Breite öffnen und per `getBoundingClientRect().height` prüfen, dass alle Cards mit gleichem `top` gleiche Höhe haben.
 
@@ -77,9 +79,11 @@ Auf `/reads` haben Cards in derselben Grid-Zeile unterschiedliche Höhen, weil T
 | EQH-05 | P1: Gleich hohe Cards pro Zeile | - | Verified |
 | EQH-06 | P1: Gleich hohe Cards pro Zeile | - | Verified |
 | EQH-07 | P1: Gleich hohe Cards pro Zeile | - | Verified |
-| EQH-08 | P1: Gleich hohe Cards pro Zeile | Design | Pending |
+| EQH-08 | P1: Gleich hohe Cards pro Zeile | - | Verified |
+| EQH-09 | P1: Gleich hohe Cards pro Zeile | - | Verified |
+| EQH-10 | P1: Gleich hohe Cards pro Zeile | - | Verified |
 
-**Coverage:** 8 total, 0 mapped to tasks, 8 unmapped ⚠️
+**Coverage:** 10 total, 0 mapped to tasks, 10 unmapped ⚠️
 
 ---
 

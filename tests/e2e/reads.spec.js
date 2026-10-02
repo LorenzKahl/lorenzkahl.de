@@ -63,6 +63,41 @@ test.describe("reads page", () => {
     expect(new Set(gaps).size).toBe(1);
   });
 
+  test("author line ends at the same distance above the meta separator in every card", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/reads/");
+    await page.locator("wa-card.reads-card").first().waitFor();
+
+    const gaps = await page.locator(".reads-card").evaluateAll((cards) =>
+      cards.map((card) => {
+        const authors = card.querySelector(".reads-card__authors");
+        const meta = card.querySelector(".reads-card__meta");
+        const range = document.createRange();
+        range.selectNodeContents(authors);
+        return Math.round(meta.getBoundingClientRect().top - range.getBoundingClientRect().bottom);
+      }),
+    );
+
+    expect(new Set(gaps).size).toBe(1);
+  });
+
+  test("unstretched cards keep at most 16px between headline and author", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.goto("/reads/");
+    await page.locator("wa-card.reads-card").first().waitFor();
+
+    const gaps = await page.locator(".reads-card").evaluateAll((cards) =>
+      cards.map((card) => {
+        const title = card.querySelector(".reads-card__title").getBoundingClientRect();
+        const authors = card.querySelector(".reads-card__authors").getBoundingClientRect();
+        return authors.top - title.bottom;
+      }),
+    );
+
+    expect(gaps).toHaveLength(fixture.length);
+    for (const gap of gaps) expect(gap).toBeLessThanOrEqual(16);
+  });
+
   test("clicking a card navigates to its detail page", async ({ page }) => {
     await page.goto("/reads/");
 
