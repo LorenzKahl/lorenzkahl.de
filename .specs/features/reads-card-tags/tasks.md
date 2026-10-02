@@ -115,11 +115,11 @@ T1 → T2 → T3
 
 **Done when**:
 
-- [ ] e2e: chips lie inside the image box, left and bottom offset equal `--space-xs`, all on one line
-- [ ] e2e: computed text and background colors of a chip give a contrast of at least 4.5:1
-- [ ] e2e: with the 60-character fixture tag at 390 px the document has no horizontal overflow
-- [ ] e2e: image height and aspect ratio unchanged; existing equal-height, top-edge and author tests still pass
-- [ ] `npm run lint` clean; old `.reads-card__tag` and `.reads-card__tags` plain-text rules removed
+- [x] e2e: chips lie inside the image box, left and bottom offset equal `--space-xs`, all on one line
+- [x] e2e: computed text and background colors of a chip give a contrast of at least 4.5:1
+- [x] e2e: with the 60-character fixture tag at 390 px the document has no horizontal overflow
+- [x] e2e: image height and aspect ratio unchanged; existing equal-height, top-edge and author tests still pass
+- [x] `npm run lint` clean; old `.reads-card__tag` and `.reads-card__tags` plain-text rules removed
 
 **Tests**: e2e
 **Gate**: build

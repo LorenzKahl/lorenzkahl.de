@@ -494,29 +494,35 @@ code {
   object-fit: cover;
 }
 
+.reads-card__media {
+  position: relative;
+}
+
 .reads-card__tags {
-  margin-block-end: var(--space-2xs);
+  position: absolute;
+  inset-inline-start: var(--space-xs);
+  inset-block-end: var(--space-xs);
+  display: flex;
+  gap: var(--space-3xs);
+  max-inline-size: calc(100% - 2 * var(--space-xs));
 }
 
 .reads-card__tag {
-  display: inline;
+  /* Plain block so text-overflow can clip the slotted label; WA's own
+     :host is inline-flex, where ellipsis does not apply. */
+  display: block;
+  min-inline-size: 0;
+  max-inline-size: 9rem; /* a long name gives way before short chips are squeezed */
   margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: var(--color-text);
+  border-color: transparent;
+  color: var(--color-bg);
   font-family: var(--font-body);
   font-size: var(--step-n2);
   font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-
-  &:not(:last-child)::after {
-    content: " · ";
-    font-weight: 600;
-    color: var(--color-accent);
-  }
 }
 
 .reads-card__title {

@@ -1,6 +1,15 @@
 import { test, expect } from "@playwright/test";
 import fixture from "../fixtures/reads.json" with { type: "json" };
 
+// Layout assertions need Web Awesome's elements upgraded and fonts loaded;
+// measuring earlier races the first render and gives flaky heights.
+async function waitForLayout(page) {
+  await page.evaluate(async () => {
+    await Promise.all(["wa-card", "wa-tag", "wa-badge"].map((name) => customElements.whenDefined(name)));
+    await document.fonts.ready;
+  });
+}
+
 test.describe("reads page", () => {
   test("lists exactly the fixture bookmarks as cards", async ({ page }) => {
     await page.goto("/reads/");
@@ -18,7 +27,7 @@ test.describe("reads page", () => {
   test("cards in the same grid row start at the same top edge", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/reads/");
-    await page.locator("wa-card.reads-card").first().waitFor();
+    await waitForLayout(page);
 
     const tops = await page
       .locator(".reads-card")
@@ -32,7 +41,7 @@ test.describe("reads page", () => {
     test(`cards in the same grid row have equal height at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/reads/");
-      await page.locator("wa-card.reads-card").first().waitFor();
+      await waitForLayout(page);
 
       const rects = await page.locator(".reads-card").evaluateAll((cards) =>
         cards.map((card) => {
@@ -51,7 +60,7 @@ test.describe("reads page", () => {
   test("meta row sits at the bottom edge of every card", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/reads/");
-    await page.locator("wa-card.reads-card").first().waitFor();
+    await waitForLayout(page);
 
     const gaps = await page.locator(".reads-card").evaluateAll((cards) =>
       cards.map((card) => {
@@ -66,7 +75,7 @@ test.describe("reads page", () => {
   test("author line ends at the same distance above the meta separator in every card", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/reads/");
-    await page.locator("wa-card.reads-card").first().waitFor();
+    await waitForLayout(page);
 
     const gaps = await page.locator(".reads-card").evaluateAll((cards) =>
       cards.map((card) => {
@@ -84,7 +93,7 @@ test.describe("reads page", () => {
   test("unstretched cards keep at most 16px between headline and author", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 900 });
     await page.goto("/reads/");
-    await page.locator("wa-card.reads-card").first().waitFor();
+    await waitForLayout(page);
 
     const gaps = await page.locator(".reads-card").evaluateAll((cards) =>
       cards.map((card) => {
@@ -134,7 +143,7 @@ test.describe("reads page", () => {
   test("headline starts at the same distance below the media area in every card", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/reads/");
-    await page.locator("wa-card.reads-card").first().waitFor();
+    await waitForLayout(page);
 
     const offsets = await page.locator(".reads-card").evaluateAll((cards) =>
       cards.map((card) => {
@@ -146,6 +155,104 @@ test.describe("reads page", () => {
 
     expect(offsets).toHaveLength(fixture.length);
     expect(new Set(offsets).size).toBe(1);
+  });
+
+  test("chips sit in one line at the bottom left of the image with an offset of 12-20px", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/reads/");
+    await waitForLayout(page);
+
+    const placement = await cardFor(page, "fixture-many-tags").evaluate((card) => {
+      const cover = card.querySelector(".reads-card__cover").getBoundingClientRect();
+      const chips = [...card.querySelectorAll(".reads-card__media wa-tag")].map((chip) =>
+        chip.getBoundingClientRect(),
+      );
+      return {
+        left: chips[0].left - cover.left,
+        bottom: cover.bottom - Math.max(...chips.map((chip) => chip.bottom)),
+        tops: chips.map((chip) => Math.round(chip.top)),
+        insideRight: Math.max(...chips.map((chip) => chip.right)) <= cover.right,
+      };
+    });
+
+    expect(placement.left).toBeGreaterThanOrEqual(12);
+    expect(placement.left).toBeLessThanOrEqual(20);
+    expect(placement.bottom).toBeGreaterThanOrEqual(12);
+    expect(placement.bottom).toBeLessThanOrEqual(20);
+    expect(new Set(placement.tops).size).toBe(1);
+    expect(placement.insideRight).toBe(true);
+  });
+
+  test("chip text and background reach a contrast of at least 4.5:1", async ({ page }) => {
+    await page.goto("/reads/");
+    await waitForLayout(page);
+
+    const ratios = await page.locator(".reads-card__media wa-tag").evaluateAll((chips) => {
+      const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+      const toRgba = (value) => {
+        ctx.clearRect(0, 0, 1, 1);
+        ctx.fillStyle = "#000";
+        ctx.fillStyle = value;
+        ctx.fillRect(0, 0, 1, 1);
+        return [...ctx.getImageData(0, 0, 1, 1).data];
+      };
+      const luminance = ([r, g, b]) => {
+        const [lr, lg, lb] = [r, g, b].map((channel) => {
+          const c = channel / 255;
+          return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+        });
+        return 0.2126 * lr + 0.7152 * lg + 0.0722 * lb;
+      };
+      return chips.map((chip) => {
+        const style = getComputedStyle(chip);
+        const background = toRgba(style.backgroundColor);
+        const text = toRgba(style.color);
+        const [light, dark] = [luminance(background), luminance(text)].sort((a, b) => b - a);
+        return { alpha: background[3], ratio: (light + 0.05) / (dark + 0.05) };
+      });
+    });
+
+    expect(ratios.length).toBeGreaterThan(0);
+    for (const { alpha, ratio } of ratios) {
+      expect(alpha).toBe(255);
+      expect(ratio).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  test("a 60-character tag is cut inside the image and the page does not overflow at 390px", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.goto("/reads/");
+    await waitForLayout(page);
+
+    const result = await cardFor(page, "fixture-many-tags").evaluate((card) => {
+      const cover = card.querySelector(".reads-card__cover").getBoundingClientRect();
+      const [shortChip, longChip, moreChip] = card.querySelectorAll(".reads-card__media wa-tag");
+      const isClipped = (chip) => chip.scrollWidth > chip.clientWidth;
+      return {
+        shortClipped: isClipped(shortChip),
+        moreClipped: isClipped(moreChip),
+        chipRight: longChip.getBoundingClientRect().right,
+        coverRight: cover.right,
+        clipped: isClipped(longChip),
+        pageOverflow: document.documentElement.scrollWidth > window.innerWidth,
+      };
+    });
+
+    expect(result.chipRight).toBeLessThanOrEqual(result.coverRight);
+    expect(result.clipped).toBe(true);
+    expect(result.shortClipped).toBe(false);
+    expect(result.moreClipped).toBe(false);
+    expect(result.pageOverflow).toBe(false);
+  });
+
+  test("the cover keeps the 16:9 ratio of its width and height attributes", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/reads/");
+    await waitForLayout(page);
+
+    const box = await cardFor(page, "fixture-many-tags").locator(".reads-card__cover").boundingBox();
+
+    expect(Math.abs(box.height - (box.width * 675) / 1200)).toBeLessThanOrEqual(1);
   });
 
   test("clicking a card navigates to its detail page", async ({ page }) => {

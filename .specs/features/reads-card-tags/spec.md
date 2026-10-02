@@ -28,13 +28,13 @@ Auf den Cards von `/reads` stehen die Tags als Textzeile über der Headline. Sie
 | Position | Overlay unten links im Bild | Entscheidung des Nutzers | y |
 | Anzahl | Höchstens 2 Chips, weitere als ein `+N`-Chip | Entscheidung des Nutzers | y |
 | Optik | `<wa-tag>` in Chip-Form statt der heutigen Text-mit-Punkt-Optik | Entscheidung des Nutzers, Web Awesome zuerst | y |
-| Lesbarkeit auf dem Bild | Deckender Chip-Hintergrund, kein Verlauf | Kontrast hängt nicht vom Bildinhalt ab | n |
-| Chip-Farben | Dunkler Hintergrund (`--color-text`), heller Text (`--color-bg`) | Vorhandene Tokens, Kontrast über 4.5:1 | n |
-| Chip-Abstand zum Bildrand | `--space-xs` links und unten | Vorhandenes Spacing-Token | n |
-| Lange Tag-Namen | Chip wird mit Ellipsis gekürzt, höchstens die Bildbreite abzüglich Abstand | Verhindert Überlauf bei 390 px | n |
+| Lesbarkeit auf dem Bild | Deckender Chip-Hintergrund, kein Verlauf | Kontrast hängt nicht vom Bildinhalt ab | y |
+| Chip-Farben | Dunkler Hintergrund (`--color-text`), heller Text (`--color-bg`) | Vorhandene Tokens, Kontrast über 4.5:1 | y |
+| Chip-Abstand zum Bildrand | `--space-xs` links und unten | Vorhandenes Spacing-Token | y |
+| Lange Tag-Namen | Jeder Chip ist höchstens 9 rem breit und wird darüber mit Ellipsis gekürzt; kurze Chips bleiben dabei ungekürzt | Verhindert Überlauf bei 390 px, ohne kurze Chips zu quetschen | y |
 | Cards ohne Tags | Kein Overlay, kein leerer Chip | Nichts anzuzeigen | y |
 | Tags sind nicht interaktiv | Reiner Text, kein Link, kein Fokus | Die Card ist bereits als Ganzes klickbar | y |
-| Screenreader | Tag-Text bleibt im DOM lesbar; der `+N`-Chip trägt `aria-label="und N weitere Tags"` | `+N` allein ist ohne Kontext unklar | n |
+| Screenreader | Tag-Text bleibt im DOM lesbar; der `+N`-Chip trägt `aria-label="und N weitere Tags"` | `+N` allein ist ohne Kontext unklar | y |
 | Platzhalterbild | Overlay gilt gleich für Platzhalter und echte Covers | Einheitliches Verhalten | y |
 
 **Open questions:** none - all resolved or logged above.
@@ -57,7 +57,7 @@ Auf den Cards von `/reads` stehen die Tags als Textzeile über der Headline. Sie
 4. The Reads-Seite SHALL zwischen Chip-Text und Chip-Hintergrund ein Kontrastverhältnis von mindestens 4.5:1 einhalten.
 5. The Reads-Seite SHALL keinen Tag-Text im Header-Bereich der Card rendern.
 6. IF eine Bookmark keine Tags hat THEN the Reads-Seite SHALL im Media-Bereich kein `<wa-tag>` rendern.
-7. IF ein Tag-Name breiter als der Bildbereich abzüglich der Randabstände ist THEN the Reads-Seite SHALL ihn mit Ellipsis kürzen, ohne horizontalen Überlauf der Card bei 390 px Viewport-Breite.
+7. IF ein Tag-Name breiter als 9 rem ist THEN the Reads-Seite SHALL ihn mit Ellipsis kürzen, ohne dass kurze Chips derselben Card gekürzt werden und ohne horizontalen Überlauf der Seite bei 390 px Viewport-Breite.
 8. WHERE ein `+N`-Chip angezeigt wird, the Reads-Seite SHALL ihm `aria-label="und N weitere Tags"` geben.
 9. The Reads-Seite SHALL Cover-Bildhöhe und Seitenverhältnis des Bildes unverändert lassen.
 10. The Reads-Seite SHALL jede Card weiterhin als `<wa-card>` rendern und das Verhalten aus der Spec `reads-equal-height` (gleiche Höhe und gleicher oberer Rand pro Zeile, Autor am Trenner) beibehalten.
@@ -78,16 +78,16 @@ Auf den Cards von `/reads` stehen die Tags als Textzeile über der Headline. Sie
 
 | Requirement ID | Story | Phase | Status |
 | -------------- | ----- | ----- | ------ |
-| TAGS-01 | P1: Tags als Chips im Bild | - | Implementing |
-| TAGS-02 | P1: Tags als Chips im Bild | - | Implementing |
-| TAGS-03 | P1: Tags als Chips im Bild | Design | Pending |
-| TAGS-04 | P1: Tags als Chips im Bild | Design | Pending |
-| TAGS-05 | P1: Tags als Chips im Bild | - | Implementing |
-| TAGS-06 | P1: Tags als Chips im Bild | - | Implementing |
-| TAGS-07 | P1: Tags als Chips im Bild | Design | Pending |
-| TAGS-08 | P1: Tags als Chips im Bild | - | Implementing |
-| TAGS-09 | P1: Tags als Chips im Bild | Design | Pending |
-| TAGS-10 | P1: Tags als Chips im Bild | Design | Pending |
+| TAGS-01 | P1: Tags als Chips im Bild | - | Verified |
+| TAGS-02 | P1: Tags als Chips im Bild | - | Verified |
+| TAGS-03 | P1: Tags als Chips im Bild | - | Verified |
+| TAGS-04 | P1: Tags als Chips im Bild | - | Verified |
+| TAGS-05 | P1: Tags als Chips im Bild | - | Verified |
+| TAGS-06 | P1: Tags als Chips im Bild | - | Verified |
+| TAGS-07 | P1: Tags als Chips im Bild | - | Verified |
+| TAGS-08 | P1: Tags als Chips im Bild | - | Verified |
+| TAGS-09 | P1: Tags als Chips im Bild | - | Verified |
+| TAGS-10 | P1: Tags als Chips im Bild | - | Verified |
 
 **Coverage:** 10 total, 0 mapped to tasks, 10 unmapped ⚠️
 
