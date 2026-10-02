@@ -30,6 +30,10 @@ header {
 main {
   flex: 1;
   display: grid;
+
+  /* `flex: 1` stretches main to the viewport; without this its auto rows
+     would stretch into the free space and pull the content blocks apart. */
+  align-content: start;
   grid-template-columns:
     [full-start] minmax(var(--space-l), 1fr)
     [breakout-start] minmax(0, var(--space-2xl))
