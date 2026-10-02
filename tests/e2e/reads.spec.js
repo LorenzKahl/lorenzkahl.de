@@ -217,71 +217,131 @@ test.describe("reads page", () => {
     expect(placement.insideRight).toBe(true);
   });
 
-  test("chip text and background reach a contrast of at least 4.5:1", async ({ page }) => {
+  test("chips are light pills in the card's colors and type, with centered text", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/reads/");
     await waitForLayout(page);
 
-    const ratios = await page.locator(".reads-card__media wa-tag").evaluateAll((chips) => {
-      const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
-      const toRgba = (value) => {
-        ctx.clearRect(0, 0, 1, 1);
-        ctx.fillStyle = "#000";
-        ctx.fillStyle = value;
-        ctx.fillRect(0, 0, 1, 1);
-        return [...ctx.getImageData(0, 0, 1, 1).data];
+    const result = await page.evaluate(() => {
+      // Computed colors come back as rgb(), rgba() or color(srgb … / a); normalize to 0-255 plus alpha.
+      const parse = (value) => {
+        const numbers = value.match(/[\d.]+/g).map(Number);
+        const isSrgb = value.startsWith("color(");
+        const [r, g, b] = numbers.slice(0, 3).map((channel) => (isSrgb ? channel * 255 : channel));
+        return { r, g, b, a: numbers[3] ?? 1 };
       };
-      const luminance = ([r, g, b]) => {
+      const token = (property, name) => {
+        const probe = document.createElement("span");
+        probe.style[property] = `var(${name})`;
+        document.body.append(probe);
+        const value = getComputedStyle(probe)[property];
+        probe.remove();
+        return value;
+      };
+      const luminance = ({ r, g, b }) => {
         const [lr, lg, lb] = [r, g, b].map((channel) => {
           const c = channel / 255;
           return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
         });
         return 0.2126 * lr + 0.7152 * lg + 0.0722 * lb;
       };
-      return chips.map((chip) => {
+      const reference = {
+        background: parse(token("backgroundColor", "--color-bg")),
+        text: parse(token("color", "--color-text")),
+      };
+      const authors = getComputedStyle(document.querySelector(".reads-card__authors"));
+
+      return [...document.querySelectorAll(".reads-card__media wa-tag")].map((chip) => {
         const style = getComputedStyle(chip);
-        const background = toRgba(style.backgroundColor);
-        const text = toRgba(style.color);
-        const [light, dark] = [luminance(background), luminance(text)].sort((a, b) => b - a);
-        return { alpha: background[3], ratio: (light + 0.05) / (dark + 0.05) };
+        const box = chip.getBoundingClientRect();
+        const background = parse(style.backgroundColor);
+        const text = parse(style.color);
+        const range = document.createRange();
+        range.selectNodeContents(chip);
+        const textBox = range.getBoundingClientRect();
+        // Worst case: the translucent background sits on a black photo.
+        const overBlack = {
+          r: background.r * background.a,
+          g: background.g * background.a,
+          b: background.b * background.a,
+        };
+        const [light, dark] = [luminance(overBlack), luminance(text)].sort((x, y) => y - x);
+        return {
+          radius: parseFloat(style.borderTopLeftRadius),
+          height: box.height,
+          alpha: background.a,
+          backgroundDelta: Math.max(
+            Math.abs(background.r - reference.background.r),
+            Math.abs(background.g - reference.background.g),
+            Math.abs(background.b - reference.background.b),
+          ),
+          textDelta: Math.max(
+            Math.abs(text.r - reference.text.r),
+            Math.abs(text.g - reference.text.g),
+            Math.abs(text.b - reference.text.b),
+          ),
+          contrast: (light + 0.05) / (dark + 0.05),
+          offCenter: Math.abs(textBox.top - box.top - (box.bottom - textBox.bottom)),
+          fontFamily: style.fontFamily,
+          authorsFontFamily: authors.fontFamily,
+          fontSize: style.fontSize,
+          authorsFontSize: authors.fontSize,
+          fontWeight: style.fontWeight,
+        };
       });
     });
 
-    expect(ratios.length).toBeGreaterThan(0);
-    for (const { alpha, ratio } of ratios) {
-      expect(alpha).toBe(255);
-      expect(ratio).toBeGreaterThanOrEqual(4.5);
+    const expectedChips = fixture.reduce(
+      (count, read) => count + Math.min(read.tags.length, 2) + (read.tags.length > 2 ? 1 : 0),
+      0,
+    );
+    expect(result).toHaveLength(expectedChips);
+    for (const chip of result) {
+      expect(chip.radius).toBeGreaterThanOrEqual(chip.height / 2);
+      expect(Math.abs(chip.alpha - 0.85)).toBeLessThanOrEqual(0.01);
+      expect(chip.backgroundDelta).toBeLessThanOrEqual(1);
+      expect(chip.textDelta).toBeLessThanOrEqual(1);
+      expect(chip.contrast).toBeGreaterThanOrEqual(4.5);
+      expect(chip.offCenter).toBeLessThanOrEqual(1);
+      expect(chip.fontFamily).toBe(chip.authorsFontFamily);
+      expect(chip.fontSize).toBe(chip.authorsFontSize);
+      expect(chip.fontWeight).toBe("500");
     }
   });
 
-  test("a 60-character tag is cut inside the image and the page does not overflow at 390px", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 900 });
-    await page.goto("/reads/");
-    await waitForLayout(page);
+  // 390px is one wide column; 1000px gives the narrowest cards (about 290px).
+  for (const width of [390, 1000]) {
+    test(`a 60-character tag is cut inside the image, short chips stay whole and the page does not overflow at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/reads/");
+      await waitForLayout(page);
 
-    const result = await cardFor(page, "fixture-many-tags").evaluate((card) => {
-      const cover = card.querySelector(".reads-card__cover").getBoundingClientRect();
-      const [shortChip, longChip, moreChip] = card.querySelectorAll(".reads-card__media wa-tag");
-      const isClipped = (chip) => chip.scrollWidth > chip.clientWidth;
-      return {
-        shortClipped: isClipped(shortChip),
-        moreClipped: isClipped(moreChip),
-        chipRight: longChip.getBoundingClientRect().right,
-        coverRight: cover.right,
-        clipped: isClipped(longChip),
-        overflowX: getComputedStyle(longChip).overflowX,
-        textOverflow: getComputedStyle(longChip).textOverflow,
-        pageOverflow: document.documentElement.scrollWidth > window.innerWidth,
-      };
+      const result = await cardFor(page, "fixture-many-tags").evaluate((card) => {
+        const cover = card.querySelector(".reads-card__cover").getBoundingClientRect();
+        const chips = [...card.querySelectorAll(".reads-card__media wa-tag")];
+      const [shortChip, longChip, moreChip] = chips;
+        const isClipped = (chip) => chip.scrollWidth > chip.clientWidth;
+        return {
+          shortClipped: isClipped(shortChip),
+          moreClipped: isClipped(moreChip),
+          chipRight: Math.max(...chips.map((chip) => chip.getBoundingClientRect().right)),
+          coverRight: cover.right,
+          clipped: isClipped(longChip),
+          overflowX: getComputedStyle(longChip).overflowX,
+          textOverflow: getComputedStyle(longChip).textOverflow,
+          pageOverflow: document.documentElement.scrollWidth > window.innerWidth,
+        };
+      });
+
+      expect(result.chipRight).toBeLessThanOrEqual(result.coverRight);
+      expect(result.clipped).toBe(true);
+      expect(result.overflowX).toBe("hidden");
+      expect(result.textOverflow).toBe("ellipsis");
+      expect(result.shortClipped).toBe(false);
+      expect(result.moreClipped).toBe(false);
+      expect(result.pageOverflow).toBe(false);
     });
-
-    expect(result.chipRight).toBeLessThanOrEqual(result.coverRight);
-    expect(result.clipped).toBe(true);
-    expect(result.overflowX).toBe("hidden");
-    expect(result.textOverflow).toBe("ellipsis");
-    expect(result.shortClipped).toBe(false);
-    expect(result.moreClipped).toBe(false);
-    expect(result.pageOverflow).toBe(false);
-  });
+  }
 
   test("the cover keeps the 16:9 ratio of its width and height attributes", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
