@@ -22,5 +22,10 @@ public
 test-results/
 playwright-report/
 
-# Local Claude Code settings
-.claude/
+# Local Claude Code state (settings.json, launch.json and skills/ are tracked)
+.claude/worktrees/
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# Skill installer state
+/.agents/
