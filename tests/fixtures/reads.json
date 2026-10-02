@@ -46,5 +46,24 @@
     ],
     "highlightsCount": 1,
     "annotatedCount": 0
+    },
+  {
+    "id": "fixture-many-tags",
+    "url": "https://example.com/many-tags-article",
+    "title": "An Article With Many Tags",
+    "authors": ["Third Author"],
+    "tags": ["testing", "a-very-long-tag-name-that-must-be-cut-with-an-ellipsis-ok-xy", "overflow"],
+    "created": "2025-12-31T00:00:00Z",
+    "image": null,
+    "annotations": [
+      {
+        "id": "annotation-many-tags",
+        "text": "The only highlight on the many-tags bookmark.",
+        "note": null,
+        "textFragmentUrl": "https://example.com/many-tags-article#:~:text=The%20only%20highlight%20on%20the%20many-tags%20bookmark."
+      }
+    ],
+    "highlightsCount": 1,
+    "annotatedCount": 0
   }
 ]

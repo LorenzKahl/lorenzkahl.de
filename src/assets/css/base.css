@@ -433,6 +433,12 @@ code {
   gap: var(--space-m);
   padding-inline-start: 0;
   list-style: none;
+
+  /* Grid gap handles spacing; the global `ul li + li` margin would
+     push every card after the first down. */
+  & > li + li {
+    margin-block-start: 0;
+  }
 }
 
 .reads-card {
@@ -445,6 +451,7 @@ code {
      that's what's used throughout this component, not ::part(). */
   position: relative;
   overflow: hidden;
+  height: 100%; /* fill the stretched grid item, so a row's cards match its tallest */
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--space-2xs);
@@ -462,6 +469,22 @@ code {
   /* wa-card's own header region has a border-block-end by default —
      an unwanted seam between the tags/title area and the body below. */
   border-block-end: none;
+
+  /* Header and body each carry their own block padding, which stacked
+     into a ~65px gap between headline and author line. */
+  padding-block-end: 0;
+}
+
+.reads-card::part(body) {
+  /* wa-card's :host is a flex column but media/header/body/footer have
+     no flex-grow, so a card taller than its content leaves dead space
+     below body. flex: 1 lets body consume it; the grid rows pin
+     .reads-card__meta to the bottom while keeping its gap intact when
+     there is no leftover space (the tallest card in a row). */
+  flex: 1;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding-block-start: 0;
 }
 
 .reads-card__cover {
@@ -471,33 +494,42 @@ code {
   object-fit: cover;
 }
 
+.reads-card__media {
+  position: relative;
+}
+
 .reads-card__tags {
-  margin-block-end: var(--space-2xs);
+  position: absolute;
+
+  /* wa-card's --spacing is the padding of header and body, so the first
+     chip lines up with the headline's left edge. */
+  inset-inline-start: var(--spacing, 1.5rem);
+  inset-block-end: var(--space-xs);
+  display: flex;
+  gap: var(--space-3xs);
+  max-inline-size: calc(100% - var(--spacing, 1.5rem) - var(--space-xs));
 }
 
 .reads-card__tag {
-  display: inline;
+  /* Plain block so text-overflow can clip the slotted label; WA's own
+     :host is inline-flex, where ellipsis does not apply. */
+  display: block;
+  min-inline-size: 0;
+  max-inline-size: 9rem; /* a long name gives way before short chips are squeezed */
   margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: var(--color-text);
+  border-color: transparent;
+  color: var(--color-bg);
   font-family: var(--font-body);
   font-size: var(--step-n2);
   font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-
-  &:not(:last-child)::after {
-    content: " · ";
-    font-weight: 600;
-    color: var(--color-accent);
-  }
 }
 
 .reads-card__title {
-  margin-block-start: 0;
+  margin-block: 0;
   font-size: var(--step-1);
 }
 
@@ -516,12 +548,14 @@ code {
 }
 
 .reads-card__authors {
+  align-self: end; /* rest on the meta separator in every card of a row */
   margin-block: var(--space-2xs) 0;
   font-size: var(--step-n2);
   color: var(--reads-muted);
 }
 
 .reads-card__meta {
+  grid-row: 2;
   margin-block-start: var(--space-s);
   padding-block-start: var(--space-xs);
   border-block-start: 1px solid var(--color-border);
