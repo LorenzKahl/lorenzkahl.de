@@ -431,6 +431,11 @@ code {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
   gap: var(--space-m);
+
+  /* `main` is a grid that fills the viewport, which hands this list more
+     height than its cards need; with the default `align-content: normal`
+     the auto rows would stretch into it and the cards grow with them. */
+  align-content: start;
   padding-inline-start: 0;
   list-style: none;
 
