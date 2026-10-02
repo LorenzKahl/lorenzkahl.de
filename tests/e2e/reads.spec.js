@@ -10,6 +10,40 @@ async function waitForLayout(page) {
   });
 }
 
+
+// Row heights as rendered (stretched) next to the natural card heights, which
+// are measured by letting every card shrink to its content.
+async function measureRows(page) {
+  const lis = page.locator(".reads-grid > li");
+  const read = () =>
+    lis.evaluateAll((items) =>
+      items.map((li) => {
+        const card = li.querySelector(".reads-card");
+        const authors = card.querySelector(".reads-card__authors");
+        const title = card.querySelector(".reads-card__title");
+        return {
+          top: Math.round(li.getBoundingClientRect().top),
+          height: li.getBoundingClientRect().height,
+          cardHeight: card.getBoundingClientRect().height,
+          gap: authors.getBoundingClientRect().top - title.getBoundingClientRect().bottom,
+          authorsMargin: parseFloat(getComputedStyle(authors).marginBlockStart),
+        };
+      }),
+    );
+  const rendered = await read();
+  await page.addStyleTag({ content: ".reads-grid { align-items: start; } .reads-card { height: auto; }" });
+  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => resolve())));
+  const natural = await read();
+  return { rendered, natural };
+}
+
+const maxHeightByRow = (cards, key) => {
+  const rows = Map.groupBy(cards, (card) => card.top);
+  return [...rows.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([, row]) => Math.max(...row.map((card) => card[key])));
+};
+
 test.describe("reads page", () => {
   test("lists exactly the fixture bookmarks as cards", async ({ page }) => {
     await page.goto("/reads/");
@@ -257,6 +291,70 @@ test.describe("reads page", () => {
     const box = await cardFor(page, "fixture-many-tags").locator(".reads-card__cover").boundingBox();
 
     expect(Math.abs(box.height - (box.width * 675) / 1200)).toBeLessThanOrEqual(1);
+  });
+
+  for (const width of [390, 800, 1280]) {
+    test(`each row is as tall as its tallest card needs at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/reads/");
+      await waitForLayout(page);
+
+      const { rendered, natural } = await measureRows(page);
+      const renderedRows = maxHeightByRow(rendered, "height");
+      const naturalRows = maxHeightByRow(natural, "cardHeight");
+
+      expect(renderedRows).toHaveLength(naturalRows.length);
+      renderedRows.forEach((height, index) => {
+        expect(Math.abs(height - naturalRows[index])).toBeLessThanOrEqual(1);
+      });
+    });
+  }
+
+  test("row heights do not depend on the viewport height", async ({ page }) => {
+    const heights = [];
+    for (const height of [600, 900, 1400]) {
+      await page.setViewportSize({ width: 1280, height });
+      await page.goto("/reads/");
+      await waitForLayout(page);
+      const { rendered } = await measureRows(page);
+      heights.push(maxHeightByRow(rendered, "height"));
+    }
+
+    for (const rows of heights) {
+      expect(rows).toHaveLength(heights[0].length);
+      rows.forEach((value, index) => {
+        expect(Math.abs(value - heights[0][index])).toBeLessThanOrEqual(1);
+      });
+    }
+  });
+
+  test("the tallest card keeps only the authors margin between headline and author", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/reads/");
+    await waitForLayout(page);
+
+    const { rendered, natural } = await measureRows(page);
+    const tallest = natural.reduce((best, card, index) => (card.cardHeight > natural[best].cardHeight ? index : best), 0);
+
+    expect(rendered[tallest].gap).toBeLessThanOrEqual(rendered[tallest].authorsMargin + 1);
+  });
+
+  test("titles are shown in full without clipping", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.goto("/reads/");
+    await waitForLayout(page);
+
+    const clipped = await page.locator(".reads-card__title").evaluateAll((titles) =>
+      titles.map((title) => {
+        const link = title.querySelector(".reads-card__title-link");
+        const range = document.createRange();
+        range.selectNodeContents(link);
+        return range.getBoundingClientRect().bottom > title.getBoundingClientRect().bottom + 1;
+      }),
+    );
+
+    expect(clipped).toHaveLength(fixture.length);
+    expect(clipped.every((value) => value === false)).toBe(true);
   });
 
   test("clicking a card navigates to its detail page", async ({ page }) => {
