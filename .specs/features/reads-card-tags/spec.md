@@ -30,7 +30,7 @@ Auf den Cards von `/reads` stehen die Tags als Textzeile über der Headline. Sie
 | Optik | `<wa-tag>` in Chip-Form statt der heutigen Text-mit-Punkt-Optik | Entscheidung des Nutzers, Web Awesome zuerst | y |
 | Lesbarkeit auf dem Bild | Deckender Chip-Hintergrund, kein Verlauf | Kontrast hängt nicht vom Bildinhalt ab | y |
 | Chip-Farben | Dunkler Hintergrund (`--color-text`), heller Text (`--color-bg`) | Vorhandene Tokens, Kontrast über 4.5:1 | y |
-| Chip-Abstand zum Bildrand | `--space-xs` links und unten | Vorhandenes Spacing-Token | y |
+| Chip-Abstand zum Bildrand | Links wie das Card-Padding (`--spacing` von `wa-card`), damit der erste Chip mit der Headline fluchtet; unten `--space-xs` | Nutzerwunsch: erster Tag linksbündig mit der Headline | y |
 | Lange Tag-Namen | Jeder Chip ist höchstens 9 rem breit und wird darüber mit Ellipsis gekürzt; kurze Chips bleiben dabei ungekürzt | Verhindert Überlauf bei 390 px, ohne kurze Chips zu quetschen | y |
 | Cards ohne Tags | Kein Overlay, kein leerer Chip | Nichts anzuzeigen | y |
 | Tags sind nicht interaktiv | Reiner Text, kein Link, kein Fokus | Die Card ist bereits als Ganzes klickbar | y |
@@ -53,7 +53,7 @@ Auf den Cards von `/reads` stehen die Tags als Textzeile über der Headline. Sie
 
 1. WHILE eine Bookmark Tags hat, the Reads-Seite SHALL deren erste höchstens zwei als `<wa-tag>`-Elemente innerhalb des Media-Bereichs der Card rendern, in Datenreihenfolge.
 2. WHILE eine Bookmark mehr als zwei Tags hat, the Reads-Seite SHALL einen weiteren Chip mit dem Text `+N` anzeigen, wobei N die Anzahl der nicht gezeigten Tags ist.
-3. The Reads-Seite SHALL die Tag-Chips mit 12 px bis 20 px Abstand (`--space-xs`) zur linken und unteren Kante des Bildes positionieren und in einer Zeile nebeneinander anordnen.
+3. The Reads-Seite SHALL die Tag-Chips in einer Zeile nebeneinander anordnen, mit der linken Kante des ersten Chips bündig zur linken Kante der Headline (Abweichung höchstens 1 px) und mit 12 px bis 20 px (`--space-xs`) Abstand zur unteren Kante des Bildes.
 4. The Reads-Seite SHALL zwischen Chip-Text und Chip-Hintergrund ein Kontrastverhältnis von mindestens 4.5:1 einhalten.
 5. The Reads-Seite SHALL keinen Tag-Text im Header-Bereich der Card rendern.
 6. IF eine Bookmark keine Tags hat THEN the Reads-Seite SHALL im Media-Bereich kein `<wa-tag>` rendern.

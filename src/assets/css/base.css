@@ -500,11 +500,13 @@ code {
 
 .reads-card__tags {
   position: absolute;
-  inset-inline-start: var(--space-xs);
+  /* wa-card's --spacing is the padding of header and body, so the first
+     chip lines up with the headline's left edge. */
+  inset-inline-start: var(--spacing, 1.5rem);
   inset-block-end: var(--space-xs);
   display: flex;
   gap: var(--space-3xs);
-  max-inline-size: calc(100% - 2 * var(--space-xs));
+  max-inline-size: calc(100% - var(--spacing, 1.5rem) - var(--space-xs));
 }
 
 .reads-card__tag {

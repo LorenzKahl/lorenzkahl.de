@@ -157,7 +157,7 @@ test.describe("reads page", () => {
     expect(new Set(offsets).size).toBe(1);
   });
 
-  test("chips sit in one line at the bottom left of the image with an offset of 12-20px", async ({ page }) => {
+  test("chips sit in one line, aligned with the headline, 12-20px above the image bottom", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/reads/");
     await waitForLayout(page);
@@ -167,16 +167,16 @@ test.describe("reads page", () => {
       const chips = [...card.querySelectorAll(".reads-card__media wa-tag")].map((chip) =>
         chip.getBoundingClientRect(),
       );
+      const title = card.querySelector(".reads-card__title").getBoundingClientRect();
       return {
-        left: chips[0].left - cover.left,
+        leftDeviation: Math.abs(chips[0].left - title.left),
         bottom: cover.bottom - Math.max(...chips.map((chip) => chip.bottom)),
         tops: chips.map((chip) => Math.round(chip.top)),
         insideRight: Math.max(...chips.map((chip) => chip.right)) <= cover.right,
       };
     });
 
-    expect(placement.left).toBeGreaterThanOrEqual(12);
-    expect(placement.left).toBeLessThanOrEqual(20);
+    expect(placement.leftDeviation).toBeLessThanOrEqual(1);
     expect(placement.bottom).toBeGreaterThanOrEqual(12);
     expect(placement.bottom).toBeLessThanOrEqual(20);
     expect(new Set(placement.tops).size).toBe(1);

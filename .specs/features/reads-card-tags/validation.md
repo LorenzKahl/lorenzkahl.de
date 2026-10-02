@@ -14,7 +14,7 @@ Verifier note: the author ran this check inline; no fresh sub-agent was dispatch
 | -- | -------- | ------------ | ------- |
 | TAGS-01 chips in media, max 2, data order | tests/e2e/reads.spec.js:117 `toHaveCount(1)`; :129-130 `chips.nth(0)/nth(1)` `toHaveText(first/second)` | chips in `.reads-card__media`, in order | yes |
 | TAGS-02 `+N` chip | tests/e2e/reads.spec.js:128 `toHaveCount(3)`; :131 `chips.nth(2)).toHaveText("+1")`; :133 third tag absent | `+1` for three tags | yes |
-| TAGS-03 12-20px offset, one line | tests/e2e/reads.spec.js:178-183 (`left`, `bottom` between 12 and 20, `new Set(tops).size` is 1) | bottom-left, one line | yes |
+| TAGS-03 chips aligned with headline, 12-20px above bottom, one line | tests/e2e/reads.spec.js:179 `expect(placement.leftDeviation).toBeLessThanOrEqual(1)`; :180-181 `bottom` between 12 and 20; :182 `new Set(placement.tops).size` is 1 | left edge flush with headline, one line | yes |
 | TAGS-04 contrast 4.5:1 | tests/e2e/reads.spec.js:217-218 `expect(alpha).toBe(255)`, `expect(ratio).toBeGreaterThanOrEqual(4.5)` | opaque background, 4.5:1 | yes |
 | TAGS-05 no tag in header | tests/e2e/reads.spec.js:119, :134 `.reads-card__header wa-tag` `toHaveCount(0)` | none in header | yes |
 | TAGS-06 no tags, no chip | tests/e2e/reads.spec.js:140 `locator("wa-tag")).toHaveCount(0)` | none | yes |
