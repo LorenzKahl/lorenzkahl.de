@@ -234,12 +234,16 @@ test.describe("reads page", () => {
         chipRight: longChip.getBoundingClientRect().right,
         coverRight: cover.right,
         clipped: isClipped(longChip),
+        overflowX: getComputedStyle(longChip).overflowX,
+        textOverflow: getComputedStyle(longChip).textOverflow,
         pageOverflow: document.documentElement.scrollWidth > window.innerWidth,
       };
     });
 
     expect(result.chipRight).toBeLessThanOrEqual(result.coverRight);
     expect(result.clipped).toBe(true);
+    expect(result.overflowX).toBe("hidden");
+    expect(result.textOverflow).toBe("ellipsis");
     expect(result.shortClipped).toBe(false);
     expect(result.moreClipped).toBe(false);
     expect(result.pageOverflow).toBe(false);

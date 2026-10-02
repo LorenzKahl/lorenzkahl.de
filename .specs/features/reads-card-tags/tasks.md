@@ -9,7 +9,7 @@ Implement these tasks with the `tlc-spec-driven` skill: **activate it by name an
 ---
 
 **Design**: none (inline: tags move into an `<div slot="media">` wrapper that holds the cover and an absolutely positioned chip row)
-**Status**: In Progress
+**Status**: Done
 
 ---
 
