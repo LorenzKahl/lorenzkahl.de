@@ -10,20 +10,22 @@ layout: layouts/base.njk
   {% for read in reads %}
   <li>
     <wa-card class="reads-card" with-media with-header>
-      <img
-        slot="media"
-        class="reads-card__cover"
-        src="{{ read.image.src or '/assets/images/placeholder-content.svg' }}"
-        width="{{ read.image.width or 1200 }}"
-        height="{{ read.image.height or 675 }}"
-        alt=""
-      >
-      <div slot="header" class="reads-card__header">
+      <div slot="media" class="reads-card__media">
+        <img
+          class="reads-card__cover"
+          src="{{ read.image.src or '/assets/images/placeholder-content.svg' }}"
+          width="{{ read.image.width or 1200 }}"
+          height="{{ read.image.height or 675 }}"
+          alt=""
+        >
         {% if read.tags.length %}
         <div class="reads-card__tags">
-          {% for tag in read.tags %}<wa-tag class="reads-card__tag">{{ tag }}</wa-tag>{% endfor %}
+          {% for tag in read.tags.slice(0, 2) %}<wa-tag class="reads-card__tag">{{ tag }}</wa-tag>{% endfor %}
+          {% if read.tags.length > 2 %}<wa-tag class="reads-card__tag" aria-label="und {{ read.tags.length - 2 }} weitere Tags">+{{ read.tags.length - 2 }}</wa-tag>{% endif %}
         </div>
         {% endif %}
+      </div>
+      <div slot="header" class="reads-card__header">
         <h2 class="reads-card__title">
           <a class="reads-card__title-link" href="/reads/{{ read.id }}/">{{ read.title }}</a>
         </h2>

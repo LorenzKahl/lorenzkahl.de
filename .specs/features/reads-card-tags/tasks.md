@@ -89,11 +89,11 @@ T1 → T2 → T3
 
 **Done when**:
 
-- [ ] e2e: card with one tag shows one chip in the media area and none in the header
-- [ ] e2e: card with three tags shows two chips and a `+1` chip with `aria-label="und 1 weitere Tags"`
-- [ ] e2e: card with no tags has no `wa-tag` in the media area
-- [ ] e2e: headline top sits at the same distance below the image in every card
-- [ ] Tests were red before the markup change
+- [x] e2e: card with one tag shows one chip in the media area and none in the header
+- [x] e2e: card with three tags shows two chips and a `+1` chip with `aria-label="und 1 weitere Tags"`
+- [x] e2e: card with no tags has no `wa-tag` in the media area
+- [x] e2e: headline top sits at the same distance below the image in every card
+- [x] Tests were red before the markup change
 
 **Tests**: e2e
 **Gate**: full

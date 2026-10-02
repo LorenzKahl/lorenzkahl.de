@@ -98,6 +98,56 @@ test.describe("reads page", () => {
     for (const gap of gaps) expect(gap).toBeLessThanOrEqual(16);
   });
 
+  const cardFor = (page, id) => page.locator(`.reads-card:has(a[href="/reads/${id}/"])`);
+
+  test("a single tag shows as one chip in the media area and never in the header", async ({ page }) => {
+    await page.goto("/reads/");
+    const card = cardFor(page, "fixture-annotated");
+
+    const chips = card.locator(".reads-card__media wa-tag");
+    await expect(chips).toHaveCount(1);
+    await expect(chips.first()).toHaveText("testing");
+    await expect(card.locator(".reads-card__header wa-tag")).toHaveCount(0);
+  });
+
+  test("more than two tags show two chips plus a +N chip with an aria-label", async ({ page }) => {
+    await page.goto("/reads/");
+    const card = cardFor(page, "fixture-many-tags");
+    const [first, second, third] = fixture.find((read) => read.id === "fixture-many-tags").tags;
+
+    const chips = card.locator(".reads-card__media wa-tag");
+    await expect(chips).toHaveCount(3);
+    await expect(chips.nth(0)).toHaveText(first);
+    await expect(chips.nth(1)).toHaveText(second);
+    await expect(chips.nth(2)).toHaveText("+1");
+    await expect(chips.nth(2)).toHaveAttribute("aria-label", "und 1 weitere Tags");
+    await expect(card.getByText(third, { exact: true })).toHaveCount(0);
+    await expect(card.locator(".reads-card__header wa-tag")).toHaveCount(0);
+  });
+
+  test("a bookmark without tags renders no chip", async ({ page }) => {
+    await page.goto("/reads/");
+
+    await expect(cardFor(page, "fixture-no-image").locator("wa-tag")).toHaveCount(0);
+  });
+
+  test("headline starts at the same distance below the media area in every card", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/reads/");
+    await page.locator("wa-card.reads-card").first().waitFor();
+
+    const offsets = await page.locator(".reads-card").evaluateAll((cards) =>
+      cards.map((card) => {
+        const media = card.querySelector(".reads-card__media").getBoundingClientRect();
+        const title = card.querySelector(".reads-card__title").getBoundingClientRect();
+        return Math.round(title.top - media.bottom);
+      }),
+    );
+
+    expect(offsets).toHaveLength(fixture.length);
+    expect(new Set(offsets).size).toBe(1);
+  });
+
   test("clicking a card navigates to its detail page", async ({ page }) => {
     await page.goto("/reads/");
 

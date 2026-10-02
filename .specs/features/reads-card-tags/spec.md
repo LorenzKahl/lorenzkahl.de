@@ -78,14 +78,14 @@ Auf den Cards von `/reads` stehen die Tags als Textzeile über der Headline. Sie
 
 | Requirement ID | Story | Phase | Status |
 | -------------- | ----- | ----- | ------ |
-| TAGS-01 | P1: Tags als Chips im Bild | Design | Pending |
-| TAGS-02 | P1: Tags als Chips im Bild | Design | Pending |
+| TAGS-01 | P1: Tags als Chips im Bild | - | Implementing |
+| TAGS-02 | P1: Tags als Chips im Bild | - | Implementing |
 | TAGS-03 | P1: Tags als Chips im Bild | Design | Pending |
 | TAGS-04 | P1: Tags als Chips im Bild | Design | Pending |
-| TAGS-05 | P1: Tags als Chips im Bild | Design | Pending |
-| TAGS-06 | P1: Tags als Chips im Bild | Design | Pending |
+| TAGS-05 | P1: Tags als Chips im Bild | - | Implementing |
+| TAGS-06 | P1: Tags als Chips im Bild | - | Implementing |
 | TAGS-07 | P1: Tags als Chips im Bild | Design | Pending |
-| TAGS-08 | P1: Tags als Chips im Bild | Design | Pending |
+| TAGS-08 | P1: Tags als Chips im Bild | - | Implementing |
 | TAGS-09 | P1: Tags als Chips im Bild | Design | Pending |
 | TAGS-10 | P1: Tags als Chips im Bild | Design | Pending |
 
