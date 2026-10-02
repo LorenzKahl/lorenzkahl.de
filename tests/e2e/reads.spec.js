@@ -28,6 +28,41 @@ test.describe("reads page", () => {
     expect(new Set(tops).size).toBe(1);
   });
 
+  for (const width of [1280, 800]) {
+    test(`cards in the same grid row have equal height at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/reads/");
+      await page.locator("wa-card.reads-card").first().waitFor();
+
+      const rects = await page.locator(".reads-card").evaluateAll((cards) =>
+        cards.map((card) => {
+          const { top, height } = card.getBoundingClientRect();
+          return { top, height };
+        }),
+      );
+
+      const rows = Map.groupBy(rects, (rect) => rect.top);
+      for (const row of rows.values()) {
+        expect(new Set(row.map((rect) => rect.height)).size).toBe(1);
+      }
+    });
+  }
+
+  test("meta row sits at the bottom edge of every card", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/reads/");
+    await page.locator("wa-card.reads-card").first().waitFor();
+
+    const gaps = await page.locator(".reads-card").evaluateAll((cards) =>
+      cards.map((card) => {
+        const meta = card.querySelector(".reads-card__meta").getBoundingClientRect();
+        return Math.round(card.getBoundingClientRect().bottom - meta.bottom);
+      }),
+    );
+
+    expect(new Set(gaps).size).toBe(1);
+  });
+
   test("clicking a card navigates to its detail page", async ({ page }) => {
     await page.goto("/reads/");
 

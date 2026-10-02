@@ -451,6 +451,7 @@ code {
      that's what's used throughout this component, not ::part(). */
   position: relative;
   overflow: hidden;
+  height: 100%; /* fill the stretched grid item, so a row's cards match its tallest */
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--space-2xs);
@@ -468,6 +469,17 @@ code {
   /* wa-card's own header region has a border-block-end by default —
      an unwanted seam between the tags/title area and the body below. */
   border-block-end: none;
+}
+
+.reads-card::part(body) {
+  /* wa-card's :host is a flex column but media/header/body/footer have
+     no flex-grow, so a card taller than its content leaves dead space
+     below body. flex: 1 lets body consume it; the grid rows pin
+     .reads-card__meta to the bottom while keeping its gap intact when
+     there is no leftover space (the tallest card in a row). */
+  flex: 1;
+  display: grid;
+  grid-template-rows: 1fr auto;
 }
 
 .reads-card__cover {
@@ -528,6 +540,7 @@ code {
 }
 
 .reads-card__meta {
+  grid-row: 2;
   margin-block-start: var(--space-s);
   padding-block-start: var(--space-xs);
   border-block-start: 1px solid var(--color-border);

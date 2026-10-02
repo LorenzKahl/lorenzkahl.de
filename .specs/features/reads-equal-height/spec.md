@@ -70,12 +70,12 @@ Auf `/reads` haben Cards in derselben Grid-Zeile unterschiedliche Höhen, weil T
 
 | Requirement ID | Story | Phase | Status |
 | -------------- | ----- | ----- | ------ |
-| EQH-01 | P1: Gleich hohe Cards pro Zeile | Design | Pending |
-| EQH-02 | P1: Gleich hohe Cards pro Zeile | Design | Pending |
-| EQH-03 | P1: Gleich hohe Cards pro Zeile | Design | Pending |
-| EQH-04 | P1: Gleich hohe Cards pro Zeile | Design | Pending |
-| EQH-05 | P1: Gleich hohe Cards pro Zeile | Design | Pending |
-| EQH-06 | P1: Gleich hohe Cards pro Zeile | Design | Pending |
+| EQH-01 | P1: Gleich hohe Cards pro Zeile | - | Implementing |
+| EQH-02 | P1: Gleich hohe Cards pro Zeile | - | Implementing |
+| EQH-03 | P1: Gleich hohe Cards pro Zeile | - | Implementing |
+| EQH-04 | P1: Gleich hohe Cards pro Zeile | - | Implementing |
+| EQH-05 | P1: Gleich hohe Cards pro Zeile | - | Implementing |
+| EQH-06 | P1: Gleich hohe Cards pro Zeile | - | Implementing |
 | EQH-07 | P1: Gleich hohe Cards pro Zeile | - | Implementing |
 | EQH-08 | P1: Gleich hohe Cards pro Zeile | Design | Pending |
 
