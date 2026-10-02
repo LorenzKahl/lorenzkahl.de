@@ -500,6 +500,7 @@ code {
 
 .reads-card__tags {
   position: absolute;
+
   /* wa-card's --spacing is the padding of header and body, so the first
      chip lines up with the headline's left edge. */
   inset-inline-start: var(--spacing, 1.5rem);
