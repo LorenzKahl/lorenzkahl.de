@@ -20,7 +20,7 @@ layout: layouts/base.njk
         >
         {% if read.tags.length %}
         <div class="reads-card__tags">
-          {% for tag in read.tags.slice(0, 2) %}<wa-tag class="reads-card__tag">{{ tag }}</wa-tag>{% endfor %}
+          {% for tag in read.tags.slice(0, 2) %}<wa-tag class="reads-card__tag{% if tag.length > 12 %} reads-card__tag--long{% endif %}">{{ tag }}</wa-tag>{% endfor %}
           {% if read.tags.length > 2 %}<wa-tag class="reads-card__tag" aria-label="und {{ read.tags.length - 2 }} weitere Tags">+{{ read.tags.length - 2 }}</wa-tag>{% endif %}
         </div>
         {% endif %}

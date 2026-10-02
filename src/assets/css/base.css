@@ -519,18 +519,30 @@ code {
   /* Plain block so text-overflow can clip the slotted label; WA's own
      :host is inline-flex, where ellipsis does not apply. */
   display: block;
+  flex: none; /* short chips keep their width; only --long ones give way */
   min-inline-size: 0;
-  max-inline-size: 9rem; /* a long name gives way before short chips are squeezed */
+  max-inline-size: 9rem;
   margin: 0;
+  padding: 0 var(--space-xs);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background-color: var(--color-text);
+
+  /* Height follows the line box, so the text sits centered (WA's own
+     fixed height with a taller line-height pushed it down). */
+  block-size: auto;
+  line-height: 1.7;
   border-color: transparent;
-  color: var(--color-bg);
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  color: var(--color-text);
   font-family: var(--font-body);
   font-size: var(--step-n2);
-  font-weight: 600;
+  font-weight: 500;
+}
+
+.reads-card__tag--long {
+  flex: 0 1 auto;
 }
 
 .reads-card__title {

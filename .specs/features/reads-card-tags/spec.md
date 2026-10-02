@@ -54,7 +54,7 @@ Auf den Cards von `/reads` stehen die Tags als Textzeile über der Headline. Sie
 1. WHILE eine Bookmark Tags hat, die Reads-Seite SHALL deren erste höchstens zwei als `<wa-tag>`-Elemente innerhalb des Media-Bereichs der Card rendern, in Datenreihenfolge.
 2. WHILE eine Bookmark mehr als zwei Tags hat, die Reads-Seite SHALL einen weiteren Chip mit dem Text `+N` anzeigen, wobei N die Anzahl der nicht gezeigten Tags ist.
 3. Die Reads-Seite SHALL die Tag-Chips in einer Zeile nebeneinander anordnen, mit der linken Kante des ersten Chips bündig zur linken Kante der Headline (Abweichung höchstens 1 px) und mit 12 px bis 20 px (`--space-xs`) Abstand zur unteren Kante des Bildes.
-4. Die Reads-Seite SHALL zwischen Chip-Text und Chip-Hintergrund ein Kontrastverhältnis von mindestens 4.5:1 einhalten.
+4. Die Reads-Seite SHALL zwischen Chip-Text und Chip-Hintergrund ein Kontrastverhältnis von mindestens 4.5:1 einhalten. (Ersetzt durch CHIP-04 in `reads-tag-chip-style`: Kontrast gegen schwarzen Untergrund statt deckendem Hintergrund.)
 5. Die Reads-Seite SHALL keinen Tag-Text im Header-Bereich der Card rendern.
 6. IF eine Bookmark keine Tags hat THEN die Reads-Seite SHALL im Media-Bereich kein `<wa-tag>` rendern.
 7. IF ein Tag-Name breiter als 9 rem ist THEN die Reads-Seite SHALL ihn mit Ellipsis kürzen, ohne dass kurze Chips derselben Card gekürzt werden und ohne horizontalen Überlauf der Seite bei 390 px Viewport-Breite.
